@@ -48,20 +48,24 @@ export function vehicle(scene, x, z, color, ev = false) {
   box(car, m.steel, 0, .72, 2.36, .4, .11, .019);
   const tyre = new T.CylinderGeometry(.4, .4, .25, 26);
   const hub = new T.CylinderGeometry(.27, .27, .037, 24);
+  const wheels = [];
   for (const side of [-1, 1]) {
     box(car, m.red, side * .69, .92, 2.32, .43, .075, .045);
     box(car, m.warm, side * .67, .84, -2.31, .43, .07, .036);
     box(car, paint, side * 1.03, 1.18, -.56, .26, .12, .23);
     for (const z of [-1.47, 1.48]) {
-      mesh(car, tyre, m.rubber, side * .96, .42, z).rotation.z = Math.PI / 2;
-      mesh(car, hub, m.frame, side * 1.095, .42, z).rotation.z = Math.PI / 2;
+      const wheel = group(car, side * .96, .42, z);
+      wheels.push(wheel);
+      mesh(wheel, tyre, m.rubber).rotation.z = Math.PI / 2;
+      mesh(wheel, hub, m.frame, side * .135).rotation.z = Math.PI / 2;
       for (let i = 0; i < 7; i++) {
         const angle = i * Math.PI * 2 / 7;
-        const spoke = box(car, m.steel, side * 1.12, .42 + Math.cos(angle) * .12,
-          z + Math.sin(angle) * .12, .024, .25, .026);
+        const spoke = box(wheel, m.steel, side * .16, Math.cos(angle) * .12,
+          Math.sin(angle) * .12, .024, .25, .026);
         spoke.rotation.x = angle;
       }
     }
   }
+  car.userData.wheels = wheels;
   return car;
 }

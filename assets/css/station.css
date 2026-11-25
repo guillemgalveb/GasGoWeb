@@ -236,9 +236,9 @@
   position: absolute;
   z-index: 4;
   right: var(--edge);
-  bottom: 4.65rem;
+  bottom: calc(var(--toolbar-height, 2.2rem) + 2rem);
   width: min(24rem, calc(100% - 2 * var(--edge)));
-  max-height: 55%;
+  max-height: min(55%, calc(100% - var(--toolbar-height, 2.2rem) - 3rem));
   overflow: auto;
   padding: 1.25rem 1.4rem;
   border: 1px solid #cbeaeb55;
@@ -300,10 +300,6 @@
     flex-basis: 100%;
   }
 
-  .station-panel {
-    bottom: 6.5rem;
-  }
-
   .station-directory ol {
     left: 0;
     right: auto;
@@ -336,4 +332,9 @@
   .station-intro h1 {
     font-size: clamp(1.35rem, 6vh, 2rem);
   }
+}
+
+.station [data-action="activity"][aria-pressed="true"] {
+  border-color: var(--yellow);
+  color: var(--yellow);
 }

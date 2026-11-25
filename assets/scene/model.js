@@ -163,14 +163,23 @@ export function market(scene) {
     box(shop, interior, x, .66, 1.2, 1.5, .87, .65);
   }
   for (let i = -5; i <= 5; i++) {
-    box(shop, m.frame, i * 1.47, 2.05, 3.08, .075, 3.7, .08);
-    if (i < 5) box(shop, m.glass, (i + .5) * 1.47, 2.05, 3.08, 1.4, 3.67, .055);
+    if (i !== 0) box(shop, m.frame, i * 1.47, 2.05, 3.08, .075, 3.7, .08);
+    if (i < 5 && i !== -1 && i !== 0) box(shop, m.glass, (i + .5) * 1.47, 2.05, 3.08, 1.4, 3.67, .055);
   }
   for (const x of [-7.4, 7.4]) {
     box(shop, m.glass, x, 2.13, .05, .05, 3.93, 5.85);
     for (const z of [-1.45, 0, 1.45]) box(shop, m.frame, x, 2.16, z, .1, 4, .075);
   }
-  for (const x of [-.12, .12]) box(shop, m.steel, x, 1.44, 3.15, .037, .48, .06);
+  const doors = [-1, 1].map(side => {
+    const leaf = group(shop, side * .73, 0, 3.13);
+    box(leaf, m.glass, 0, 2.04, 0, 1.4, 3.65, .055);
+    for (const x of [-.69, .69]) box(leaf, m.frame, x, 2.04, 0, .045, 3.68, .07);
+    box(leaf, m.steel, side * -.59, 1.44, .051, .037, .48, .06);
+    return leaf;
+  });
+  const display = group(shop, 0, 0, .27);
+  box(display, interior, 0, .72, 0, .82, .94, .48);
+  const product = box(display, m.gold, 0, 1.27, .02, .17, .19, .14);
   label(shop, 'Take&Go', 0, 4.47, 3.13, 4.25, .77);
-  return shop;
+  return { shop, doors, product };
 }

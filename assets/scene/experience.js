@@ -8,6 +8,7 @@ const methods = panel.querySelector('.station-methods');
 const directory = station.querySelector('.station-directory');
 const buttons = [...station.querySelectorAll('.station-marker')];
 const actions = station.querySelector('.station-actions');
+const activityButton = actions.querySelector('[data-action="activity"]');
 const fullscreen = actions.querySelector('[data-action="fullscreen"]');
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
 let scene, returnFocus, selected = null;
@@ -72,6 +73,12 @@ station.querySelectorAll('[data-zone]').forEach(button => {
 });
 panel.querySelector('button').addEventListener('click', () => reset(true));
 actions.querySelector('[data-action="reset"]').addEventListener('click', () => reset());
+function setActivity(enabled) {
+  scene?.setActivity(enabled);
+  activityButton.setAttribute('aria-pressed', enabled);
+}
+activityButton.addEventListener('click', () => setActivity(activityButton.getAttribute('aria-pressed') !== 'true'));
+motion.addEventListener('change', event => setActivity(!event.matches));
 actions.querySelector('[data-action="day"]').addEventListener('click', event => {
   const day = scene.toggleDay();
   event.currentTarget.textContent = day ? 'Noche' : 'Día';
@@ -96,6 +103,10 @@ station.addEventListener('keydown', event => {
 });
 
 new ResizeObserver(layoutPoster).observe(view);
+const toolbar = station.querySelector('.station-toolbar');
+new ResizeObserver(() => {
+  station.style.setProperty('--toolbar-height', toolbar.offsetHeight + 'px');
+}).observe(toolbar);
 layoutPoster();
 
 function fallback() {
@@ -113,6 +124,7 @@ async function start() {
     if (selected !== null) scene.focus(selected, false);
     station.classList.add('is-ready');
     actions.hidden = false;
+    setActivity(!motion.matches);
     station.querySelector('.station-instructions').textContent = 'Arrastra para explorar · Pulsa para descubrir';
   } catch (error) {
     console.warn('Se muestra la portada alternativa.', error);

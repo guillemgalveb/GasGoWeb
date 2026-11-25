@@ -2,6 +2,7 @@ import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
 import { box, canopy, dispenser, group, label, market, materials as m, tube } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
+import { stationActivity } from './activity.js';
 import { vehicle } from './vehicles.js';
 import { services } from './services.js';
 import { fuelOffsetX, fuelX } from './layout.js';
@@ -17,7 +18,11 @@ function buildStation(scene) {
   dispenser(scene, 10, 1.35, true);
   const charge = dispenser(scene, 13.9, 1.38, true);
   const shop = market(scene);
-  const car = vehicle(forecourt, -6.3, 3.15, 0x66736b);
+  const terminal = group(forecourt, -6.3, 0, 1.46);
+  terminal.userData.zone = 1;
+  box(terminal, m.base, 0, .6, 0, .19, 1.2, .18);
+  box(terminal, m.frame, 0, 1.24, 0, .46, .35, .27);
+  box(terminal, m.cyan, 0, 1.27, .14, .29, .13, .02);
   vehicle(scene, 16.2, 3.33, 0x146853, true);
   tube(scene, m.rubber, [[14.39, 1.16, 1.79], [14.58, .39, 2.14],
     [15.32, .26, 2.44], [15.87, .45, 2.75], [16.13, .94, 2.88]], .044);
@@ -30,7 +35,7 @@ function buildStation(scene) {
   box(reader, m.cyan, .36, 3.15, .205, .12, .11, .035);
   box(reader, m.green, .19, 2.34, .035, 1.02, .35, .14);
   label(reader, 'ACCESO', .19, 2.34, .118, .95, .25);
-  return [reader, car, fuel, shop, charge];
+  return { interactive: [reader, terminal, fuel, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
 }
 
 export function mountStation(view, handlers, motion) {
@@ -48,7 +53,7 @@ export function mountStation(view, handlers, motion) {
   const setLighting = lighting(scene);
   const reflections = high ? studioReflections(renderer, scene) : null;
   environment(scene, high);
-  const interactive = buildStation(scene);
+  const { interactive, updateActivity } = buildStation(scene);
   scene.updateMatrixWorld(true);
   const bounds = interactive.map(object => new T.Box3().setFromObject(object));
   const highlight = new T.Box3Helper(new T.Box3(), 0xe8c05a);
@@ -88,7 +93,8 @@ export function mountStation(view, handlers, motion) {
   let transition, selection = null, active = true, visible = true, day = false;
   let frame = 0, idleUntil = performance.now() + 6300, nextMarkers = 0;
   let down;
-  let lastTick = 0, dirty = true;
+  let lastTick = performance.now(), dirty = true;
+  let activity = !motion.matches, activityTime = 0, activityFrame = 0;
   const previousPosition = new T.Vector3();
   const previousTarget = new T.Vector3();
 
@@ -137,7 +143,7 @@ export function mountStation(view, handlers, motion) {
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     cameraRay.setFromCamera(pointer, camera);
     cameraRay.far = 120;
-    const hits = cameraRay.intersectObjects(scene.children, true);
+    const hits = cameraRay.intersectObjects(scene.children.filter(object => !object.userData.ignorePick), true);
     for (const hit of hits) {
       let object = hit.object;
       if (object.userData.ignorePick || !object.visible || object.isLineSegments) continue;
@@ -176,9 +182,18 @@ export function mountStation(view, handlers, motion) {
   function tick(now) {
     if (!active) return;
     frame = requestAnimationFrame(tick);
-    const dt = Math.min((now - lastTick) / 1000, .05);
+    const elapsed = Math.max(0, (now - lastTick) / 1000);
+    const dt = Math.min(elapsed, .05);
     lastTick = now;
     if (!visible || document.hidden) return;
+    if (activity) {
+      activityTime += Math.min(elapsed, .15);
+      if (activityTime - activityFrame >= (high ? 1 / 50 : 1 / 28)) {
+        updateActivity(activityTime);
+        activityFrame = activityTime;
+        dirty = true;
+      }
+    }
     controls.autoRotate = !motion.matches && !transition && selection === null && now > idleUntil;
     if (transition) {
       const { start, fromPosition, fromTarget, toPosition, toTarget } = transition;
@@ -282,6 +297,9 @@ export function mountStation(view, handlers, motion) {
   return {
     focus: moveTo,
     highlight: highlightZone,
+    setActivity(enabled) {
+      activity = enabled;
+    },
     toggleDay() {
       day = !day;
       dirty = true;

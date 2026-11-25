@@ -10,8 +10,8 @@ export const services = [
   {
     name: 'Autorización y pago automático',
     description: 'Gas&Go propone reunir la identificación, la autorización del surtidor y el pago en una sola experiencia. El recibo queda en el historial de la aplicación.',
-    anchor: [fuelX(-6.3), 2.65, 3.4], target: [fuelX(-6.3), 1.05, 3.4], angle: [3, 2.4, 9],
-    poster: [.27860, .51750],
+    anchor: [fuelX(-6.3), 2.32, 1.62], target: [fuelX(-6.3), 1.18, 1.46], angle: [3, 2.4, 9],
+    poster: [.30146, .52779],
   },
   {
     name: 'Repostaje inteligente',
