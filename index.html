@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="assets/css/station.css">
     <script type="module" src="assets/scene/experience.js"></script>
   </head>
-  <body>
+  <body class="home-page">
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="./" aria-label="Gas&Go, inicio">
           <img src="assets/images/logo-gg.webp" alt="" width="720" height="355">
         </a>
         <nav aria-label="Navegación principal">
-          <a href="#como-funciona">Cómo funciona</a>
+          <a href="como-funciona.html">Cómo funciona</a>
         </nav>
       </div>
     </header>
@@ -29,10 +29,7 @@
             <img class="station-poster" src="assets/images/station-poster.webp" width="1440" height="810" alt="">
           </div>
 
-          <div class="station-intro">
-            <h1 id="titulo">Llega, reposta y <em>continúa tu viaje.</em></h1>
-            <p>Explora cómo Gas&amp;Go propone simplificar el repostaje.</p>
-          </div>
+          <h1 id="titulo" class="visually-hidden">Estación interactiva Gas&amp;Go</h1>
 
           <div class="station-markers" aria-label="Puntos de interés">
             <button type="button" class="station-marker" data-zone="0" aria-label="01 Identificación inteligente" data-name="Identificación inteligente">01</button>
@@ -71,31 +68,6 @@
           <noscript><p class="station-noscript">Activa JavaScript para explorar la estación.</p></noscript>
         </div>
       </section>
-
-      <section class="container process" id="como-funciona" aria-labelledby="pasos">
-        <h2 id="pasos">Cómo funciona</h2>
-        <ol class="steps">
-          <li>
-            <h3>Llega a la estación</h3>
-            <p>La aplicación identifica el vehículo que has registrado al llegar a la estación.</p>
-          </li>
-          <li>
-            <h3>Autoriza y reposta</h3>
-            <p>Autoriza el surtidor desde la aplicación y llena el depósito como de costumbre.</p>
-          </li>
-          <li>
-            <h3>Paga y sigue tu viaje</h3>
-            <p>Al terminar, el pago se tramita en la aplicación y el recibo queda en tu historial.</p>
-          </li>
-        </ol>
-      </section>
     </main>
-
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <strong>Gas&amp;Go</strong>
-        <span>Proyecto universitario de simulación de una startup</span>
-      </div>
-    </footer>
   </body>
 </html>

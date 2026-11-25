@@ -1,9 +1,24 @@
+.home-page {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  overflow: clip;
+}
+
+.home-page main,
+.home-page .hero,
+.station {
+  height: 100%;
+  min-height: 0;
+}
+
 .station {
   --edge: clamp(0.85rem, 4vw, 3.5rem);
   position: relative;
   display: grid;
-  min-height: max(37rem, calc(100svh - 91px));
   background: #041d1a;
+  color: var(--mint);
   isolation: isolate;
   overflow: hidden;
 }
@@ -41,33 +56,6 @@
 
 .station-poster {
   object-fit: contain;
-}
-
-.station-intro {
-  z-index: 1;
-  align-self: start;
-  width: fit-content;
-  max-width: min(40rem, 100%);
-  margin: clamp(1.3rem, 4vh, 3.25rem) var(--edge);
-  text-shadow: 0 2px 18px #001210;
-  pointer-events: none;
-}
-
-.station-intro h1 {
-  max-width: 16ch;
-  font-size: clamp(2.3rem, 4.8vw, 4.15rem);
-}
-
-.station-intro em {
-  display: block;
-  color: var(--yellow);
-  font-style: normal;
-}
-
-.station-intro p {
-  margin: .7rem 0;
-  color: #d6e9e2;
-  font-size: clamp(.9rem, 1.9vw, 1.15rem);
 }
 
 .station-markers {
@@ -269,14 +257,6 @@
 }
 
 @media (max-width: 44rem) {
-  .station {
-    min-height: max(34rem, calc(100svh - 70px));
-  }
-
-  .station-intro h1 {
-    font-size: clamp(2.1rem, 8.5vw, 3.25rem);
-  }
-
   .station-toolbar {
     bottom: .85rem;
   }
@@ -303,20 +283,6 @@
   .station-view canvas {
     transition: none;
   }
-}
-
-.station-intro::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: -2rem -4rem -1.5rem calc(-1 * var(--edge));
-  background: radial-gradient(ellipse at 18% 27%, #001c18a8, transparent 73%);
-  pointer-events: none;
-}
-
-.station-intro {
-  position: relative;
-  isolation: isolate;
 }
 
 @media (max-width: 30rem) {
