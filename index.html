@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Gas&Go es un proyecto universitario que propone simplificar la identificación, la autorización y el pago al repostar.">
     <title>Gas&amp;Go | Llega, reposta y continúa tu viaje</title>
+    <link rel="icon" href="assets/images/logo-gg.webp" type="image/webp">
     <link rel="stylesheet" href="assets/css/site.css">
+    <link rel="stylesheet" href="assets/css/station.css">
+    <script type="module" src="assets/scene/experience.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -21,15 +24,51 @@
 
     <main>
       <section class="hero" aria-labelledby="titulo">
-        <div class="container hero-inner">
-          <div class="hero-copy">
+        <div class="station" id="estacion">
+          <div class="station-view" aria-hidden="true">
+            <img class="station-poster" src="assets/images/station-poster.webp" width="1440" height="810" alt="">
+          </div>
+
+          <div class="station-intro">
             <h1 id="titulo">Llega, reposta y <em>continúa tu viaje.</em></h1>
-            <p>Gas&amp;Go propone una forma más sencilla de repostar. Identifica tu vehículo, autoriza el surtidor y paga desde la aplicación.</p>
-            <a class="button" href="#como-funciona">Cómo funciona <span aria-hidden="true">↓</span></a>
+            <p>Explora cómo Gas&amp;Go propone simplificar el repostaje.</p>
           </div>
-          <div class="hero-art" aria-hidden="true">
-            <img src="assets/images/logo-gg.webp" alt="" width="720" height="355">
+
+          <div class="station-markers" aria-label="Puntos de interés">
+            <button type="button" class="station-marker" data-zone="0" aria-label="01 Identificación inteligente" data-name="Identificación inteligente">01</button>
+            <button type="button" class="station-marker" data-zone="1" aria-label="02 Autorización y pago automático" data-name="Autorización y pago automático">02</button>
+            <button type="button" class="station-marker" data-zone="2" aria-label="03 Repostaje inteligente" data-name="Repostaje inteligente">03</button>
+            <button type="button" class="station-marker" data-zone="3" aria-label="04 Take&Go" data-name="Take&Go">04</button>
+            <button type="button" class="station-marker" data-zone="4" aria-label="05 Recarga eléctrica" data-name="Recarga eléctrica">05</button>
           </div>
+
+          <div class="station-toolbar">
+            <p class="station-instructions">Pulsa un punto para descubrir la estación.</p>
+            <div class="station-actions" hidden>
+              <button type="button" data-action="reset">Vista inicial</button>
+              <button type="button" data-action="day" aria-pressed="false">Día</button>
+              <button type="button" data-action="fullscreen" aria-pressed="false">Pantalla completa</button>
+            </div>
+            <details class="station-directory">
+              <summary>Puntos de interés</summary>
+              <ol>
+                <li><button type="button" data-zone="0">Identificación inteligente</button></li>
+                <li><button type="button" data-zone="1">Autorización y pago automático</button></li>
+                <li><button type="button" data-zone="2">Repostaje inteligente</button></li>
+                <li><button type="button" data-zone="3">Take&amp;Go</button></li>
+                <li><button type="button" data-zone="4">Recarga eléctrica</button></li>
+              </ol>
+            </details>
+          </div>
+
+          <aside class="station-panel" aria-labelledby="service-title" hidden>
+            <button type="button" class="station-close" aria-label="Cerrar y volver a la vista inicial">×</button>
+            <p class="station-number"></p>
+            <h2 id="service-title" tabindex="-1"></h2>
+            <p class="station-description"></p>
+            <ul class="station-methods" hidden></ul>
+          </aside>
+          <noscript><p class="station-noscript">Activa JavaScript para explorar la estación.</p></noscript>
         </div>
       </section>
 

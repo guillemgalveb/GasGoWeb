@@ -1,0 +1,328 @@
+.station {
+  --edge: clamp(0.85rem, 4vw, 3.5rem);
+  position: relative;
+  display: grid;
+  min-height: max(37rem, calc(100svh - 91px));
+  background: #041d1a;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.station:fullscreen {
+  min-height: 100%;
+  width: 100%;
+}
+
+.station-view,
+.station-view canvas,
+.station-poster,
+.station-markers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.station-view canvas {
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity .65s ease;
+}
+
+.station-view canvas:active {
+  cursor: grabbing;
+}
+
+.station.is-ready canvas {
+  opacity: 1;
+}
+
+.station-poster {
+  object-fit: contain;
+}
+
+.station-intro {
+  z-index: 1;
+  align-self: start;
+  width: fit-content;
+  max-width: min(40rem, 100%);
+  margin: clamp(1.3rem, 4vh, 3.25rem) var(--edge);
+  text-shadow: 0 2px 18px #001210;
+  pointer-events: none;
+}
+
+.station-intro h1 {
+  max-width: 16ch;
+  font-size: clamp(2.3rem, 4.8vw, 4.15rem);
+}
+
+.station-intro em {
+  display: block;
+  color: var(--yellow);
+  font-style: normal;
+}
+
+.station-intro p {
+  margin: .7rem 0;
+  color: #d6e9e2;
+  font-size: clamp(.9rem, 1.9vw, 1.15rem);
+}
+
+.station-markers {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.station button,
+.station summary {
+  cursor: pointer;
+  color: var(--mint);
+  font: inherit;
+}
+
+.station button:focus-visible,
+.station summary:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+.station .station-marker {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--yellow);
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--yellow);
+  font-size: .82rem;
+  font-weight: 800;
+  box-shadow: 0 0 1.1rem #dca92e66;
+  animation: marker-pulse 3.6s ease-in-out infinite;
+  pointer-events: auto;
+}
+
+.station-marker[hidden] {
+  display: none;
+}
+
+.station-marker::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: calc(100% + .5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  width: max-content;
+  max-width: 11rem;
+  padding: .28rem .55rem;
+  border: 1px solid #ffffff38;
+  border-radius: .35rem;
+  background: #04251f;
+  color: var(--mint);
+  font-size: .76rem;
+  text-align: center;
+}
+
+.station-marker:is(:hover, :focus-visible) {
+  z-index: 1;
+  background: var(--yellow);
+  color: #092820;
+}
+
+.station-marker:is(:hover, :focus-visible)::after {
+  display: block;
+}
+
+@keyframes marker-pulse {
+  50% { box-shadow: 0 0 1.55rem #ffcb5599; }
+}
+
+.station-toolbar {
+  position: absolute;
+  z-index: 3;
+  inset: auto var(--edge) 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  pointer-events: none;
+}
+
+.station-toolbar > * {
+  pointer-events: auto;
+}
+
+.station-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.station [hidden] {
+  display: none;
+}
+
+.station-instructions,
+.station-actions button,
+.station-directory summary {
+  margin: 0;
+  padding: .44rem .72rem;
+  border: 1px solid #cbeaeb55;
+  border-radius: .34rem;
+  background: #062822ed;
+  font-size: .78rem;
+}
+
+.station-instructions {
+  margin-right: auto;
+}
+
+.station-directory {
+  position: relative;
+}
+
+.station-directory ol {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + .45rem);
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 3rem));
+  margin: 0;
+  padding: .65rem .8rem .65rem 2rem;
+  border: 1px solid #cbeaeb50;
+  border-radius: .45rem;
+  background: #062822;
+  color: var(--yellow);
+  font-size: .87rem;
+}
+
+.station-directory button {
+  padding: .26rem .1rem;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.station :is(button, summary):hover {
+  border-color: var(--yellow);
+}
+
+.station-panel {
+  position: absolute;
+  z-index: 4;
+  right: var(--edge);
+  bottom: 4.65rem;
+  width: min(24rem, calc(100% - 2 * var(--edge)));
+  max-height: 55%;
+  overflow: auto;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid #cbeaeb55;
+  border-top: 3px solid var(--yellow);
+  border-radius: .6rem;
+  background: #072a24f5;
+  box-shadow: 0 1rem 3rem #00140fa0;
+}
+
+.station-close {
+  float: right;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid #cbeaeb65;
+  border-radius: 50%;
+  background: transparent;
+  line-height: 1;
+}
+
+.station-number {
+  margin: 0 0 .4rem;
+  color: var(--yellow);
+  font-weight: 800;
+}
+
+.station-panel h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.15;
+}
+
+.station-description,
+.station-methods {
+  margin: .65rem 0 0;
+  color: #dbeae2;
+  font-size: .92rem;
+}
+
+.station-methods {
+  padding-left: 1.15rem;
+}
+
+.station-noscript {
+  position: absolute;
+  bottom: 4rem;
+  left: var(--edge);
+}
+
+@media (max-width: 44rem) {
+  .station {
+    min-height: max(34rem, calc(100svh - 70px));
+  }
+
+  .station-intro h1 {
+    font-size: clamp(2.1rem, 8.5vw, 3.25rem);
+  }
+
+  .station-toolbar {
+    bottom: .85rem;
+  }
+
+  .station-instructions {
+    flex-basis: 100%;
+  }
+
+  .station-panel {
+    bottom: 6.5rem;
+  }
+
+  .station-directory ol {
+    left: 0;
+    right: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .station-marker {
+    animation: none !important;
+  }
+
+  .station-view canvas {
+    transition: none;
+  }
+}
+
+.station-intro::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2rem -4rem -1.5rem calc(-1 * var(--edge));
+  background: radial-gradient(ellipse at 18% 27%, #001c18a8, transparent 73%);
+  pointer-events: none;
+}
+
+.station-intro {
+  position: relative;
+  isolation: isolate;
+}
+
+@media (max-width: 30rem) {
+  .station .station-marker {
+    width: 2rem;
+    height: 2rem;
+    font-size: .72rem;
+  }
+}

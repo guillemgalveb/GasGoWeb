@@ -69,8 +69,7 @@ a:focus-visible {
   border-bottom: 1px solid #ffffff40;
 }
 
-.brand img,
-.hero-art img {
+.brand img {
   display: block;
   width: 100%;
   height: auto;
@@ -91,66 +90,11 @@ a:focus-visible {
   border-bottom: 4px solid var(--yellow);
 }
 
-.hero-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(1.75rem, 5vw, 4rem);
-  padding-block: clamp(3rem, 7vw, 6.5rem);
-}
-
-.hero h1,
-.process h2 {
+:is(.hero h1, .process h2) {
   margin: 0;
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.03;
-}
-
-.hero h1 {
-  font-size: clamp(2.65rem, 6vw, 5.8rem);
-}
-
-.hero h1 em {
-  display: block;
-  color: var(--yellow);
-}
-
-.hero-copy p {
-  max-width: 40ch;
-  margin-block: 1.5rem;
-  font-size: clamp(1rem, 1.7vw, 1.2rem);
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.7rem 1.15rem;
-  border: 2px solid var(--yellow);
-  border-radius: 0.35rem;
-  background: var(--yellow);
-  color: var(--ink);
-  font-weight: 750;
-  text-decoration: none;
-}
-
-.button:hover {
-  background: var(--mint);
-}
-
-.button:focus-visible {
-  outline-color: var(--mint);
-}
-
-.hero-art {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
-  border: 1px solid #ffffff40;
-  border-radius: 50% / 20%;
-  background: radial-gradient(ellipse, #ffffff1f, #ffffff05 70%);
 }
 
 .process {
@@ -200,12 +144,7 @@ a:focus-visible {
 }
 
 @media (max-width: 46rem) {
-  .hero-inner,
   .steps {
     grid-template-columns: 1fr;
-  }
-
-  .hero-art {
-    width: min(100%, 27rem);
   }
 }
