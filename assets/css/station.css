@@ -1,9 +1,16 @@
 .home-page {
+  --edge: clamp(0.85rem, 4vw, 3.5rem);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
   overflow: clip;
+}
+
+@media (min-width: 47rem) {
+  .home-page .header-inner {
+    padding-inline-start: var(--edge);
+  }
 }
 
 .home-page main,
@@ -14,7 +21,6 @@
 }
 
 .station {
-  --edge: clamp(0.85rem, 4vw, 3.5rem);
   position: relative;
   display: grid;
   background: #041d1a;
