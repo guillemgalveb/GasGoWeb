@@ -1,3 +1,4 @@
+import { fuelX } from './layout.js';
 import * as T from './vendor/three.module.min.js';
 import { Reflector } from './vendor/Reflector.js';
 import { box, group, materials as m, mesh, shell, standard } from './model.js';
@@ -40,7 +41,7 @@ export function environment(scene, high) {
   const lane = standard(0x889f85, .13, .74);
   const amber = standard(0xb8882e, .22, .54);
   for (let i = -5; i <= 5; i++) box(scene, lane, i * 4.3, .02, 10.3, 2.5, .012, .065);
-  for (const x of [-16, -9, -2, 9, 15, 19]) {
+  for (const x of [fuelX(-16), fuelX(-9), fuelX(-2), 9, 15, 19]) {
     box(scene, amber, x, .023, 4, .055, .014, 3.75);
   }
   for (const x of [-15, -7, 5.8, 11, 20]) {
@@ -114,7 +115,7 @@ export function lighting(scene) {
   moon.position.set(-11, 17, 12);
   scene.add(ambient, moon);
   const warm = [];
-  for (const [x, y, z, intensity] of [[-9, 4.6, 1.2, 88], [0, 4.4, 1.3, 83],
+  for (const [x, y, z, intensity] of [[fuelX(-9), 4.6, 1.2, 88], [fuelX(0), 4.4, 1.3, 83],
     [11.7, 3.5, .7, 62], [-3, 3.4, -7.5, 95], [4.7, 3.45, -7.1, 108], [5.8, .48, 4.95, 18]]) {
     const source = new T.PointLight(0xffcf7f, intensity, 20, 2);
     source.position.set(x, y, z);

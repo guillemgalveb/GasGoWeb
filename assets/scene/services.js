@@ -1,3 +1,5 @@
+import { fuelX } from './layout.js';
+
 export const services = [
   {
     name: 'Identificación inteligente',
@@ -8,8 +10,8 @@ export const services = [
   {
     name: 'Autorización y pago automático',
     description: 'Gas&Go propone reunir la identificación, la autorización del surtidor y el pago en una sola experiencia. El recibo queda en el historial de la aplicación.',
-    anchor: [-6.3, 2.65, 3.4], target: [-6.3, 1.05, 3.4], angle: [3, 2.4, 9],
-    poster: [.33396, .51813],
+    anchor: [fuelX(-6.3), 2.65, 3.4], target: [fuelX(-6.3), 1.05, 3.4], angle: [3, 2.4, 9],
+    poster: [.27860, .51750],
   },
   {
     name: 'Repostaje inteligente',
@@ -19,14 +21,14 @@ export const services = [
       'B. Autorización mediante confirmación manual.',
       'C. Alternativa mediante NFC o QR dinámico.',
     ],
-    anchor: [-11.7, 3.02, 1.65], target: [-11.7, 1.55, 1.45], angle: [1.5, 2.2, 9],
-    poster: [.27132, .50441],
+    anchor: [fuelX(-11.7), 3.02, 1.65], target: [fuelX(-11.7), 1.55, 1.45], angle: [1.5, 2.2, 9],
+    poster: [.22344, .50432],
   },
   {
     name: 'Take&Go',
     description: 'La tienda del concepto Gas&Go integra la compra y su pago en la aplicación. La propuesta permite adquirir productos sin pasar por una caja convencional.',
-    anchor: [.5, 4.68, -5.6], target: [.5, 2.2, -5.95], angle: [1.4, 2.6, 10],
-    poster: [.52783, .45287],
+    anchor: [3.65, 5.2, -5.6], target: [.5, 2.2, -5.95], angle: [1.4, 2.6, 10],
+    poster: [.581, .43468],
   },
   {
     name: 'Recarga eléctrica',

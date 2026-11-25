@@ -171,6 +171,6 @@ export function market(scene) {
     for (const z of [-1.45, 0, 1.45]) box(shop, m.frame, x, 2.16, z, .1, 4, .075);
   }
   for (const x of [-.12, .12]) box(shop, m.steel, x, 1.44, 3.15, .037, .48, .06);
-  label(shop, 'Take&Go', 0, 4.47, 3.13, 3.55, .61);
+  label(shop, 'Take&Go', 0, 4.47, 3.13, 4.25, .77);
   return shop;
 }

@@ -4,18 +4,20 @@ import { box, canopy, dispenser, group, label, market, materials as m, tube } fr
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { vehicle } from './vehicles.js';
 import { services } from './services.js';
+import { fuelOffsetX, fuelX } from './layout.js';
 
 function buildStation(scene) {
-  canopy(scene, -6.9, -.5, 21.7, 10.1, 5.76);
+  const forecourt = group(scene, fuelOffsetX, 0, 0);
+  canopy(forecourt, -6.9, -.5, 21.7, 10.1, 5.76);
   canopy(scene, 12.25, -.65, 10.2, 6.8, 4.72);
-  const fuel = dispenser(scene, -11.7, 1.28);
-  dispenser(scene, -1.3, 1.15);
-  dispenser(scene, -11.7, -3.05);
-  dispenser(scene, -1.3, -3.05);
+  const fuel = dispenser(forecourt, -11.7, 1.28);
+  dispenser(forecourt, -1.3, 1.15);
+  dispenser(forecourt, -11.7, -3.05);
+  dispenser(forecourt, -1.3, -3.05);
   dispenser(scene, 10, 1.35, true);
   const charge = dispenser(scene, 13.9, 1.38, true);
   const shop = market(scene);
-  const car = vehicle(scene, -6.3, 3.15, 0x66736b);
+  const car = vehicle(forecourt, -6.3, 3.15, 0x66736b);
   vehicle(scene, 16.2, 3.33, 0x146853, true);
   tube(scene, m.rubber, [[14.39, 1.16, 1.79], [14.58, .39, 2.14],
     [15.32, .26, 2.44], [15.87, .45, 2.75], [16.13, .94, 2.88]], .044);
@@ -47,6 +49,7 @@ export function mountStation(view, handlers, motion) {
   const reflections = high ? studioReflections(renderer, scene) : null;
   environment(scene, high);
   const interactive = buildStation(scene);
+  scene.updateMatrixWorld(true);
   const bounds = interactive.map(object => new T.Box3().setFromObject(object));
   const highlight = new T.Box3Helper(new T.Box3(), 0xe8c05a);
   highlight.visible = false;
@@ -69,7 +72,7 @@ export function mountStation(view, handlers, motion) {
   const initialTarget = new T.Vector3(1.1, 3.15, 0);
   const initialPosition = new T.Vector3(14, 3.1, 31);
   const solidVolumes = [
-    new T.Box3(new T.Vector3(-18.2, 5.17, -5.98), new T.Vector3(4.4, 6.55, 5.05)),
+    new T.Box3(new T.Vector3(fuelX(-18.2), 5.17, -5.98), new T.Vector3(fuelX(4.4), 6.55, 5.05)),
     new T.Box3(new T.Vector3(6.7, 4.12, -4.45), new T.Vector3(17.8, 5.48, 3.15)),
     new T.Box3(new T.Vector3(-7.25, 0, -12.25), new T.Vector3(8.25, 5.16, -5.6)),
   ];
