@@ -16,3 +16,10 @@ export const refuellingDemo = {
   conventionalSeconds,
   gasGoSeconds: Math.round(conventionalSeconds * .7),
 };
+
+export const rearFuelBays = {
+  left: { x: fuelBays.left.x, z: -4.75 },
+  right: { x: fuelBays.right.x, z: -4.75 },
+};
+
+export const fuelCanopy = { x: -7.4, z: -.85, width: 25, depth: 12.7, height: 5.76 };

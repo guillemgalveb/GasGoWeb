@@ -1,26 +1,26 @@
 import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { canopy, canopyCamera, dispenser, group, label, market } from './model.js';
+import { canopy, canopyCamera, dispenser, group, market } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
-import { chargingBay, fuelBays, fuelOffsetX, fuelX, refuellingDemo } from './layout.js';
+import { chargingBay, fuelBays, fuelCanopy, fuelOffsetX, fuelX, rearFuelBays } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
-  canopy(forecourt, -6.9, -.5, 21.7, 10.1, 5.76);
+  const { x, z, width, depth, height } = fuelCanopy;
+  canopy(forecourt, x, z, width, depth, height);
   canopy(scene, 12.25, -.65, 10.2, 6.8, 4.72);
   const left = dispenser(forecourt, fuelBays.left.x, fuelBays.left.z);
   left.userData.zone = 1;
   const right = dispenser(forecourt, fuelBays.right.x, fuelBays.right.z);
-  label(forecourt, `Convencional · ${refuellingDemo.conventionalSeconds} s`, fuelBays.left.x, 3.98, 2.05, 4.1, .62, '#ecf5ed');
-  label(forecourt, `Gas&Go · ${refuellingDemo.gasGoSeconds} s`, fuelBays.right.x - .45, 3.98, 2.05, 3.55, .62);
   const leftCamera = canopyCamera(forecourt, fuelBays.left.x, fuelBays.left.z);
   leftCamera.userData.zone = 0;
   canopyCamera(forecourt, fuelBays.right.x, fuelBays.right.z);
-  for (const bay of Object.values(fuelBays)) {
-    dispenser(forecourt, bay.x, -3.05);
-    canopyCamera(forecourt, bay.x, -3.05);
+  for (const bay of Object.values(rearFuelBays)) {
+    const rear = dispenser(forecourt, bay.x, bay.z);
+    delete rear.userData.zone;
+    canopyCamera(forecourt, bay.x, bay.z);
   }
   dispenser(scene, 10, 1.35, true);
   const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
@@ -64,10 +64,13 @@ export function mountStation(view, handlers, motion) {
   controls.autoRotateSpeed = .22;
   controls.minTargetRadius = 0;
 
-  const initialTarget = new T.Vector3(1.1, 3.15, 0);
-  const initialPosition = new T.Vector3(14, 3.1, 31);
+  const initialTarget = new T.Vector3(-2.65, 3.15, 0);
+  const initialPosition = new T.Vector3(10.25, 7.15, 35.2);
   const solidVolumes = [
-    new T.Box3(new T.Vector3(fuelX(-18.2), 5.17, -5.98), new T.Vector3(fuelX(4.4), 6.55, 5.05)),
+    new T.Box3(
+      new T.Vector3(fuelX(fuelCanopy.x - fuelCanopy.width / 2) - .4, 5.17, fuelCanopy.z - fuelCanopy.depth / 2 - .4),
+      new T.Vector3(fuelX(fuelCanopy.x + fuelCanopy.width / 2) + .4, 6.55, fuelCanopy.z + fuelCanopy.depth / 2 + .4),
+    ),
     new T.Box3(new T.Vector3(6.7, 4.12, -4.45), new T.Vector3(17.8, 5.48, 3.15)),
     new T.Box3(new T.Vector3(-7.25, 0, -12.25), new T.Vector3(8.25, 5.16, -5.6)),
   ];

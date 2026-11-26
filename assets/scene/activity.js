@@ -1,10 +1,10 @@
 import * as T from './vendor/three.module.min.js';
 import { box, group, materials as m, mesh, standard, tube } from './model.js';
 import { vehicle } from './vehicles.js';
-import { chargingBay, fuelBays, fuelStopOffset, fuelX, refuellingDemo } from './layout.js';
+import { refuellingCounter } from './refuelling-counter.js';
+import { chargingBay, fuelBays, fuelStopOffset, fuelX, refuellingDemo, rearFuelBays } from './layout.js';
 
 const path = points => new T.CatmullRomCurve3(points.map(([x, z, y = 0]) => new T.Vector3(x, y, z)));
-const clamp = T.MathUtils.clamp;
 const ease = (from, to, time) => T.MathUtils.smoothstep(time, from, to);
 const point = new T.Vector3();
 const direction = new T.Vector3();
@@ -61,46 +61,64 @@ function walk(person, route, t, forward, elapsed, moving = true) {
   }
 }
 
-function refuellingVisit(actors, bay, duration, paint, jacket, extraChecks = 0) {
+const fuelPhaseOffset = 15;
+const cycleSeconds = 88;
+const frontArrival = 11;
+const queueRelease = frontArrival + refuellingDemo.gasGoSeconds + 4;
+
+function refuellingVisit(actors, {
+  bay, duration, paint, jacket, gasGo = false, arrive = frontArrival, queued = false,
+}) {
   const car = vehicle(actors, 0, 0, paint);
+  car.name = queued ? `Queue: ${gasGo ? "Gas&Go" : "conventional"}` : `Pump: ${bay.z < 0 ? "rear" : "front"} ${bay.x}`;
   const driver = person(actors, jacket);
+  const counter = refuellingCounter(car, gasGo);
   const pumpX = fuelX(bay.x);
   const pumpZ = bay.z;
   const stopZ = pumpZ + fuelStopOffset;
-  const parkedAt = 11;
-  const leavesAt = parkedAt + duration;
+  const rear = pumpZ < 0;
+  const leavesAt = arrive + duration;
   const exitsAt = leavesAt + 14;
-  const connectAt = parkedAt + 4.1 + extraChecks;
-  const disconnectAt = connectAt + 5.7;
+  const connectAt = arrive + (gasGo ? 4.1 : 8.1);
+  const disconnectAt = leavesAt - (gasGo ? 4.2 : 5.7);
   const entersCarAt = leavesAt - .5;
 
-  const enter = path([
-    [pumpX - 40, 10.4], [pumpX - 28, 10.4], [pumpX - 20, 7.1],
-    [pumpX - 12, stopZ], [pumpX - 5, stopZ], [pumpX, stopZ],
-  ]);
-  const exit = path([
-    [pumpX, stopZ], [pumpX + 2.35, stopZ], [pumpX + 5.7, 7.5],
-    [pumpX + 10.7, 10.4], [pumpX + 18, 10.4], [43, 10.4],
-  ]);
+  const regularEntry = rear
+    ? [[pumpX - 40, 2.7], [pumpX - 25, 2.7], [pumpX - 15, 1.9], [pumpX - 9, stopZ], [pumpX, stopZ]]
+    : [[pumpX - 40, 10.4], [pumpX - 28, 10.4], [pumpX - 20, 7.1], [pumpX - 12, stopZ], [pumpX - 5, stopZ], [pumpX, stopZ]];
+  const waitX = gasGo ? -19.5 : -25.5;
+  const waitZ = 7.8;
+  const enter = path(queued ? [[waitX - 43.5, 10.4], [waitX - 22, 10.2], [waitX - 9, waitZ], [waitX, waitZ]] : regularEntry);
+  const queueMovesAt = gasGo ? queueRelease : frontArrival + refuellingDemo.conventionalSeconds + 7;
+  const advance = queued ? path(gasGo
+    ? [[waitX, waitZ], [-15.2, waitZ], [-10.8, 6.7], [-8.15, stopZ], [pumpX, stopZ]]
+    : [[waitX, waitZ], [-22, waitZ], [-19.4, 5.7], [-17.8, stopZ], [pumpX, stopZ]]) : null;
+  const exit = path(rear
+    ? [[pumpX, stopZ], [pumpX + 2.65, stopZ - 1.1], [pumpX + 6.9, -3.92], [10, -4.45], [23, -4.45], [43, -4.45]]
+    : [[pumpX, stopZ], [pumpX + 2.35, stopZ], [pumpX + 5.7, 7.5], [pumpX + 10.7, 10.4], [pumpX + 18, 10.4], [43, 10.4]]);
   const toPump = path([[pumpX + .38, stopZ - 1.19], [pumpX - .36, pumpZ + 1.91], [pumpX - .69, pumpZ + 1.17]]);
   const hose = tube(actors, m.rubber, [[pumpX - .46, 1.65, pumpZ + .08],
     [pumpX - .66, .38, pumpZ + .54], [pumpX - .94, .31, pumpZ + 1.27],
     [pumpX - 1.38, .55, stopZ - 1.16], [pumpX - 1.52, .93, stopZ - .97]], .037);
 
   return phase => {
-    if (phase < parkedAt) drive(car, enter, ease(0, parkedAt, phase));
-    else if (phase < leavesAt) drive(car, enter, 1);
-    else drive(car, exit, ease(leavesAt, exitsAt, phase));
-    car.visible = phase < exitsAt;
-
-    driver.actor.visible = phase >= parkedAt + 1 && phase < entersCarAt;
+    if (phase < arrive) {
+      if (queued && phase >= queueMovesAt) drive(car, advance, ease(queueMovesAt, arrive, phase));
+      else drive(car, enter, queued ? ease(3, 17, phase) : ease(0, frontArrival, phase));
+    } else if (phase < leavesAt) {
+      drive(car, advance || enter, 1);
+    } else {
+      drive(car, exit, ease(leavesAt, exitsAt, phase));
+    }
+    car.visible = phase < exitsAt && (!queued || phase >= 3);
+    counter(phase >= arrive && phase < leavesAt, (phase - arrive) / duration);
+    driver.actor.visible = phase >= arrive + 1 && phase < entersCarAt;
     hose.visible = phase >= connectAt && phase < disconnectAt;
     if (driver.actor.visible) {
-      const atPump = parkedAt + 4.1;
-      const returning = phase >= disconnectAt + extraChecks / 2;
+      const returning = phase >= disconnectAt;
       const progress = returning
-        ? 1 - ease(disconnectAt + extraChecks / 2, entersCarAt, phase)
-        : ease(parkedAt + 1, atPump, phase);
+        ? 1 - ease(disconnectAt, entersCarAt, phase)
+        : ease(arrive + 1, arrive + 4.1, phase);
       walk(driver, toPump, progress, !returning, phase, progress > 0 && progress < 1);
       if (hose.visible) driver.arms[1].rotation.x = -.72;
     }
@@ -110,9 +128,16 @@ function refuellingVisit(actors, bay, duration, paint, jacket, extraChecks = 0) 
 export function stationActivity(scene, market) {
   const actors = group(scene, 0, 0, 0);
   actors.userData.ignorePick = true;
-  const gasGo = refuellingVisit(actors, fuelBays.right, refuellingDemo.gasGoSeconds, 0x66736b, 0xd3a33b);
-  const conventional = refuellingVisit(actors, fuelBays.left, refuellingDemo.conventionalSeconds, 0x9b644e, 0x808ba1, 4);
+  const visits = [
+    { bay: fuelBays.right, duration: refuellingDemo.gasGoSeconds, paint: 0x66736b, jacket: 0xd3a33b, gasGo: true },
+    { bay: fuelBays.left, duration: refuellingDemo.conventionalSeconds, paint: 0x9b644e, jacket: 0x808ba1 },
+    { bay: rearFuelBays.right, duration: 29, paint: 0x9f8b62, jacket: 0x8d5141 },
+    { bay: rearFuelBays.left, duration: 36, paint: 0x687d95, jacket: 0x6e8b58 },
+    { bay: fuelBays.right, duration: refuellingDemo.gasGoSeconds, paint: 0x456d81, jacket: 0xcda662, gasGo: true, queued: true, arrive: 33.5 },
+    { bay: fuelBays.left, duration: refuellingDemo.conventionalSeconds, paint: 0x80758e, jacket: 0x5b8392, queued: true, arrive: 46 },
+  ].map(config => refuellingVisit(actors, config));
   const visitor = vehicle(actors, 0, 0, 0x7799a3);
+  visitor.name = "Take&Go visitor";
   const shopper = person(actors, 0xb16045);
   const visitIn = path([[39, 14], [23, 14], [10, 13.6], [4.6, 10.8], [2.05, 7.2], [2.05, 1.2]]);
   const visitReverse = path([[2.05, 1.2], [2.05, 4.9], [2.05, 7.1], [1.45, 8.5], [.3, 8.7]]);
@@ -120,6 +145,7 @@ export function stationActivity(scene, market) {
   const toShop = path([[.88, 1.05], [.52, -.7], [.52, -3.5], [.5, -5.46], [.5, -6.09, .28], [.5, -8.12, .28]]);
 
   const electric = vehicle(actors, 0, 0, 0x146853, true);
+  electric.name = "Electric";
   const chargeStopX = chargingBay.x + 1.25;
   const chargeStopZ = chargingBay.z + 2.93;
   const chargeIn = path([[43, 9.4], [29, 9.4], [23, 8.2], [19.8, 5.15], [17.5, chargeStopZ], [chargeStopX, chargeStopZ]]);
@@ -133,16 +159,15 @@ export function stationActivity(scene, market) {
   ], .044);
 
   function update(elapsed) {
-    const t = elapsed % 66;
-    const f = (elapsed + 15) % 66;
-    const charge = (elapsed + 16) % 66;
+    const t = elapsed % cycleSeconds;
+    const f = (elapsed + fuelPhaseOffset) % cycleSeconds;
+    const charge = (elapsed + 16) % cycleSeconds;
     if (charge < 12) drive(electric, chargeIn, ease(0, 12, charge));
     else if (charge < 43) drive(electric, chargeIn, 1);
     else drive(electric, chargeOut, ease(43, 55, charge));
     electric.visible = charge < 55;
     chargeCable.visible = charge >= 13 && charge < 42;
-    gasGo(f);
-    conventional(f);
+    for (const visit of visits) visit(f);
 
     if (t < 12) drive(visitor, visitIn, ease(0, 12, t));
     else if (t < 42) drive(visitor, visitIn, 1);
