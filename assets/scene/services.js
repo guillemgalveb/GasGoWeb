@@ -1,4 +1,4 @@
-import { fuelX } from './layout.js';
+import { fuelBays, fuelX } from './layout.js';
 
 export const services = [
   {
@@ -11,11 +11,11 @@ export const services = [
   },
   {
     name: 'Autorización y pago automático',
-    description: 'Una vez autorizado el surtidor, repostas como de costumbre. Al terminar, Gas&Go propone cargar el importe del suministro al método de pago vinculado y guardar la factura en el historial.',
+    description: 'La pantalla del surtidor muestra la identificación del vehículo y permite confirmar la autorización. Al terminar de repostar, Gas&Go propone cargar el importe al método de pago vinculado y guardar la factura en el historial.',
     benefit: 'Sigue tu viaje y consulta después cuánto has gastado.',
     detail: 'Puedes consultar y descargar facturas desde el historial. El prototipo también recoge ideas de fidelización y comunicación de incidencias. Los cobros y las facturas son ficticios.',
-    anchor: [fuelX(-6.3), 2.32, 1.62], target: [fuelX(-6.3), 1.18, 1.46], angle: [3, 2.4, 9],
-    poster: [.30146, .52779],
+    anchor: [fuelX(fuelBays.left.x), 3.02, fuelBays.left.z + .38], target: [fuelX(fuelBays.left.x), 1.55, fuelBays.left.z + .17], angle: [3, 2.4, 9],
+    poster: [.22331, .50432],
   },
   {
     name: 'Repostaje inteligente',
@@ -26,8 +26,8 @@ export const services = [
       'B. Autorización mediante confirmación manual.',
       'C. Alternativa mediante NFC o QR dinámico.',
     ],
-    anchor: [fuelX(-11.7), 3.02, 1.65], target: [fuelX(-11.7), 1.55, 1.45], angle: [1.5, 2.2, 9],
-    poster: [.22344, .50432],
+    anchor: [fuelX(fuelBays.right.x), 3.02, fuelBays.right.z + .38], target: [fuelX(fuelBays.right.x), 1.55, fuelBays.right.z + .17], angle: [1.5, 2.2, 9],
+    poster: [.38268, .50461],
   },
   {
     name: 'Take&Go',

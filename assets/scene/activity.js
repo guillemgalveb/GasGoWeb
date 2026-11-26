@@ -1,6 +1,7 @@
 import * as T from './vendor/three.module.min.js';
 import { box, group, materials as m, mesh, standard, tube } from './model.js';
 import { vehicle } from './vehicles.js';
+import { fuelBays, fuelX } from './layout.js';
 
 const path = points => new T.CatmullRomCurve3(points.map(([x, z, y = 0]) => new T.Vector3(x, y, z)));
 const clamp = T.MathUtils.clamp;
@@ -68,15 +69,19 @@ export function stationActivity(scene, market) {
   const driver = person(actors, 0xd3a33b);
   const shopper = person(actors, 0xb16045);
 
-  const fuelIn = path([[-40, 10.4], [-29, 10.4], [-22, 7.2], [-17, 4.45], [-13.5, 3.75], [-9.7, 3.15]]);
-  const fuelOut = path([[-9.7, 3.15], [-7.3, 3.15], [-4.7, 6.8], [-.6, 10.4], [12, 10.4], [40, 10.4]]);
+  const pumpX = fuelX(fuelBays.right.x);
+  const pumpZ = fuelBays.right.z;
+  const stopZ = pumpZ + 3.3;
+  const fuelIn = path([[-40, 10.4], [-29, 10.4], [-22, 7.2], [-17, stopZ], [-10, stopZ], [pumpX, stopZ]]);
+  const fuelOut = path([[pumpX, stopZ], [pumpX + 2.35, stopZ], [1, 7.5], [6, 10.4], [12, 10.4], [40, 10.4]]);
   const visitIn = path([[39, 14], [23, 14], [10, 13.6], [4.6, 10.8], [2.05, 7.2], [2.05, 1.2]]);
   const visitReverse = path([[2.05, 1.2], [2.05, 4.9], [2.05, 7.1], [1.45, 8.5], [.3, 8.7]]);
   const visitOut = path([[.3, 8.7], [2, 8.7], [6.5, 9.1], [11.8, 13.8], [23, 14], [40, 14]]);
-  const toPump = path([[-9.55, 2.05], [-8.1, 2.02], [-6.5, 2.15], [-5.37, 1.76]]);
+  const toPump = path([[pumpX + .38, stopZ - 1.19], [pumpX - .36, pumpZ + 1.91], [pumpX - .69, pumpZ + 1.17]]);
   const toShop = path([[.88, 1.05], [.52, -.7], [.52, -3.5], [.5, -5.46], [.5, -6.09, .28], [.5, -8.12, .28]]);
-  const hose = tube(actors, m.rubber, [[-5.18, 1.65, 1.46], [-5.41, .69, 1.91],
-    [-6.05, .24, 2.03], [-7.29, .4, 2.2], [-8.06, .94, 2.17]], .037);
+  const hose = tube(actors, m.rubber, [[pumpX - .46, 1.65, pumpZ + .08],
+    [pumpX - .66, .38, pumpZ + .54], [pumpX - .94, .31, pumpZ + 1.27],
+    [pumpX - 1.38, .55, stopZ - 1.16], [pumpX - 1.52, .93, stopZ - .97]], .037);
 
   function update(elapsed) {
     const t = elapsed % 66;

@@ -115,7 +115,12 @@ export function dispenser(scene, x, z, electric = false) {
   shell(unit, m.gold, 0, 1.46, 0, 1.02, 2.42, .69, .2);
   shell(unit, m.green, 0, 1.46, .018, .9, 2.31, .71, .16);
   box(unit, m.frame, 0, 1.59, .385, .62, .61, .04);
-  box(unit, m.cyan, 0, 1.73, .413, .46, .15, .016);
+  box(unit, electric ? m.cyan : m.tinted, 0, 1.74, .415, .49, .26, .025);
+  if (!electric) {
+    box(unit, m.cyan, 0, 1.84, .431, .45, .037, .009);
+    label(unit, 'GAS&GO', 0, 1.73, .434, .43, .105, '#a3efdc');
+    label(unit, 'LISTO', 0, 1.65, .434, .32, .08, '#ffdc68');
+  }
   for (let i = 0; i < 3; i++) box(unit, m.steel, (i - 1) * .12, 1.49, .42, .065, .044, .02);
   if (electric) {
     label(unit, '⚡', 0, 2.22, .394, .9, .47);
@@ -134,6 +139,22 @@ export function dispenser(scene, x, z, electric = false) {
     box(unit, m.gold, dx, .84, .64, .14, .1, .02);
   }
   return unit;
+}
+
+export function canopyCamera(parent, pumpX, pumpZ) {
+  const x = pumpX + .82;
+  const z = pumpZ + 1.42;
+  box(parent, materials.frame, x, 5.24, z, .31, .07, .3);
+  box(parent, materials.steel, x, 5.08, z, .08, .26, .08);
+  const camera = group(parent, x, 4.98, z);
+  const direction = new T.Vector3(pumpX - x, 1.55 - camera.position.y, pumpZ - z).normalize();
+  camera.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), direction);
+  box(camera, materials.steel, 0, 0, 0, .31, .24, .48);
+  box(camera, materials.frame, 0, 0, .247, .27, .2, .035);
+  const lens = mesh(camera, new T.CylinderGeometry(.064, .064, .04, 14), materials.tinted, 0, 0, .28);
+  lens.rotation.x = Math.PI / 2;
+  box(camera, materials.cyan, .09, -.055, .269, .026, .021, .009);
+  return camera;
 }
 
 export function market(scene) {
