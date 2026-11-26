@@ -1,6 +1,5 @@
 import { fuelX } from './layout.js';
 import * as T from './vendor/three.module.min.js';
-import { Reflector } from './vendor/Reflector.js';
 import { box, group, materials as m, mesh, shell, standard } from './model.js';
 
 let seed = 761;
@@ -9,34 +8,48 @@ function random() {
   return seed / 4294967296;
 }
 
-function asphalt() {
+function pavementTexture(concrete = false) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 256;
   const ctx = canvas.getContext('2d');
   const pixels = ctx.createImageData(256, 256);
   for (let i = 0; i < pixels.data.length; i += 4) {
-    const tone = 47 + Math.floor(random() * 39);
-    pixels.data.set([tone * .79, tone, tone * .93, 255], i);
+    if (concrete) {
+      const index = i / 4;
+      const x = index % 256, y = Math.floor(index / 256);
+      const grain = ((Math.imul(index + 9, 1103515245) >>> 19) % 17) - 8;
+      const tone = 112 + grain + 4 * Math.sin(x / 14 + y / 24) + 3 * Math.cos(y / 18);
+      pixels.data.set([tone * .98, tone, tone * .96, 255], i);
+    } else {
+      const tone = 40 + Math.floor(random() * 32);
+      pixels.data.set([tone * .92, tone, tone * .98, 255], i);
+    }
   }
   ctx.putImageData(pixels, 0, 0);
   const map = new T.CanvasTexture(canvas);
   map.colorSpace = T.SRGBColorSpace;
   map.wrapS = map.wrapT = T.RepeatWrapping;
-  map.repeat.set(92, 92);
+  if (concrete) map.repeat.set(12, 6);
+  else map.repeat.set(92, 92);
   return map;
 }
 
 export function environment(scene, high) {
-  const groundGeometry = new T.PlaneGeometry(220, 220);
-  if (high) {
-    const reflector = new Reflector(groundGeometry, { color: 0x59615c, textureWidth: 640, textureHeight: 384 });
-    reflector.rotation.x = -Math.PI / 2;
-    reflector.userData.ignorePick = true;
-    scene.add(reflector);
-  }
-  const surface = new T.MeshStandardMaterial({ map: asphalt(), roughness: .48,
-    metalness: .34, transparent: high, opacity: high ? .77 : 1 });
-  mesh(scene, groundGeometry, surface, 0, .012, 0).rotation.x = -Math.PI / 2;
+  const asphalt = pavementTexture();
+  const roadMaterial = new T.MeshStandardMaterial({
+    map: asphalt, bumpMap: asphalt, bumpScale: .11, roughness: .96,
+  });
+  mesh(scene, new T.PlaneGeometry(220, 220), roadMaterial).rotation.x = -Math.PI / 2;
+
+  const concrete = pavementTexture(true);
+  const apronMaterial = new T.MeshStandardMaterial({
+    map: concrete, bumpMap: concrete, bumpScale: .045, roughness: .87,
+  });
+  const apron = mesh(scene, new T.PlaneGeometry(51, 25), apronMaterial, 0, .012, -5.15);
+  apron.rotation.x = -Math.PI / 2;
+  const joint = standard(0x424944, 0, .98);
+  for (const x of [-20, -15, -10, -5, 0, 5, 10, 15, 20]) box(scene, joint, x, .014, -5.15, .026, .004, 25);
+  for (const z of [-13, -8, -3, 2]) box(scene, joint, 0, .014, z, 51, .004, .03);
 
   const lane = standard(0x889f85, .13, .74);
   const amber = standard(0xb8882e, .22, .54);

@@ -1,10 +1,10 @@
 import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { canopy, canopyCamera, dispenser, group, market } from './model.js';
+import { canopy, canopyCamera, dispenser, group, label, market } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
-import { chargingBay, fuelBays, fuelOffsetX, fuelX } from './layout.js';
+import { chargingBay, fuelBays, fuelOffsetX, fuelX, refuellingDemo } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
@@ -13,6 +13,8 @@ function buildStation(scene) {
   const left = dispenser(forecourt, fuelBays.left.x, fuelBays.left.z);
   left.userData.zone = 1;
   const right = dispenser(forecourt, fuelBays.right.x, fuelBays.right.z);
+  label(forecourt, `Convencional · ${refuellingDemo.conventionalSeconds} s`, fuelBays.left.x, 3.98, 2.05, 4.1, .62, '#ecf5ed');
+  label(forecourt, `Gas&Go · ${refuellingDemo.gasGoSeconds} s`, fuelBays.right.x - .45, 3.98, 2.05, 3.55, .62);
   const leftCamera = canopyCamera(forecourt, fuelBays.left.x, fuelBays.left.z);
   leftCamera.userData.zone = 0;
   canopyCamera(forecourt, fuelBays.right.x, fuelBays.right.z);
@@ -249,7 +251,6 @@ export function mountStation(view, handlers, motion) {
     const resources = new Set();
     scene.traverse(object => {
       if (object.geometry) resources.add(object.geometry);
-      if (object.isReflector) object.dispose();
       for (const material of [object.material].flat()) {
         if (!material) continue;
         if (material.map) resources.add(material.map);

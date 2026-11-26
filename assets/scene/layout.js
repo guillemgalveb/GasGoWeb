@@ -10,3 +10,9 @@ export const fuelBays = {
 export const fuelStopOffset = 3.3;
 export const chargingBay = { x: 13.9, z: 1.38 };
 export const fuelCameraOffset = { x: 3.18, y: 4.98, z: 2.65 };
+
+const conventionalSeconds = 20;
+export const refuellingDemo = {
+  conventionalSeconds,
+  gasGoSeconds: Math.round(conventionalSeconds * .7),
+};

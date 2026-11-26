@@ -26,8 +26,26 @@ function loft(parent, material, rings) {
   return mesh(parent, geometry, material);
 }
 
+let shadowMaterial;
+const shadowGeometry = new T.PlaneGeometry(2.9, 5.6);
+function contactShadow(car) {
+  if (!shadowMaterial) {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(32, 32, 13, 32, 32, 32);
+    gradient.addColorStop(0, '#041311a8');
+    gradient.addColorStop(1, '#04131100');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+    shadowMaterial = new T.MeshBasicMaterial({ map: new T.CanvasTexture(canvas), transparent: true, depthWrite: false });
+  }
+  mesh(car, shadowGeometry, shadowMaterial, 0, .029, 0).rotation.x = -Math.PI / 2;
+}
+
 export function vehicle(scene, x, z, color, ev = false) {
   const car = group(scene, x, 0, z);
+  contactShadow(car);
   car.rotation.y = ev ? -.62 : -.9;
   const paint = new T.MeshPhysicalMaterial({ color, metalness: .63, roughness: .22, clearcoat: 1, clearcoatRoughness: .16, side: T.DoubleSide });
   const glass = m.tinted.clone();

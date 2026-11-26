@@ -83,7 +83,7 @@ function select(index, trigger) {
   methods.hidden = !service.methods;
   more.hidden = !service.detail && !service.methods;
   more.open = false;
-  more.querySelector('summary').textContent = service.methods ? 'Formas de autorizar el surtidor' : 'Más sobre la aplicación';
+  more.querySelector('summary').textContent = service.methods ? 'Tiempos y formas de autorizar' : 'Más sobre la aplicación';
   tour.hidden = true;
   tourBack.hidden = !fromTour;
   openPanel();

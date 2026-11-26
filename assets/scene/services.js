@@ -1,4 +1,4 @@
-import { fuelBays, fuelCameraOffset, fuelX } from './layout.js';
+import { fuelBays, fuelCameraOffset, fuelX, refuellingDemo } from './layout.js';
 
 export const services = [
   {
@@ -22,6 +22,7 @@ export const services = [
   {
     name: 'Repostaje inteligente',
     description: 'La aplicación detecta el surtidor y te ofrece varias formas de autorizarlo. Cuando queda habilitado, utilizas la manguera para repostar.',
+    detail: `En la animación, ambos coches paran a la vez. La parada convencional dura ${refuellingDemo.conventionalSeconds} s y la de Gas&Go, ${refuellingDemo.gasGoSeconds} s. La comparación representa el objetivo del 30 % de ahorro. En una parada orientativa de 5 min, equivaldría a 3 min y 30 s. El ahorro quedó sin validar en el prototipo.`,
     benefit: 'Puedes elegir cómo autorizar el surtidor según lo que necesites.',
     methods: [
       'A. Autorización automática mediante BLE, UWB y token seguro.',
