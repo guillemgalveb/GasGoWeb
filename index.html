@@ -31,7 +31,7 @@
 
           <div class="station-intro">
             <h1 id="titulo">Llega, reposta y <em>continúa tu viaje.</em></h1>
-            <p>Explora cómo Gas&amp;Go propone simplificar el repostaje.</p>
+            <p>Gas&amp;Go reúne la identificación del vehículo, la autorización del surtidor y el pago en una sola aplicación, para que repostar requiera menos pasos.</p>
           </div>
 
           <div class="station-markers" aria-label="Puntos de interés">
@@ -52,13 +52,16 @@
             </div>
             <details class="station-directory">
               <summary>Puntos de interés</summary>
-              <ol>
-                <li><button type="button" data-zone="0">Identificación inteligente</button></li>
-                <li><button type="button" data-zone="1">Autorización y pago automático</button></li>
-                <li><button type="button" data-zone="2">Repostaje inteligente</button></li>
-                <li><button type="button" data-zone="3">Take&amp;Go</button></li>
-                <li><button type="button" data-zone="4">Recarga eléctrica</button></li>
-              </ol>
+              <div class="station-directory-menu">
+                <button type="button" class="station-tour-trigger">Ver el recorrido</button>
+                <ol>
+                  <li><button type="button" data-zone="0">Identificación inteligente</button></li>
+                  <li><button type="button" data-zone="1">Autorización y pago automático</button></li>
+                  <li><button type="button" data-zone="2">Repostaje inteligente</button></li>
+                  <li><button type="button" data-zone="3">Take&amp;Go</button></li>
+                  <li><button type="button" data-zone="4">Recarga eléctrica</button></li>
+                </ol>
+              </div>
             </details>
           </div>
 
@@ -67,7 +70,33 @@
             <p class="station-number"></p>
             <h2 id="service-title" tabindex="-1"></h2>
             <p class="station-description"></p>
-            <ul class="station-methods" hidden></ul>
+            <p class="station-benefit" hidden></p>
+            <details class="station-more" hidden>
+              <summary>Más sobre la aplicación</summary>
+              <p class="station-detail" hidden></p>
+              <ul class="station-methods" hidden></ul>
+            </details>
+            <button type="button" class="station-tour-back" hidden>Volver al recorrido</button>
+            <div class="station-tour" hidden>
+              <ol>
+                <li>
+                  <button type="button" data-zone="0">Antes de llegar</button>
+                  <p>Registra tu vehículo y compara estaciones por precio, distancia y tiempo estimado para elegir dónde parar.</p>
+                </li>
+                <li>
+                  <button type="button" data-zone="2">En la estación</button>
+                  <p>La aplicación identifica el vehículo y autoriza el surtidor. Repostas con la manguera y puedes confirmar manualmente si lo necesitas.</p>
+                </li>
+                <li>
+                  <button type="button" data-zone="1">Al terminar</button>
+                  <p>El pago se tramita con el método vinculado. Puedes continuar el viaje y consultar o descargar la factura desde el historial.</p>
+                </li>
+              </ol>
+              <details class="station-more">
+                <summary>Qué probamos en el prototipo</summary>
+                <p>Los tres grupos comprendieron el recorrido. La identificación, el suministro y el cobro fueron simulados. Reducir un 30 % el tiempo total de repostaje era un objetivo que quedó sin validar.</p>
+              </details>
+            </div>
           </aside>
           <noscript><p class="station-noscript">Activa JavaScript para explorar la estación.</p></noscript>
         </div>

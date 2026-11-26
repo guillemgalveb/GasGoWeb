@@ -5,6 +5,13 @@ const view = station.querySelector('.station-view');
 const panel = station.querySelector('.station-panel');
 const title = panel.querySelector('h2');
 const methods = panel.querySelector('.station-methods');
+const description = panel.querySelector('.station-description');
+const benefit = panel.querySelector('.station-benefit');
+const more = panel.querySelector('.station-more');
+const detail = panel.querySelector('.station-detail');
+const number = panel.querySelector('.station-number');
+const tour = panel.querySelector('.station-tour');
+const tourBack = panel.querySelector('.station-tour-back');
 const directory = station.querySelector('.station-directory');
 const buttons = [...station.querySelectorAll('.station-marker')];
 const actions = station.querySelector('.station-actions');
@@ -32,22 +39,54 @@ function layoutPoster() {
   });
 }
 
+function openPanel() {
+  directory.open = false;
+  panel.hidden = false;
+  panel.scrollTop = 0;
+  title.focus({ preventScroll: true });
+}
+
+function showTour(trigger) {
+  if (trigger) returnFocus = trigger;
+  selected = null;
+  title.textContent = 'Tu recorrido con Gas&Go';
+  number.hidden = true;
+  description.hidden = true;
+  benefit.hidden = true;
+  more.hidden = true;
+  tourBack.hidden = true;
+  tour.hidden = false;
+  openPanel();
+  scene?.focus(null);
+  scene?.highlight(null);
+}
+
 function select(index, trigger) {
   selected = index;
   const service = services[index];
-  returnFocus = trigger || buttons[index];
-  panel.querySelector('.station-number').textContent = String(index + 1).padStart(2, '0');
+  const fromTour = Boolean(trigger?.closest('.station-tour'));
+  if (!fromTour) returnFocus = trigger || buttons[index];
+  number.textContent = String(index + 1).padStart(2, '0');
+  number.hidden = false;
   title.textContent = service.name;
-  panel.querySelector('.station-description').textContent = service.description;
+  description.textContent = service.description;
+  description.hidden = false;
+  benefit.textContent = service.benefit;
+  benefit.hidden = false;
+  detail.textContent = service.detail || '';
+  detail.hidden = !service.detail;
   methods.replaceChildren(...(service.methods || []).map(method => {
     const item = document.createElement('li');
     item.textContent = method;
     return item;
   }));
   methods.hidden = !service.methods;
-  directory.open = false;
-  panel.hidden = false;
-  title.focus({ preventScroll: true });
+  more.hidden = !service.detail && !service.methods;
+  more.open = false;
+  more.querySelector('summary').textContent = service.methods ? 'Formas de autorizar el surtidor' : 'Más sobre la aplicación';
+  tour.hidden = true;
+  tourBack.hidden = !fromTour;
+  openPanel();
   scene?.focus(index);
   scene?.highlight(null);
 }
@@ -71,7 +110,9 @@ station.querySelectorAll('[data-zone]').forEach(button => {
   button.addEventListener('focus', () => scene?.highlight(index));
   button.addEventListener('blur', () => scene?.highlight(null));
 });
-panel.querySelector('button').addEventListener('click', () => reset(true));
+directory.querySelector('.station-tour-trigger').addEventListener('click', event => showTour(event.currentTarget));
+tourBack.addEventListener('click', () => showTour());
+panel.querySelector('.station-close').addEventListener('click', () => reset(true));
 actions.querySelector('[data-action="reset"]').addEventListener('click', () => reset());
 function setActivity(enabled) {
   scene?.setActivity(enabled);

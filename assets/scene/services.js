@@ -3,19 +3,24 @@ import { fuelX } from './layout.js';
 export const services = [
   {
     name: 'Identificación inteligente',
-    description: 'El concepto vincula el vehículo a la cuenta del conductor al entrar en la estación. Así se reduce el número de pasos antes de repostar.',
+    description: 'Antes de salir, registra tu vehículo en la aplicación. Al llegar, Gas&Go propone vincular el vehículo con tu cuenta para evitar repetir la identificación en cada parada.',
+    benefit: 'Menos pasos antes de empezar a repostar.',
+    detail: 'El mapa permite comparar estaciones por precio, distancia y tiempo estimado. La ocupación y la espera se simulan en el prototipo.',
     anchor: [-17.2, 3.65, 7.4], target: [-17.2, 1.8, 7.4], angle: [4, 2.6, 8],
     poster: [.1032, .4821],
   },
   {
     name: 'Autorización y pago automático',
-    description: 'Gas&Go propone reunir la identificación, la autorización del surtidor y el pago en una sola experiencia. El recibo queda en el historial de la aplicación.',
+    description: 'Una vez autorizado el surtidor, repostas como de costumbre. Al terminar, Gas&Go propone cargar el importe del suministro al método de pago vinculado y guardar la factura en el historial.',
+    benefit: 'Sigue tu viaje y consulta después cuánto has gastado.',
+    detail: 'Puedes consultar y descargar facturas desde el historial. El prototipo también recoge ideas de fidelización y comunicación de incidencias. Los cobros y las facturas son ficticios.',
     anchor: [fuelX(-6.3), 2.32, 1.62], target: [fuelX(-6.3), 1.18, 1.46], angle: [3, 2.4, 9],
     poster: [.30146, .52779],
   },
   {
     name: 'Repostaje inteligente',
-    description: 'El conductor reposta de forma habitual. La aplicación detecta el surtidor y plantea tres formas de autorizarlo.',
+    description: 'La aplicación detecta el surtidor y te ofrece varias formas de autorizarlo. Cuando queda habilitado, utilizas la manguera para repostar.',
+    benefit: 'Puedes elegir cómo autorizar el surtidor según lo que necesites.',
     methods: [
       'A. Autorización automática mediante BLE, UWB y token seguro.',
       'B. Autorización mediante confirmación manual.',
@@ -26,13 +31,17 @@ export const services = [
   },
   {
     name: 'Take&Go',
-    description: 'La tienda del concepto Gas&Go integra la compra y su pago en la aplicación. La propuesta permite adquirir productos sin pasar por una caja convencional.',
+    description: 'Aparcas, entras en Take&Go, eliges un producto y vuelves al coche. Gas&Go plantea integrar la compra y el pago en la aplicación.',
+    benefit: 'Una parada para comprar sin pasar por una caja convencional.',
+    detail: 'Take&Go forma parte de la visión del proyecto. El pago de tienda quedó fuera del prototipo V1.',
     anchor: [3.65, 5.2, -5.6], target: [.5, 2.2, -5.95], angle: [1.4, 2.6, 10],
     poster: [.581, .43468],
   },
   {
     name: 'Recarga eléctrica',
-    description: 'La zona eléctrica lleva el mismo flujo a la recarga. Gas&Go propone identificar el vehículo, autorizar el cargador y gestionar el pago desde la aplicación.',
+    description: 'Gas&Go propone identificar el vehículo, autorizar el cargador y gestionar el pago desde la misma aplicación. Puedes estimar la duración según la potencia del punto y la energía que quieras cargar.',
+    benefit: 'Puedes planificar dónde cargar y cuánto podría durar la parada.',
+    detail: 'El prototipo simula el suministro eléctrico. El tiempo estimado depende de la potencia del conector y de los kWh seleccionados.',
     anchor: [13.9, 3.1, 1.75], target: [13.1, 1.55, 1.6], angle: [4.7, 2.6, 8.4],
     poster: [.77983, .50180],
   },

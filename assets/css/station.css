@@ -69,7 +69,7 @@
   z-index: 1;
   inset: clamp(1.3rem, 4vh, 3.25rem) var(--edge) auto;
   width: fit-content;
-  max-width: calc(100% - 2 * var(--edge));
+  max-width: min(40rem, calc(100% - 2 * var(--edge)));
   text-shadow: 0 2px 18px #001210;
   pointer-events: none;
 }
@@ -183,6 +183,10 @@
   pointer-events: auto;
 }
 
+.station-toolbar:has(.station-directory[open]) {
+  z-index: 5;
+}
+
 .station-actions {
   display: flex;
   flex-wrap: wrap;
@@ -212,19 +216,24 @@
   position: relative;
 }
 
-.station-directory ol {
+.station-directory-menu {
   position: absolute;
   right: 0;
   bottom: calc(100% + .45rem);
   width: max-content;
   max-width: min(17rem, calc(100vw - 3rem));
   margin: 0;
-  padding: .65rem .8rem .65rem 2rem;
+  padding: .55rem .8rem;
   border: 1px solid #cbeaeb50;
   border-radius: .45rem;
   background: #062822;
   color: var(--yellow);
   font-size: .87rem;
+}
+
+.station-directory-menu ol {
+  margin: .25rem 0 0;
+  padding-left: 1.2rem;
 }
 
 .station-directory button {
@@ -277,14 +286,56 @@
 }
 
 .station-description,
-.station-methods {
+.station-benefit,
+.station-more,
+.station-tour {
   margin: .65rem 0 0;
   color: #dbeae2;
   font-size: .92rem;
 }
 
-.station-methods {
+.station-benefit {
+  color: var(--yellow);
+  font-weight: 650;
+}
+
+.station-more p {
+  margin: .35rem 0 0;
+}
+
+.station-more summary,
+.station .station-tour-trigger {
+  color: var(--yellow);
+  font-weight: 650;
+}
+
+.station-methods,
+.station-tour ol {
+  margin: .4rem 0 0;
   padding-left: 1.15rem;
+}
+
+.station-tour li + li {
+  margin-top: .65rem;
+}
+
+.station-tour p {
+  margin: .15rem 0 0;
+}
+
+.station-tour button,
+.station-tour-back {
+  padding: .1rem 0;
+  border: 0;
+  background: transparent;
+  font-weight: 650;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+
+.station-tour-back {
+  margin-top: .75rem;
 }
 
 .station-noscript {
@@ -306,7 +357,7 @@
     flex-basis: 100%;
   }
 
-  .station-directory ol {
+  .station-directory-menu {
     left: 0;
     right: auto;
   }
