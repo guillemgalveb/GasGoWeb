@@ -1,11 +1,10 @@
 import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { box, canopy, canopyCamera, dispenser, group, label, market, materials as m, tube } from './model.js';
+import { canopy, canopyCamera, dispenser, group, market } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
-import { vehicle } from './vehicles.js';
 import { services } from './services.js';
-import { fuelBays, fuelOffsetX, fuelX } from './layout.js';
+import { chargingBay, fuelBays, fuelOffsetX, fuelX } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
@@ -14,27 +13,17 @@ function buildStation(scene) {
   const left = dispenser(forecourt, fuelBays.left.x, fuelBays.left.z);
   left.userData.zone = 1;
   const right = dispenser(forecourt, fuelBays.right.x, fuelBays.right.z);
+  const leftCamera = canopyCamera(forecourt, fuelBays.left.x, fuelBays.left.z);
+  leftCamera.userData.zone = 0;
+  canopyCamera(forecourt, fuelBays.right.x, fuelBays.right.z);
   for (const bay of Object.values(fuelBays)) {
-    canopyCamera(forecourt, bay.x, bay.z);
     dispenser(forecourt, bay.x, -3.05);
     canopyCamera(forecourt, bay.x, -3.05);
   }
   dispenser(scene, 10, 1.35, true);
-  const charge = dispenser(scene, 13.9, 1.38, true);
+  const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
   const shop = market(scene);
-  vehicle(scene, 16.2, 3.33, 0x146853, true);
-  tube(scene, m.rubber, [[14.39, 1.16, 1.79], [14.58, .39, 2.14],
-    [15.32, .26, 2.44], [15.87, .45, 2.75], [16.13, .94, 2.88]], .044);
-
-  const reader = group(scene, -17.2, 0, 7.4);
-  reader.userData.zone = 0;
-  box(reader, m.base, 0, .16, 0, .68, .32, .58);
-  box(reader, m.steel, 0, 1.65, 0, .14, 3.2, .15);
-  box(reader, m.frame, .18, 3.15, .03, .48, .23, .33);
-  box(reader, m.cyan, .36, 3.15, .205, .12, .11, .035);
-  box(reader, m.green, .19, 2.34, .035, 1.02, .35, .14);
-  label(reader, 'ACCESO', .19, 2.34, .118, .95, .25);
-  return { interactive: [reader, left, right, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
+  return { interactive: [leftCamera, left, right, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
 }
 
 export function mountStation(view, handlers, motion) {

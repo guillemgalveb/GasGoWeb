@@ -1,13 +1,15 @@
-import { fuelBays, fuelX } from './layout.js';
+import { fuelBays, fuelCameraOffset, fuelX } from './layout.js';
 
 export const services = [
   {
     name: 'Identificación inteligente',
-    description: 'Antes de salir, registra tu vehículo en la aplicación. Al llegar, Gas&Go propone vincular el vehículo con tu cuenta para evitar repetir la identificación en cada parada.',
+    description: 'Antes de salir, registra tu vehículo en la aplicación. Al llegar, una cámara de la marquesina enfoca la matrícula delantera para vincular el vehículo con tu cuenta. Así evitas repetir la identificación en cada parada.',
     benefit: 'Menos pasos antes de empezar a repostar.',
     detail: 'El mapa permite comparar estaciones por precio, distancia y tiempo estimado. La ocupación y la espera se simulan en el prototipo.',
-    anchor: [-17.2, 3.65, 7.4], target: [-17.2, 1.8, 7.4], angle: [4, 2.6, 8],
-    poster: [.1032, .4821],
+    anchor: [fuelX(fuelBays.left.x + fuelCameraOffset.x), fuelCameraOffset.y + .14, fuelBays.left.z + fuelCameraOffset.z + .35],
+    target: [fuelX(fuelBays.left.x + fuelCameraOffset.x), fuelCameraOffset.y - .12, fuelBays.left.z + fuelCameraOffset.z],
+    angle: [2.8, -1.8, 8.4],
+    poster: [.23207, .43139],
   },
   {
     name: 'Autorización y pago automático',

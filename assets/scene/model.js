@@ -1,3 +1,4 @@
+import { fuelCameraOffset, fuelStopOffset } from './layout.js';
 import * as T from './vendor/three.module.min.js';
 
 export const standard = (color, metalness = 0, roughness = .45) =>
@@ -142,12 +143,13 @@ export function dispenser(scene, x, z, electric = false) {
 }
 
 export function canopyCamera(parent, pumpX, pumpZ) {
-  const x = pumpX + .82;
-  const z = pumpZ + 1.42;
+  const x = pumpX + fuelCameraOffset.x;
+  const z = pumpZ + fuelCameraOffset.z;
   box(parent, materials.frame, x, 5.24, z, .31, .07, .3);
   box(parent, materials.steel, x, 5.08, z, .08, .26, .08);
-  const camera = group(parent, x, 4.98, z);
-  const direction = new T.Vector3(pumpX - x, 1.55 - camera.position.y, pumpZ - z).normalize();
+  const camera = group(parent, x, fuelCameraOffset.y, z);
+  const stoppedCarZ = pumpZ + (pumpZ < 0 ? 1.9 : fuelStopOffset);
+  const direction = new T.Vector3(pumpX + 2.3 - x, .86 - camera.position.y, stoppedCarZ - z).normalize();
   camera.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), direction);
   box(camera, materials.steel, 0, 0, 0, .31, .24, .48);
   box(camera, materials.frame, 0, 0, .247, .27, .2, .035);

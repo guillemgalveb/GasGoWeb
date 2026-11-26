@@ -1,7 +1,7 @@
 import * as T from './vendor/three.module.min.js';
 import { box, group, materials as m, mesh, standard, tube } from './model.js';
 import { vehicle } from './vehicles.js';
-import { fuelBays, fuelX } from './layout.js';
+import { chargingBay, fuelBays, fuelStopOffset, fuelX } from './layout.js';
 
 const path = points => new T.CatmullRomCurve3(points.map(([x, z, y = 0]) => new T.Vector3(x, y, z)));
 const clamp = T.MathUtils.clamp;
@@ -71,7 +71,7 @@ export function stationActivity(scene, market) {
 
   const pumpX = fuelX(fuelBays.right.x);
   const pumpZ = fuelBays.right.z;
-  const stopZ = pumpZ + 3.3;
+  const stopZ = pumpZ + fuelStopOffset;
   const fuelIn = path([[-40, 10.4], [-29, 10.4], [-22, 7.2], [-17, stopZ], [-10, stopZ], [pumpX, stopZ]]);
   const fuelOut = path([[pumpX, stopZ], [pumpX + 2.35, stopZ], [1, 7.5], [6, 10.4], [12, 10.4], [40, 10.4]]);
   const visitIn = path([[39, 14], [23, 14], [10, 13.6], [4.6, 10.8], [2.05, 7.2], [2.05, 1.2]]);
@@ -83,9 +83,28 @@ export function stationActivity(scene, market) {
     [pumpX - .66, .38, pumpZ + .54], [pumpX - .94, .31, pumpZ + 1.27],
     [pumpX - 1.38, .55, stopZ - 1.16], [pumpX - 1.52, .93, stopZ - .97]], .037);
 
+  const electric = vehicle(actors, 0, 0, 0x146853, true);
+  const chargeStopX = chargingBay.x + 1.25;
+  const chargeStopZ = chargingBay.z + 2.93;
+  const chargeIn = path([[43, 9.4], [29, 9.4], [23, 8.2], [19.8, 5.15], [17.5, chargeStopZ], [chargeStopX, chargeStopZ]]);
+  const chargeOut = path([[chargeStopX, chargeStopZ], [12.2, chargeStopZ], [8.1, 7.5],
+    [3, 9.2], [-10, 9.2], [-43, 9.2]]);
+  const chargeCable = tube(actors, m.rubber, [
+    [chargingBay.x + .48, 1.28, chargingBay.z + .17],
+    [chargingBay.x + .76, .32, chargingBay.z + .72],
+    [chargeStopX + .94, .29, chargeStopZ - 1.35],
+    [chargeStopX + 1.48, .96, chargeStopZ - .96],
+  ], .044);
+
   function update(elapsed) {
     const t = elapsed % 66;
     const f = (elapsed + 15) % 66;
+    const charge = (elapsed + 16) % 66;
+    if (charge < 12) drive(electric, chargeIn, ease(0, 12, charge));
+    else if (charge < 43) drive(electric, chargeIn, 1);
+    else drive(electric, chargeOut, ease(43, 55, charge));
+    electric.visible = charge < 55;
+    chargeCable.visible = charge >= 13 && charge < 42;
     if (f < 11) drive(fuel, fuelIn, ease(0, 11, f));
     else if (f < 25) drive(fuel, fuelIn, 1);
     else drive(fuel, fuelOut, ease(25, 39, f));
