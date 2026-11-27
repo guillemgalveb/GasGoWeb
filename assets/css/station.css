@@ -437,3 +437,40 @@
     transform: translate(-13%, -50%);
   }
 }
+
+.station .station-start {
+  border: 1px solid transparent;
+  color: var(--green);
+  font-size: .9rem;
+  font-weight: 750;
+  pointer-events: auto;
+}
+
+.station-step-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .55rem;
+  margin-top: 1rem;
+}
+
+.station-step-nav button {
+  padding: .35rem .65rem;
+  border: 1px solid #cbeaeb65;
+  border-radius: .35rem;
+  background: #062822;
+  font-size: .83rem;
+  font-weight: 700;
+}
+
+.station .station-step-next {
+  margin-inline-start: auto;
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--green);
+}
+
+.station .station-step-next:hover,
+.station .station-start:hover {
+  background: var(--mint);
+}

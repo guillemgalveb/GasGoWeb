@@ -9,6 +9,11 @@ const discover = panel.querySelector('.station-discover');
 const number = panel.querySelector('.station-number');
 const tour = panel.querySelector('.station-tour');
 const tourBack = panel.querySelector('.station-tour-back');
+const stepNav = panel.querySelector('.station-step-nav');
+const previousStep = stepNav.querySelector('.station-step-prev');
+const nextStep = stepNav.querySelector('.station-step-next');
+const startButton = station.querySelector('.station-start');
+const firstService = services.findIndex(service => service.complementary);
 const directory = station.querySelector('.station-directory');
 const buttons = [...station.querySelectorAll('.station-marker')];
 const actions = station.querySelector('.station-actions');
@@ -51,17 +56,18 @@ function showTour(trigger) {
   description.hidden = true;
   discover.hidden = true;
   tourBack.hidden = true;
+  stepNav.hidden = true;
   tour.hidden = false;
   openPanel();
   scene?.focus(null);
   scene?.highlight(null);
 }
 
-function select(index, trigger) {
+function select(index, trigger, follow = false) {
   selected = index;
   const service = services[index];
-  const fromTour = Boolean(trigger?.closest('.station-tour'));
-  if (!fromTour) returnFocus = trigger || buttons[index];
+  const fromTour = follow ? !tourBack.hidden : Boolean(trigger?.closest('.station-tour'));
+  if (!follow && !fromTour) returnFocus = trigger || buttons[index];
   number.textContent = service.complementary ? 'S.C.' : String(index + 1).padStart(2, '0');
   number.hidden = false;
   title.textContent = service.name;
@@ -70,6 +76,11 @@ function select(index, trigger) {
   discover.hidden = !service.discover;
   tour.hidden = true;
   tourBack.hidden = !fromTour;
+  stepNav.hidden = false;
+  previousStep.hidden = index === 0;
+  previousStep.textContent = service.complementary ? 'Gas&Go' : 'Paso anterior';
+  if (service.complementary) nextStep.textContent = index === firstService ? 'Service&Go' : 'Take&Go';
+  else nextStep.textContent = index === firstService - 1 ? 'Servicios complementarios' : 'Siguiente paso';
   openPanel();
   scene?.focus(index);
   scene?.highlight(null);
@@ -93,6 +104,14 @@ station.querySelectorAll('[data-zone]').forEach(button => {
   button.addEventListener('pointerleave', () => scene?.highlight(null));
   button.addEventListener('focus', () => scene?.highlight(index));
   button.addEventListener('blur', () => scene?.highlight(null));
+});
+startButton.hidden = false;
+previousStep.addEventListener('click', () => {
+  if (services[selected].complementary) reset(true);
+  else select(selected - 1, undefined, true);
+});
+nextStep.addEventListener('click', () => {
+  select(selected === services.length - 1 ? firstService : selected + 1, undefined, true);
 });
 directory.querySelector('.station-tour-trigger').addEventListener('click', event => showTour(event.currentTarget));
 tourBack.addEventListener('click', () => showTour());

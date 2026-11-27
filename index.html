@@ -34,6 +34,7 @@
           <div class="station-intro">
             <h1 id="titulo">Llega, reposta y <em>continúa tu viaje.</em></h1>
             <p>Gas&amp;Go reúne la identificación del vehículo, la autorización del surtidor y el pago en una sola aplicación, para que repostar requiera menos pasos.</p>
+            <button type="button" class="station-discover station-start" data-zone="0" aria-controls="station-panel" hidden>Descúbrelo</button>
           </div>
 
           <div class="station-markers" aria-label="Puntos de interés">
@@ -77,12 +78,16 @@
             </details>
           </div>
 
-          <aside class="station-panel" aria-labelledby="service-title" hidden>
+          <aside class="station-panel" id="station-panel" aria-labelledby="service-title" hidden>
             <button type="button" class="station-close" aria-label="Cerrar y volver a la vista inicial">×</button>
             <p class="station-number"></p>
             <h2 id="service-title" tabindex="-1"></h2>
             <p class="station-description"></p>
             <a class="station-discover" href="como-funciona.html" hidden>Descúbre cómo</a>
+            <nav class="station-step-nav" aria-label="Navegación del recorrido" hidden>
+              <button type="button" class="station-step-prev">Paso anterior</button>
+              <button type="button" class="station-step-next">Siguiente paso</button>
+            </nav>
             <button type="button" class="station-tour-back" hidden>Volver al recorrido</button>
             <div class="station-tour" hidden>
               <ol>
