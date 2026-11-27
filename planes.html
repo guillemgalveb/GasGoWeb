@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Compara los planes de Gas&Go para particulares, autónomos, estaciones y flotas.">
+    <title>Planes | Gas&amp;Go</title>
+    <link rel="icon" href="assets/images/logo-gg.webp" type="image/webp">
+    <link rel="stylesheet" href="assets/css/site.css">
+    <link rel="stylesheet" href="assets/css/plans.css">
+    <script type="module" src="assets/plans.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./" aria-label="Gas&Go, inicio">
+          <img src="assets/images/logo-gg.webp" alt="" width="720" height="355">
+        </a>
+        <nav aria-label="Navegación principal">
+          <a href="como-funciona.html">Cómo funciona</a>
+          <a href="planes.html" aria-current="page">Planes</a>
+          <a href="iniciar-sesion.html">Iniciar sesión</a>
+          <a href="registrarse.html" class="nav-register">Registrarse</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="plans-hero" aria-labelledby="plans-title">
+        <div class="container plans-hero-inner">
+          <h1 id="plans-title">Planes</h1>
+          <p>Compara las tarifas de Gas&amp;Go y calcula la cuota según tus vehículos o surtidores.</p>
+        </div>
+      </section>
+
+      <div class="container plans-main">
+        <form class="plans-profiles" aria-label="Configurar plan">
+          <fieldset>
+            <legend>¿Qué tipo de plan buscas?</legend>
+            <div class="plans-options">
+              <label><input type="radio" name="profile" value="particular" checked> Particular</label>
+              <label><input type="radio" name="profile" value="autonomo"> Autónomo</label>
+              <label><input type="radio" name="profile" value="estacion"> Estación</label>
+              <label><input type="radio" name="profile" value="flota"> Flota</label>
+            </div>
+          </fieldset>
+          <div class="plans-grid">
+            <div class="plans-rates">
+              <section data-rates="particular" aria-labelledby="particular-title">
+                <h2 id="particular-title">Particulares</h2>
+                <div class="rate-list">
+                  <article data-offer="Gratis"><h3>Gratis</h3><p class="rate-cost">0 € <small>/ mes</small></p><p>1 vehículo</p></article>
+                  <article data-offer="Plus"><h3>Plus</h3><p class="rate-cost">2 € <small>/ mes</small></p><p>Hasta 3 vehículos</p></article>
+                  <article data-offer="Familiar"><h3>Familiar</h3><p class="rate-cost">5 € <small>/ mes</small></p><p>Hasta 5 vehículos. Gestión compartida, control de gastos y pagos autorizados por el titular.</p></article>
+                </div>
+              </section>
+              <section data-rates="autonomo" aria-labelledby="autonomo-title" hidden>
+                <h2 id="autonomo-title">Autónomos</h2>
+                <div class="rate-list">
+                  <article data-offer="Gratis"><h3>Gratis</h3><p class="rate-cost">0 € <small>/ mes</small></p><p>Hasta 2 vehículos</p></article>
+                  <article data-offer="Plus"><h3>Plus</h3><p class="rate-cost">2 € <small>/ mes</small></p><p>Por cada vehículo adicional a los dos incluidos.</p></article>
+                </div>
+              </section>
+              <section data-rates="estacion" aria-labelledby="estacion-title" hidden>
+                <h2 id="estacion-title">Estaciones de servicio</h2>
+                <div class="rate-list">
+                  <article><h3>Instalación</h3><p class="rate-cost">5.100 €</p><p>Pago único para 4 surtidores. Cada surtidor adicional cuesta 1.275 €.</p></article>
+                  <article><h3>Mantenimiento</h3><p class="rate-cost">199 € <small>/ mes</small></p><p>Incluye 4 surtidores. Añade 25 € al mes por cada surtidor adicional.</p></article>
+                </div>
+              </section>
+              <section data-rates="flota" aria-labelledby="flota-title" hidden>
+                <h2 id="flota-title">Empresas de flotas</h2>
+                <div class="rate-list">
+                  <article><h3>Cuota fija</h3><p class="rate-cost">29 € <small>/ mes</small></p><p>Mantenimiento y gestión de datos de la flota.</p></article>
+                  <article><h3>Por vehículo</h3><p class="rate-cost">3 € <small>/ mes</small></p><p>Por cada vehículo gestionado, además de la cuota fija.</p></article>
+                </div>
+              </section>
+            </div>
+
+            <section class="plans-estimate" aria-labelledby="estimate-title">
+              <h2 id="estimate-title">Calcula tu cuota</h2>
+              <label class="plans-quantity-label" for="plans-quantity">Vehículos</label>
+              <div class="plans-stepper">
+                <button type="button" data-adjust="-1" aria-label="Reducir cantidad" disabled>−</button>
+                <input id="plans-quantity" type="number" min="1" max="5" step="1" value="1" inputmode="numeric" required>
+                <button type="button" data-adjust="1" aria-label="Aumentar cantidad">+</button>
+              </div>
+
+              <fieldset class="plans-extras">
+                <legend>Servicios complementarios</legend>
+                <label><input type="checkbox" name="takego"> <span>Take&amp;Go</span><span>+1 €/mes</span></label>
+                <label><input type="checkbox" name="servicego"> <span>Service&amp;Go</span><span>+1 €/mes</span></label>
+              </fieldset>
+
+              <div class="plans-result" aria-live="polite" aria-atomic="true">
+                <p class="plans-result-name">Plan Gratis</p>
+                <p class="plans-total"><output id="plans-monthly">0 €</output> <span>/ mes</span></p>
+                <p class="plans-installation" hidden>Instalación, pago único <output id="plans-installation"></output></p>
+              </div>
+            </section>
+          </div>
+        </form>
+        <p class="plans-note">Tarifas propuestas para el proyecto universitario Gas&amp;Go.</p>
+        <noscript><p>Activa JavaScript para cambiar de perfil y calcular la cuota.</p></noscript>
+      </div>
+    </main>
+  </body>
+</html>
