@@ -148,3 +148,38 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .35rem clamp(.65rem, 2vw, 1.6rem);
+}
+
+.site-header .nav-register {
+  padding: .25rem .65rem;
+  border-radius: .3rem;
+  background: var(--yellow);
+  color: var(--green);
+  text-decoration: none;
+}
+
+.site-header .nav-register:focus-visible {
+  outline-color: var(--mint);
+}
+
+@media (max-width: 30rem) {
+  .header-inner {
+    flex-wrap: nowrap;
+    gap: .6rem;
+  }
+
+  .header-inner .brand {
+    flex: 0 0 auto;
+  }
+
+  .site-header nav a {
+    font-size: .82rem;
+  }
+}

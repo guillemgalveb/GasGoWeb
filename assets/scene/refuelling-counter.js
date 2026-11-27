@@ -24,23 +24,23 @@ export function refuellingCounter(car, gasGo) {
     ctx.clearRect(0, 0, 192, 192);
     ctx.beginPath();
     ctx.arc(96, 96, 85, 0, Math.PI * 2);
-    ctx.fillStyle = '#062b24';
+    ctx.fillStyle = gasGo ? '#fcda2f' : '#ecf5ed';
     ctx.fill();
     ctx.lineWidth = 13;
-    ctx.strokeStyle = '#53736b';
+    ctx.strokeStyle = gasGo ? '#a99a32' : '#a8bab2';
     ctx.stroke();
     if (progress) {
       ctx.beginPath();
       ctx.arc(96, 96, 85, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress / 64);
-      ctx.strokeStyle = gasGo ? '#fcda2f' : '#ecf5ed';
+      ctx.strokeStyle = gasGo ? '#035141' : '#062b24';
       ctx.lineCap = 'round';
       ctx.stroke();
     }
-    ctx.fillStyle = '#ecf5ed';
+    ctx.fillStyle = gasGo ? '#035141' : '#062b24';
     ctx.font = '700 24px Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(gasGo ? 'Con Gas&Go' : 'Convencional', 96, 96, 148);
+    ctx.fillText(gasGo ? 'Gas&Go' : 'Convencional', 96, 96, 148);
     texture.needsUpdate = true;
   };
 }

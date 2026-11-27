@@ -1,0 +1,136 @@
+.auth-main {
+  display: grid;
+  grid-template-columns: 1fr minmax(20rem, .85fr);
+  max-width: 59rem;
+  min-height: min(43rem, 80vh);
+  margin-block: clamp(1.5rem, 6vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1rem 3rem #03514118;
+}
+
+.auth-illustration {
+  background: linear-gradient(165deg, #03514133, #041d1a44), url('../images/station-poster.webp') 46% center / cover;
+  background-color: var(--green);
+}
+
+.auth-card {
+  align-self: center;
+  padding: clamp(1rem, 4.7vw, 3.5rem);
+}
+
+.auth-card h1 {
+  margin: 0;
+  color: var(--green);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -.045em;
+}
+
+.auth-card p {
+  margin: .75rem 0;
+}
+
+#auth-note,
+.auth-hint,
+.auth-switch,
+.auth-status {
+  font-size: .9rem;
+}
+
+.auth-card form {
+  margin-top: 1.5rem;
+}
+
+.auth-card label {
+  display: block;
+  margin-top: .8rem;
+  font-weight: 700;
+}
+
+.auth-card input {
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: .2rem;
+  padding: .45rem .65rem;
+  border: 1px solid #7e9d92;
+  border-radius: .35rem;
+  color: var(--ink);
+  background: #fff;
+  font: inherit;
+}
+
+.auth-password {
+  position: relative;
+}
+
+.auth-password:has(.auth-reveal:not([hidden])) input {
+  padding-right: 5rem;
+}
+
+.auth-reveal,
+.auth-signout {
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-reveal {
+  position: absolute;
+  inset: .2rem .35rem 0 auto;
+  font-size: .85rem;
+}
+
+.auth-submit {
+  display: block;
+  width: 100%;
+  margin-top: 1.15rem;
+  padding: .65rem 1rem;
+  border: 1px solid var(--green);
+  border-radius: .35rem;
+  background: var(--green);
+  color: var(--mint);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-submit:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+.auth-card :is(input, button):focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.auth-switch a {
+  font-weight: 750;
+}
+
+.auth-status:empty {
+  display: none;
+}
+
+.auth-signout {
+  margin-top: .75rem;
+  padding: 0;
+}
+
+@media (max-width: 40rem) {
+  .auth-main {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-illustration {
+    min-height: 7rem;
+  }
+}
