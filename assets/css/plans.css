@@ -1,36 +1,39 @@
-.plans-hero {
-  color: var(--mint);
-  background:
-    linear-gradient(90deg, #042d25 12%, #042d25eb 42%, #042d2550 100%),
-    url('../images/station-poster.webp') center 57% / cover;
-  border-bottom: 3px solid var(--yellow);
+body {
+  background: var(--mint);
 }
 
 .plans-hero-inner {
-  padding-block: clamp(2.6rem, 6vw, 5.75rem);
+  padding: clamp(2rem, 4vw, 3.8rem) var(--station-edge) clamp(1.5rem, 3vw, 2.6rem);
 }
 
 .plans-hero h1 {
   margin: 0;
-  color: var(--yellow);
+  color: var(--green);
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 1;
   letter-spacing: -.055em;
 }
 
 .plans-hero p {
-  max-width: 32rem;
+  max-width: 38rem;
   margin: .9rem 0 0;
   font-size: clamp(1rem, 2vw, 1.25rem);
 }
 
 .plans-main {
   --plan-edge: clamp(1rem, 3vw, 1.8rem);
-  margin-block: clamp(1.7rem, 4vw, 3.2rem);
+  --branch-line: #769d8d;
+  margin-bottom: clamp(1.7rem, 4vw, 3.2rem);
 }
 
 .plans-main [hidden] {
   display: none;
+}
+
+.plans-profiles,
+.plans-note {
+  width: min(100%, 56rem);
+  margin-inline: auto;
 }
 
 .plans-main fieldset {
@@ -46,27 +49,95 @@
   font-weight: 750;
 }
 
-.plans-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  margin: .65rem 0 1.6rem;
+.plans-question legend {
+  margin-inline: auto;
+  text-align: center;
+  font-size: clamp(1.23rem, 2.6vw, 1.7rem);
+}
+
+.branch-grid {
+  --branches: 2;
+  --branch-gap: clamp(.45rem, 2vw, 1rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--branches), minmax(0, 1fr));
+  gap: var(--branch-gap);
+  padding-top: 1.75rem;
+}
+
+.branch-grid--three {
+  --branches: 3;
+}
+
+.branch-grid::before,
+.branch-grid::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.branch-grid::before {
+  height: .9rem;
+  left: 50%;
+  top: 0;
+  border-left: 1px solid var(--branch-line);
+}
+
+.branch-grid::after {
+  inset: .9rem calc((100% - (var(--branches) - 1) * var(--branch-gap)) / var(--branches) / 2) 0;
+  height: .85rem;
+  border: 1px solid var(--branch-line);
+  border-bottom: 0;
+  border-radius: .45rem .45rem 0 0;
+}
+
+.branch-grid--three .bento-tile:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  height: .85rem;
+  border-left: 1px solid var(--branch-line);
+}
+
+.bento-tile {
+  position: relative;
+  min-width: 0;
+  border: 1px solid #9ab7a9;
+  border-radius: .9rem;
+  background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.is-lit .bento-tile {
+  background-image: radial-gradient(14rem circle at var(--spot-x) var(--spot-y), #fcd92f39, transparent 72%);
+}
+
+.is-lit .bento-tile:hover {
+  border-color: #a78302;
+  box-shadow: 0 0 0 1px #e9c640, 0 .5rem 1.45rem #175c4726;
 }
 
 .plans-options label {
   display: flex;
   align-items: center;
-  gap: .45rem;
-  padding: .38rem .85rem;
-  border: 1px solid #8ca89c;
-  border-radius: 2rem;
-  background: #fff;
+  justify-content: center;
+  gap: .48rem;
+  min-height: 4.15rem;
+  padding: .55rem clamp(.45rem, 2vw, 1rem);
+  font-weight: 750;
+  text-align: center;
   cursor: pointer;
 }
 
-.plans-options label:has(:checked) {
+.plans-options label:has(:checked),
+.rate-list article.is-estimated {
   border-color: var(--green);
-  background: var(--green);
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+
+.plans-options label:has(:checked) {
+  background-color: var(--green);
   color: var(--mint);
 }
 
@@ -75,40 +146,84 @@
   accent-color: var(--yellow);
 }
 
-.plans-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(16rem, 1fr);
-  align-items: start;
-  gap: clamp(1rem, 3vw, 2rem);
+.plans-link {
+  --branch-left: 50%;
+  --branch-right: 50%;
+  --branch-source: 50%;
+  position: relative;
+  height: 2.7rem;
 }
 
-.plans-grid h2 {
-  margin: 0 0 .7rem;
+.plans-link[data-source="left"] {
+  --branch-left: 25%;
+  --branch-source: 25%;
+}
+
+.plans-link[data-source="right"] {
+  --branch-right: 25%;
+  --branch-source: 75%;
+}
+
+#profession-link[data-source="left"] {
+  --branch-left: 16.67%;
+  --branch-source: 16.67%;
+}
+
+#profession-link[data-source="right"] {
+  --branch-right: 16.67%;
+  --branch-source: 83.33%;
+}
+
+.plans-link::before,
+.plans-link::after {
+  content: "";
+  position: absolute;
+  border-left: 1px solid var(--branch-line);
+}
+
+.plans-link::before {
+  height: 50%;
+  left: var(--branch-source);
+}
+
+.plans-link::after {
+  height: 50%;
+  inset: 50% var(--branch-right) 0 var(--branch-left);
+  border-top: 1px solid var(--branch-line);
+  border-inline-start: 0;
+  border-inline-end: 0;
+  background: linear-gradient(var(--branch-line), var(--branch-line)) bottom / 1px 100% no-repeat;
+  background-position-x: var(--link-end, 50%);
+}
+
+.plans-link[data-source="center"]::after {
+  border-inline-start: 1px solid var(--branch-line);
+}
+
+.plans-link[data-source="left"]::after {
+  --link-end: 100%;
+}
+
+.plans-link[data-source="right"]::after {
+  --link-end: 0%;
+}
+
+.plans-rates h2 {
+  margin: 0;
   font-size: clamp(1.35rem, 2.5vw, 1.9rem);
-  line-height: 1.2;
   letter-spacing: -.035em;
+  text-align: center;
 }
 
-.rate-list {
-  display: grid;
-  gap: .65rem;
+.plans-rates .rate-list {
+  margin-top: .3rem;
 }
 
 .rate-list article {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: .15rem .65rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
   padding: .85rem var(--plan-edge);
-  border: 1px solid var(--line);
-  border-inline-start: .25rem solid var(--line);
-  border-radius: .5rem;
-  background: #fff;
-}
-
-.rate-list article.is-estimated {
-  border-inline-start-color: var(--green);
-  box-shadow: 0 0 0 1px var(--green) inset;
 }
 
 .rate-list h3,
@@ -116,13 +231,11 @@
   margin: 0;
 }
 
-.rate-list p:last-child {
-  grid-column: 1 / -1;
-}
-
-.rate-cost {
+.rate-list .rate-cost {
+  order: 2;
+  margin-top: auto;
   color: var(--green);
-  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-size: clamp(1.1rem, 2.4vw, 1.55rem);
   font-weight: 800;
 }
 
@@ -132,11 +245,23 @@
 }
 
 .plans-estimate {
+  margin-top: 1.8rem;
   padding: var(--plan-edge);
-  border-radius: .75rem;
+  border-radius: .9rem;
   background: var(--green);
   color: var(--mint);
   box-shadow: 0 .7rem 1.8rem #052b251c;
+}
+
+.plans-estimate h2 {
+  margin: 0 0 .8rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
+}
+
+.plans-estimate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 1.2rem;
 }
 
 .plans-quantity-label {
@@ -147,7 +272,7 @@
   display: grid;
   grid-template-columns: 2.6rem minmax(0, 1fr) 2.6rem;
   gap: .35rem;
-  margin: .35rem 0 1.3rem;
+  margin: .35rem 0 0;
 }
 
 .plans-stepper :is(button, input) {
@@ -210,9 +335,8 @@
 }
 
 .plans-result {
-  margin-top: 1rem;
-  padding-top: .85rem;
-  border-top: 1px solid #acd7c58c;
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid #acd7c58c;
 }
 
 .plans-result p {
@@ -250,7 +374,36 @@
 }
 
 @media (max-width: 43rem) {
-  .plans-grid {
+  .plans-estimate-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .plans-result {
+    border-inline-start: 0;
+    border-top: 1px solid #acd7c58c;
+    padding: .7rem 0 0;
+  }
+
+  .plans-options label {
+    font-size: .9rem;
+    flex-direction: column;
+    gap: .3rem;
+  }
+
+  .rate-list {
+    grid-template-columns: 1fr;
+    padding-top: 1rem;
+  }
+
+  .rate-list::after,
+  .rate-list.branch-grid--three .bento-tile:nth-child(2)::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-tile {
+    transition: none;
   }
 }

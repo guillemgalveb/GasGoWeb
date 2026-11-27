@@ -1,5 +1,9 @@
 const form = document.querySelector('.plans-profiles');
 const rates = [...form.querySelectorAll('[data-rates]')];
+const result = form.querySelector('.plans-grid');
+const professionals = form.querySelector('.plans-professional');
+const audienceLink = form.querySelector('#audience-link');
+const professionLink = form.querySelector('#profession-link');
 const quantity = form.querySelector('#plans-quantity');
 const quantityLabel = form.querySelector('.plans-quantity-label');
 const stepButtons = [...form.querySelectorAll('[data-adjust]')];
@@ -29,7 +33,7 @@ const profiles = {
   },
 };
 
-let current = form.elements.profile.value;
+let current;
 const counts = {};
 const maximumFor = profile => profile.maximum ?? Math.floor(Number.MAX_SAFE_INTEGER / 1300);
 
@@ -54,7 +58,18 @@ function update() {
 }
 
 function selectProfile() {
-  current = form.elements.profile.value;
+  const audience = form.elements.audience.value;
+  const profession = form.elements.profession.value;
+  const isProfessional = audience === 'profesional';
+  current = isProfessional ? profession : audience;
+  professionals.hidden = !isProfessional;
+  audienceLink.hidden = !audience;
+  audienceLink.dataset.source = isProfessional ? 'right' : 'left';
+  professionLink.hidden = !isProfessional || !profession;
+  professionLink.dataset.source = { autonomo: 'left', estacion: 'center', flota: 'right' }[profession] || '';
+  result.hidden = !current;
+  if (!current) return;
+
   const profile = profiles[current];
   quantityLabel.textContent = current === 'estacion' ? 'Surtidores' : 'Vehículos';
   quantity.min = profile.minimum;
@@ -66,7 +81,7 @@ function selectProfile() {
 }
 
 form.addEventListener('submit', event => event.preventDefault());
-for (const input of form.querySelectorAll('[name="profile"]')) input.addEventListener('change', selectProfile);
+for (const input of form.querySelectorAll('[name="audience"], [name="profession"]')) input.addEventListener('change', selectProfile);
 for (const input of extras) input.addEventListener('change', update);
 quantity.addEventListener('input', update);
 quantity.addEventListener('change', () => { quantity.value = update(); });
@@ -78,3 +93,30 @@ for (const button of stepButtons) {
   });
 }
 selectProfile();
+
+const effects = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+for (const row of form.querySelectorAll('.branch-grid')) {
+  const tiles = [...row.querySelectorAll('.bento-tile')];
+  row.addEventListener('pointermove', event => {
+    if (!effects.matches || event.pointerType === 'touch') return;
+    for (const tile of tiles) {
+      const rect = tile.getBoundingClientRect();
+      tile.style.setProperty('--spot-x', (event.clientX - rect.left) + 'px');
+      tile.style.setProperty('--spot-y', (event.clientY - rect.top) + 'px');
+    }
+    row.classList.add('is-lit');
+  });
+  row.addEventListener('pointerleave', () => row.classList.remove('is-lit'));
+}
+
+for (const tile of form.querySelectorAll('[data-choices] .bento-tile')) {
+  tile.querySelector('input').addEventListener('change', () => {
+    if (reducedMotion.matches) return;
+    tile.animate([
+      { boxShadow: '0 0 0 0 #d6ad0070' },
+      { boxShadow: '0 0 0 13px #d6ad0000' },
+    ], { duration: 440, easing: 'ease-out' });
+  });
+}
