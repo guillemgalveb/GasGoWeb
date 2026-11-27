@@ -32,3 +32,9 @@ export const entryCamera = {
   },
   target: [-26.8, .86, 7.9],
 };
+
+export const paymentColumn = {
+  x: fuelX(fuelCanopy.x + fuelCanopy.width * .34),
+  z: fuelCanopy.z + fuelCanopy.depth * .29,
+};
+export const serviceBay = { x: 9.9, z: -9.4 };

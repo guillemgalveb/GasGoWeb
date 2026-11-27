@@ -163,6 +163,33 @@ export function securityCamera(parent, { x, y, z }, target) {
   return camera;
 }
 
+export function utilityBay(scene, x, z) {
+  const bay = group(scene, x, 0, z);
+  const m = materials;
+  shell(bay, m.base, 0, .09, 0, 3.1, 2.65, .16, .24, true);
+  box(bay, m.frame, 0, 1.42, -.81, 2.57, 2.46, .22);
+  shell(bay, m.green, 0, 2.74, -.18, 2.9, 1.54, .26, .18, true);
+  box(bay, m.gold, 0, 2.72, .61, 2.72, .055, .045);
+  label(bay, 'Service&Go', 0, 2.56, .63, 2.56, .34);
+
+  for (const [side, caption] of [[-1, 'AIRE'], [1, 'AGUA']]) {
+    const unit = group(bay, side * .66, 0, -.34);
+    shell(unit, m.green, 0, 1.13, 0, .93, 1.76, .48, .12);
+    box(unit, m.steel, 0, 1.4, .252, .66, .56, .028);
+    box(unit, m.cyan, 0, 1.48, .272, .47, .1, .02);
+    label(unit, caption, 0, 1.88, .271, .72, .21);
+    tube(unit, side < 0 ? m.rubber : m.tinted, [
+      [side * .36, 1.06, .25], [side * .51, .57, .32],
+      [side * .38, .29, .51], [side * .22, .55, .64], [side * .23, 1.01, .42],
+    ], .033);
+    box(unit, m.steel, side * .23, 1.01, .44, .09, .14, .1);
+  }
+
+  box(bay, m.steel, .67, .27, .73, .64, .15, .41);
+  for (let i = 0; i < 5; i++) box(bay, m.frame, .45 + .11 * i, .351, .73, .04, .01, .32);
+  return bay;
+}
+
 export function market(scene) {
   const shop = group(scene, .5, 0, -8.9);
   shop.userData.zone = 3;

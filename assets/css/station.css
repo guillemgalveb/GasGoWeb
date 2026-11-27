@@ -216,6 +216,8 @@
   bottom: calc(100% + .45rem);
   width: max-content;
   max-width: min(17rem, calc(100vw - 3rem));
+  max-height: min(57dvh, 26rem);
+  overflow: auto;
   margin: 0;
   padding: .55rem .8rem;
   border: 1px solid #cbeaeb50;
@@ -225,7 +227,7 @@
   font-size: .87rem;
 }
 
-.station-directory-menu ol {
+.station-directory-menu :is(ol, ul) {
   margin: .25rem 0 0;
   padding-left: 1.2rem;
 }
@@ -280,17 +282,11 @@
 }
 
 .station-description,
-.station-benefit,
 .station-more,
 .station-tour {
   margin: .65rem 0 0;
   color: #dbeae2;
   font-size: .92rem;
-}
-
-.station-benefit {
-  color: var(--yellow);
-  font-weight: 650;
 }
 
 .station-more p {
@@ -303,7 +299,6 @@
   font-weight: 650;
 }
 
-.station-methods,
 .station-tour ol {
   margin: .4rem 0 0;
   padding-left: 1.15rem;
@@ -404,4 +399,41 @@
 
 .station-discover:focus-visible {
   outline-color: var(--mint);
+}
+
+.station-directory-category {
+  margin: .5rem 0 0;
+  padding-top: .45rem;
+  border-top: 1px solid #cbeaeb50;
+  font-weight: 750;
+}
+
+.station .station-marker--service {
+  border-style: dashed;
+  background: #123f35;
+  color: var(--mint);
+}
+
+.station .station-marker--service svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.station .station-marker--service:has(svg) {
+  align-content: center;
+  gap: .02rem;
+}
+
+.station-marker--service span {
+  font-size: .55rem;
+}
+
+@media (max-width: 44rem) {
+  .station-marker[data-zone="2"] {
+    transform: translate(-87%, -50%);
+  }
+
+  .station-marker[data-zone="3"] {
+    transform: translate(-13%, -50%);
+  }
 }

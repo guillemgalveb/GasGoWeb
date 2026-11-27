@@ -1,10 +1,10 @@
 import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { canopy, canopyCamera, dispenser, group, market, securityCamera } from './model.js';
+import { box, canopy, canopyCamera, dispenser, group, market, materials as m, securityCamera, utilityBay } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
-import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, rearFuelBays } from './layout.js';
+import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, paymentColumn, rearFuelBays, serviceBay } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
@@ -26,7 +26,14 @@ function buildStation(scene) {
   dispenser(scene, 10, 1.35, true);
   const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
   const shop = market(scene);
-  return { interactive: [entrance, left, right, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
+  shop.shop.userData.zone = 5;
+  const payment = group(scene, paymentColumn.x, 2.28, paymentColumn.z + .34);
+  payment.userData.zone = 3;
+  box(payment, m.frame, 0, 0, 0, .48, .43, .11);
+  box(payment, m.cyan, 0, .04, .061, .33, .15, .018);
+  const utility = utilityBay(scene, serviceBay.x, serviceBay.z);
+  utility.userData.zone = 6;
+  return { interactive: [entrance, left, right, payment, charge, shop.shop, utility], updateActivity: stationActivity(scene, shop) };
 }
 
 export function mountStation(view, handlers, motion) {
