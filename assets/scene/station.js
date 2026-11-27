@@ -1,10 +1,10 @@
 import * as T from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { canopy, canopyCamera, dispenser, group, market } from './model.js';
+import { canopy, canopyCamera, dispenser, group, market, securityCamera } from './model.js';
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
-import { chargingBay, fuelBays, fuelCanopy, fuelOffsetX, fuelX, rearFuelBays } from './layout.js';
+import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, rearFuelBays } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
@@ -14,8 +14,9 @@ function buildStation(scene) {
   const left = dispenser(forecourt, fuelBays.left.x, fuelBays.left.z);
   left.userData.zone = 1;
   const right = dispenser(forecourt, fuelBays.right.x, fuelBays.right.z);
-  const leftCamera = canopyCamera(forecourt, fuelBays.left.x, fuelBays.left.z);
-  leftCamera.userData.zone = 0;
+  const entrance = securityCamera(forecourt, entryCamera.position, entryCamera.target);
+  entrance.userData.zone = 0;
+  canopyCamera(forecourt, fuelBays.left.x, fuelBays.left.z);
   canopyCamera(forecourt, fuelBays.right.x, fuelBays.right.z);
   for (const bay of Object.values(rearFuelBays)) {
     const rear = dispenser(forecourt, bay.x, bay.z);
@@ -25,7 +26,7 @@ function buildStation(scene) {
   dispenser(scene, 10, 1.35, true);
   const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
   const shop = market(scene);
-  return { interactive: [leftCamera, left, right, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
+  return { interactive: [entrance, left, right, shop.shop, charge], updateActivity: stationActivity(scene, shop) };
 }
 
 export function mountStation(view, handlers, motion) {

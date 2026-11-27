@@ -1,16 +1,10 @@
 .home-page {
-  --edge: clamp(0.85rem, 4vw, 3.5rem);
+  --edge: var(--station-edge);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
   overflow: clip;
-}
-
-@media (min-width: 47rem) {
-  .home-page .header-inner {
-    padding-inline-start: var(--edge);
-  }
 }
 
 .home-page main,
@@ -394,4 +388,20 @@
 .station [data-action="activity"][aria-pressed="true"] {
   border-color: var(--yellow);
   color: var(--yellow);
+}
+
+.station-discover {
+  display: inline-block;
+  margin-top: .85rem;
+  padding: .35rem .75rem;
+  border-radius: .35rem;
+  background: var(--yellow);
+  color: var(--green);
+  font-size: .88rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.station-discover:focus-visible {
+  outline-color: var(--mint);
 }

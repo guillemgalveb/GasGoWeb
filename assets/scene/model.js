@@ -145,11 +145,15 @@ export function dispenser(scene, x, z, electric = false) {
 export function canopyCamera(parent, pumpX, pumpZ) {
   const x = pumpX + fuelCameraOffset.x;
   const z = pumpZ + fuelCameraOffset.z;
-  box(parent, materials.frame, x, 5.24, z, .31, .07, .3);
-  box(parent, materials.steel, x, 5.08, z, .08, .26, .08);
-  const camera = group(parent, x, fuelCameraOffset.y, z);
   const stoppedCarZ = pumpZ + (pumpZ < 0 ? 1.9 : fuelStopOffset);
-  const direction = new T.Vector3(pumpX + 2.3 - x, .86 - camera.position.y, stoppedCarZ - z).normalize();
+  return securityCamera(parent, { x, y: fuelCameraOffset.y, z }, [pumpX + 2.3, .86, stoppedCarZ]);
+}
+
+export function securityCamera(parent, { x, y, z }, target) {
+  box(parent, materials.frame, x, y + .26, z, .31, .07, .3);
+  box(parent, materials.steel, x, y + .1, z, .08, .26, .08);
+  const camera = group(parent, x, y, z);
+  const direction = new T.Vector3(...target).sub(camera.position).normalize();
   camera.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), direction);
   box(camera, materials.steel, 0, 0, 0, .31, .24, .48);
   box(camera, materials.frame, 0, 0, .247, .27, .2, .035);

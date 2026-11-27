@@ -23,3 +23,12 @@ export const rearFuelBays = {
 };
 
 export const fuelCanopy = { x: -7.4, z: -.85, width: 25, depth: 12.7, height: 5.76 };
+
+export const entryCamera = {
+  position: {
+    x: fuelCanopy.x - fuelCanopy.width / 2 + 1.1,
+    y: fuelCameraOffset.y,
+    z: fuelCanopy.z + fuelCanopy.depth / 2 - .85,
+  },
+  target: [-26.8, .86, 7.9],
+};

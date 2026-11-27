@@ -7,6 +7,7 @@ const title = panel.querySelector('h2');
 const methods = panel.querySelector('.station-methods');
 const description = panel.querySelector('.station-description');
 const benefit = panel.querySelector('.station-benefit');
+const discover = panel.querySelector('.station-discover');
 const more = panel.querySelector('.station-more');
 const detail = panel.querySelector('.station-detail');
 const number = panel.querySelector('.station-number');
@@ -53,6 +54,7 @@ function showTour(trigger) {
   number.hidden = true;
   description.hidden = true;
   benefit.hidden = true;
+  discover.hidden = true;
   more.hidden = true;
   tourBack.hidden = true;
   tour.hidden = false;
@@ -71,8 +73,9 @@ function select(index, trigger) {
   title.textContent = service.name;
   description.textContent = service.description;
   description.hidden = false;
-  benefit.textContent = service.benefit;
-  benefit.hidden = false;
+  benefit.textContent = service.benefit || '';
+  benefit.hidden = !service.benefit;
+  discover.hidden = !service.discover;
   detail.textContent = service.detail || '';
   detail.hidden = !service.detail;
   methods.replaceChildren(...(service.methods || []).map(method => {
