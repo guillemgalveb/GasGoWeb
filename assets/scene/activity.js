@@ -93,7 +93,8 @@ function refuellingVisit(actors, {
   const advance = queued ? path(gasGo
     ? [[waitX, waitZ], [-15.2, waitZ], [-10.8, 6.7], [-8.15, stopZ], [pumpX, stopZ]]
     : [[waitX, waitZ], [-22, waitZ], [-19.4, 5.7], [-17.8, stopZ], [pumpX, stopZ]]) : null;
-  const exit = path(rear
+  const rearBikeExit = [[pumpX, stopZ], [pumpX + 3, stopZ], [pumpX + 7, -2.9], [-2, -3.2], [3, -3.55], [8, -3.55], [13, -4.45], [43, -4.45]];
+  const exit = path(rear && kind === "motorcycle" ? rearBikeExit : rear
     ? [[pumpX, stopZ], [pumpX + 2.65, stopZ - 1.1], [pumpX + 6.9, -3.92], [10, -4.45], [23, -4.45], [43, -4.45]]
     : [[pumpX, stopZ], [pumpX + 2.35, stopZ], [pumpX + 5.7, 7.5], [pumpX + 10.7, 10.4], [pumpX + 18, 10.4], [43, 10.4]]);
   const dismountX = kind === "motorcycle" ? pumpX - .18 : pumpX + .38;

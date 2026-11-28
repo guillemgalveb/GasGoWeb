@@ -100,7 +100,7 @@ export function vehicle(scene, x, z, color, ev = false, van = false) {
   return car;
 }
 
-export function motorcycle(scene, color, jacket) {
+export function motorcycle(scene, color, jacket, { displayRider = true, sport = false } = {}) {
   const bike = group(scene, 0, 0, 0);
   contactShadow(bike).scale.set(.39, .51, 1);
   const paint = standard(color, .47, .34);
@@ -129,6 +129,16 @@ export function motorcycle(scene, color, jacket) {
     box(bike, m.steel, side * .25, .43, .43, .09, .09, .74);
   }
 
+  if (sport) {
+    shell(bike, paint, 0, .86, -.53, .8, .62, .66, .19);
+    shell(bike, m.tinted, 0, 1.19, -.73, .53, .27, .11, .09);
+    box(bike, m.warm, 0, .93, -.9, .44, .085, .06);
+  }
+  bike.userData.wheels = wheels;
+  bike.userData.wheelRadius = .32;
+  bike.userData.vehicleKind = 'motorcycle';
+  if (!displayRider) return bike;
+
   const rider = group(bike, 0, 0, 0);
   const cloth = standard(jacket);
   const torso = box(rider, cloth, 0, 1.19, .17, .43, .48, .3);
@@ -139,9 +149,6 @@ export function motorcycle(scene, color, jacket) {
     tube(rider, cloth, [[side * .18, 1.34, .1], [side * .23, 1.17, -.24], [side * .31, 1.14, -.61]], .059);
     tube(rider, m.frame, [[side * .13, .92, .32], [side * .28, .68, .03], [side * .27, .45, .24]], .071);
   }
-  bike.userData.wheels = wheels;
-  bike.userData.wheelRadius = .32;
   bike.userData.rider = rider;
-  bike.userData.vehicleKind = 'motorcycle';
   return bike;
 }

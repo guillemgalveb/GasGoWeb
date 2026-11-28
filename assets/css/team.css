@@ -1,0 +1,118 @@
+.team-story {
+  --team-background: #082a24;
+  background: var(--team-background);
+  color: var(--mint);
+}
+
+.team-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.team-view {
+  position: absolute;
+  inset: 0 0 0 29%;
+  background: var(--team-background) url('../images/equipo-humano.webp') center / cover no-repeat;
+}
+
+.team-view canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.team-view canvas[hidden] {
+  display: none;
+}
+
+.team-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #082a24 23%, #082a24b3 36%, transparent 56%);
+}
+
+.team-chapters {
+  position: relative;
+  margin-top: -100svh;
+}
+
+.team-chapter {
+  display: flex;
+  align-items: center;
+  min-height: 83svh;
+  padding: 2rem var(--station-edge);
+}
+
+.team-chapter:first-child,
+.team-finale {
+  min-height: 100svh;
+}
+
+.team-copy {
+  width: min(100%, 29rem);
+  padding: clamp(.85rem, 2vw, 1.4rem);
+  border-radius: .6rem;
+  background: #06251feb;
+}
+
+.team-copy h1,
+.team-copy h2 {
+  margin: 0;
+  color: var(--yellow);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.03;
+  letter-spacing: -.04em;
+}
+
+.team-copy p {
+  margin: .85rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+}
+
+.team-copy a {
+  display: inline-block;
+  margin-top: .8rem;
+  color: var(--yellow);
+  font-weight: 700;
+  text-underline-offset: .25em;
+}
+
+.team-finale {
+  align-items: end;
+  justify-content: center;
+  padding-bottom: 8svh;
+}
+
+.team-finale .team-copy {
+  width: fit-content;
+  padding-inline: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 47rem) {
+  .team-stage::after {
+    background: linear-gradient(0deg, #082a24 22%, transparent 58%);
+  }
+
+  .team-view {
+    inset: 0 0 22%;
+  }
+
+  .team-chapter {
+    align-items: end;
+    min-height: 96svh;
+    padding-bottom: 7svh;
+  }
+
+  .team-chapter:first-child {
+    padding-bottom: 19svh;
+  }
+
+  .team-copy {
+    padding: 1rem;
+  }
+}
