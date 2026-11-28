@@ -59,7 +59,7 @@ export const services = [
     complementary: true,
     anchor: [serviceBay.x, 5.55, serviceBay.z + 1.5],
     target: [serviceBay.x, 1.4, serviceBay.z + .35],
-    angle: [-1.5, 2.25, 5.5],
+    angle: [-7.5, 1.15, 3.5],
     poster: [.781593, .422499],
   },
 ];

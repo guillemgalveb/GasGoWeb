@@ -24,25 +24,25 @@ export function refuellingCounter(car, gasGo, label = gasGo ? 'Gas&Go' : 'Conven
     ctx.clearRect(0, 0, 192, 192);
     ctx.beginPath();
     ctx.arc(96, 96, 85, 0, Math.PI * 2);
-    ctx.fillStyle = brand?.tertiary ?? (gasGo ? '#fcda2f' : '#ecf5ed');
+    ctx.fillStyle = brand?.primary ?? (gasGo ? '#fcda2f' : '#ecf5ed');
     ctx.fill();
     ctx.lineWidth = 13;
-    ctx.strokeStyle = gasGo ? '#a99a32' : '#a8bab2';
+    ctx.strokeStyle = brand ? '#164c85' : gasGo ? '#a99a32' : '#a8bab2';
     ctx.stroke();
     if (progress) {
       ctx.beginPath();
       ctx.arc(96, 96, 85, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress / 64);
-      ctx.strokeStyle = brand?.secondary ?? (gasGo ? '#035141' : '#062b24');
+      ctx.strokeStyle = brand ? '#81b4e8' : gasGo ? '#035141' : '#062b24';
       ctx.lineCap = 'round';
       ctx.stroke();
     }
-    ctx.fillStyle = brand?.primary ?? (gasGo ? '#035141' : '#062b24');
+    ctx.fillStyle = brand?.tertiary ?? (gasGo ? '#035141' : '#062b24');
     ctx.font = '700 24px Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    if (brand?.image) {
-      const h = 142 * brand.image.naturalHeight / brand.image.naturalWidth;
-      ctx.drawImage(brand.image, 25, 96 - h / 2, 142, h);
+    if (brand?.badgeImage) {
+      const h = 142 * brand.badgeImage.naturalHeight / brand.badgeImage.naturalWidth;
+      ctx.drawImage(brand.badgeImage, 25, 96 - h / 2, 142, h);
     } else {
       ctx.fillText(label, 96, 96, 148);
     }

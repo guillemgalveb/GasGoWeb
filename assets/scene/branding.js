@@ -7,7 +7,11 @@ export async function loadServiceBrands() {
       [role, root.getPropertyValue(`--${name}-${role}`).trim()]));
     try {
       await image.decode();
-      return [name, { ...palette, image }];
+      if (name !== 'servicego') return [name, { ...palette, image }];
+      const badgeImage = new Image();
+      badgeImage.src = new URL('../images/servicego-logo-light.webp', import.meta.url).href;
+      await badgeImage.decode().catch(() => {});
+      return [name, { ...palette, image, badgeImage: badgeImage.naturalWidth ? badgeImage : null }];
     } catch {
       return [name, palette];
     }
