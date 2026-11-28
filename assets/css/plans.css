@@ -32,7 +32,7 @@ body {
 
 .plans-profiles,
 .plans-note {
-  width: min(100%, 56rem);
+  width: min(100%, 69rem);
   margin-inline: auto;
 }
 
@@ -49,10 +49,11 @@ body {
   font-weight: 750;
 }
 
-.plans-question legend {
+.plans-question h2 {
+  margin: 0;
   margin-inline: auto;
   text-align: center;
-  font-size: clamp(1.23rem, 2.6vw, 1.7rem);
+  font-size: clamp(1.55rem, 4vw, 3rem);
 }
 
 .branch-grid {
@@ -118,94 +119,34 @@ body {
   box-shadow: 0 0 0 1px #e9c640, 0 .5rem 1.45rem #175c4726;
 }
 
-.plans-options label {
+.plans-options button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: .48rem;
-  min-height: 4.15rem;
+  min-height: clamp(6.2rem, 15vw, 11rem);
   padding: .55rem clamp(.45rem, 2vw, 1rem);
+  color: var(--green);
+  font: inherit;
+  font-size: clamp(1rem, 3vw, 2rem);
   font-weight: 750;
   text-align: center;
   cursor: pointer;
 }
 
-.plans-options label:has(:checked),
 .rate-list article.is-estimated {
   border-color: var(--green);
-  box-shadow: inset 0 0 0 1px var(--green);
-}
-
-.plans-options label:has(:checked) {
   background-color: var(--green);
   color: var(--mint);
+}
+
+.rate-list article.is-estimated .rate-cost {
+  color: var(--yellow);
 }
 
 .plans-main input:is([type=radio], [type=checkbox]) {
   margin: 0;
   accent-color: var(--yellow);
-}
-
-.plans-link {
-  --branch-left: 50%;
-  --branch-right: 50%;
-  --branch-source: 50%;
-  position: relative;
-  height: 2.7rem;
-}
-
-.plans-link[data-source="left"] {
-  --branch-left: 25%;
-  --branch-source: 25%;
-}
-
-.plans-link[data-source="right"] {
-  --branch-right: 25%;
-  --branch-source: 75%;
-}
-
-#profession-link[data-source="left"] {
-  --branch-left: 16.67%;
-  --branch-source: 16.67%;
-}
-
-#profession-link[data-source="right"] {
-  --branch-right: 16.67%;
-  --branch-source: 83.33%;
-}
-
-.plans-link::before,
-.plans-link::after {
-  content: "";
-  position: absolute;
-  border-left: 1px solid var(--branch-line);
-}
-
-.plans-link::before {
-  height: 50%;
-  left: var(--branch-source);
-}
-
-.plans-link::after {
-  height: 50%;
-  inset: 50% var(--branch-right) 0 var(--branch-left);
-  border-top: 1px solid var(--branch-line);
-  border-inline-start: 0;
-  border-inline-end: 0;
-  background: linear-gradient(var(--branch-line), var(--branch-line)) bottom / 1px 100% no-repeat;
-  background-position-x: var(--link-end, 50%);
-}
-
-.plans-link[data-source="center"]::after {
-  border-inline-start: 1px solid var(--branch-line);
-}
-
-.plans-link[data-source="left"]::after {
-  --link-end: 100%;
-}
-
-.plans-link[data-source="right"]::after {
-  --link-end: 0%;
 }
 
 .plans-rates h2 {
@@ -223,7 +164,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: .3rem;
-  padding: .85rem var(--plan-edge);
+  min-height: 9rem;
+  padding: 1.05rem var(--plan-edge);
 }
 
 .rate-list h3,
@@ -311,15 +253,6 @@ body {
   outline-offset: 3px;
 }
 
-.plans-options input:focus-visible {
-  outline-color: var(--green);
-}
-
-.plans-options label:has(:focus-visible) {
-  outline: 2px solid var(--green);
-  outline-offset: 3px;
-}
-
 .plans-extras label {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -385,10 +318,8 @@ body {
     padding: .7rem 0 0;
   }
 
-  .plans-options label {
-    font-size: .9rem;
-    flex-direction: column;
-    gap: .3rem;
+  .plans-options button {
+    font-size: .92rem;
   }
 
   .rate-list {
@@ -406,4 +337,63 @@ body {
   .bento-tile {
     transition: none;
   }
+}
+
+.plans-profiles {
+  overflow-x: clip;
+  padding-inline: 3px;
+}
+
+.plans-back {
+  margin-bottom: .75rem;
+  padding: .35rem .7rem;
+  border: 1px solid #8da99b;
+  border-radius: .35rem;
+  background: #fff;
+  color: var(--green);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.plan-pick {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.plans-main :is(.plans-back, .plans-options button, .plan-pick):focus-visible {
+  outline-color: var(--green);
+}
+
+.rate-list article.is-estimated .plan-pick:focus-visible {
+  outline-offset: -5px;
+  outline-color: var(--yellow);
+}
+
+.plans-vehicles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem;
+  min-height: 2.5rem;
+  margin-top: .95rem;
+  padding-top: .7rem;
+  border-top: 1px solid #acd7c58c;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.plans-vehicles svg {
+  width: 1.55rem;
+  height: 1.55rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

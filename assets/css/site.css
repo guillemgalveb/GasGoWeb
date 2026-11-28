@@ -183,3 +183,23 @@ a:focus-visible {
     font-size: .82rem;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 50;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 27% 18%, #ecf5edbb, transparent 63%),
+      radial-gradient(ellipse at 81% 67%, #d4e9dca6, transparent 61%),
+      #ecf5ed66;
+    animation: page-mist .8s cubic-bezier(.2,.65,.3,1) both;
+  }
+
+  @keyframes page-mist {
+    from { opacity: 1; transform: scale(1.045); }
+    to { opacity: 0; transform: scale(1); }
+  }
+}
