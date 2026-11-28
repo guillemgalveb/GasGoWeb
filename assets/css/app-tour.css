@@ -1,0 +1,202 @@
+.app-tour {
+  overflow: clip;
+  color: var(--mint);
+  background: #082c25;
+  border-bottom: 1px solid #ffffff24;
+}
+
+.app-tour-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+  column-gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(2.75rem, 8vw, 6rem);
+}
+
+.app-tour-intro h1 {
+  margin: 0;
+  max-width: 10ch;
+  color: var(--yellow);
+  font-size: clamp(3rem, 6.5vw, 5.8rem);
+  letter-spacing: -.065em;
+  line-height: .94;
+}
+
+.app-tour-intro p {
+  margin: 1.25rem 0 1.65rem;
+  max-width: 33ch;
+  color: #cce6d9;
+  font-size: clamp(1.04rem, 1.6vw, 1.33rem);
+}
+
+.app-tour-visual {
+  position: relative;
+  isolation: isolate;
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-height: 30rem;
+  touch-action: pan-y;
+  border-radius: 1.5rem;
+  background: radial-gradient(ellipse at 52% 56%, #18735d 0%, #0a493b 43%, #082c25 74%);
+}
+
+.app-tour-visual::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 82%;
+  aspect-ratio: 1;
+  border: 1px solid #a9e0c92b;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5rem #b6e8d108, 0 0 0 3rem #b6e8d105;
+}
+
+.app-tour-phone {
+  position: relative;
+  width: min(100%, 31rem);
+  transform: translateX(8%);
+}
+
+.app-tour-hand {
+  display: block;
+  width: 100%;
+  height: auto;
+  mask-image: linear-gradient(#000 88%, transparent 100%);
+}
+
+.app-tour-screen {
+  position: absolute;
+  inset: 3.05% auto auto 14.35%;
+  width: 49.85%;
+  height: 82.45%;
+  border-radius: 12% / 5.5%;
+  background: var(--mint);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.app-tour-caption {
+  position: relative;
+  margin: .25rem 0 0;
+  color: #cce6d9;
+  font-size: .85rem;
+}
+
+.app-tour-nav,
+.app-tour-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.app-tour [hidden] {
+  display: none;
+}
+
+.app-tour button {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: inherit;
+  background: #ffffff0a;
+  border: 1px solid #9ddbc357;
+  border-radius: .55rem;
+}
+
+.app-tour button:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+.app-tour-nav button {
+  min-height: 2.75rem;
+  padding: .35rem .65rem;
+  font-size: .88rem;
+}
+
+.app-tour-nav button[aria-current],
+.app-tour button:not([aria-disabled="true"]):hover {
+  color: #082c25;
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.app-tour-steps {
+  margin: 1.35rem 0 .75rem;
+  padding: 0;
+  list-style-position: inside;
+}
+
+.app-tour:has(.app-tour-nav:not([hidden])) .app-tour-steps {
+  list-style: none;
+  min-height: 10rem;
+}
+
+.app-tour-steps h2 {
+  display: inline;
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.55rem);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.app-tour-steps p {
+  margin: .65rem 0 1rem;
+  max-width: 46ch;
+  color: #d4e8de;
+}
+
+.app-tour-controls button {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.35rem;
+}
+
+.app-tour-controls button[aria-disabled="true"] {
+  cursor: default;
+  opacity: .45;
+}
+
+.app-tour-count {
+  min-width: 4rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.app-tour-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  color: var(--yellow);
+  font-weight: 700;
+  text-underline-offset: .23em;
+}
+
+@media (max-width: 49rem) {
+  .app-tour-layout {
+    display: block;
+  }
+
+  .app-tour-intro h1 {
+    max-width: none;
+  }
+
+  .app-tour-nav {
+    margin-bottom: 1.25rem;
+  }
+
+  .app-tour-visual {
+    margin: .75rem auto 1.5rem;
+    width: min(100%, 28rem);
+    min-height: 0;
+  }
+
+  .app-tour-phone {
+    width: min(110%, 23rem);
+    transform: translateX(5%);
+  }
+}

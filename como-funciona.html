@@ -6,7 +6,9 @@
     <title>Cómo funciona | Gas&amp;Go</title>
     <link rel="icon" href="assets/images/logo-gg.webp" type="image/webp">
     <link rel="stylesheet" href="assets/css/site.css">
+    <link rel="stylesheet" href="assets/css/app-tour.css">
     <script type="module" src="assets/cursor-trail.js"></script>
+    <script type="module" src="assets/app-tour.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -26,22 +28,57 @@
     </header>
 
     <main>
-      <section class="container process" aria-labelledby="pasos">
-        <h1 id="pasos">Cómo funciona</h1>
-        <ol class="steps">
-          <li>
-            <h2>Llega a la estación</h2>
-            <p>La aplicación identifica el vehículo que has registrado al llegar a la estación.</p>
-          </li>
-          <li>
-            <h2>Autoriza y reposta</h2>
-            <p>Autoriza el surtidor desde la aplicación y llena el depósito como de costumbre.</p>
-          </li>
-          <li>
-            <h2>Paga y sigue tu viaje</h2>
-            <p>Al terminar, el pago se tramita en la aplicación y el recibo queda en tu historial.</p>
-          </li>
-        </ol>
+      <section class="app-tour" aria-labelledby="pasos">
+        <div class="container app-tour-layout">
+          <div class="app-tour-intro">
+            <h1 id="pasos">Cómo funciona</h1>
+            <p>Del surtidor al recibo. Acompaña a un motorista en una parada con la app de Gas&amp;Go.</p>
+          </div>
+          <nav class="app-tour-nav" aria-label="Pasos del recorrido" hidden>
+            <button type="button" data-tour-step="0">Entrada</button>
+            <button type="button" data-tour-step="1">Estación</button>
+            <button type="button" data-tour-step="2">Surtidor</button>
+            <button type="button" data-tour-step="3">Repostaje</button>
+            <button type="button" data-tour-step="4">Recibo</button>
+          </nav>
+          <div class="app-tour-visual" aria-label="Vistas del prototipo de Gas&amp;Go">
+            <div class="app-tour-phone">
+              <img class="app-tour-hand" src="assets/images/app-tour/mano.webp" width="960" height="1270" alt="" aria-hidden="true">
+              <img class="app-tour-screen" src="assets/images/app-tour/bienvenida.webp" width="585" height="1200" alt="Bienvenida de Gas&amp;Go con las opciones de iniciar sesión y registrarse.">
+            </div>
+            <p class="app-tour-caption">Pantallas del prototipo · sin cargos reales</p>
+          </div>
+          <div class="app-tour-content">
+            <ol class="app-tour-steps" aria-live="polite">
+              <li data-screen="bienvenida" data-alt="Bienvenida de Gas&amp;Go con las opciones de iniciar sesión y registrarse.">
+                <h2>Tu moto, lista para la próxima parada</h2>
+                <p>Entra en Gas&amp;Go y vincula tu vehículo y tu método de pago para tenerlos listos antes de llegar al surtidor.</p>
+              </li>
+              <li data-screen="estacion" data-alt="Ficha de GAS&amp;GO Demo con los combustibles, la disponibilidad y la opción de abrir el surtidor.">
+                <h2>Elige dónde parar</h2>
+                <p>Consulta las estaciones y su disponibilidad. En la de demostración puedes ver los precios, los puntos libres y abrir el surtidor virtual desde su ficha.</p>
+              </li>
+              <li data-screen="confirmacion" data-alt="Aviso de confirmación del surtidor 02 para la moto vinculada.">
+                <h2>Comprueba el surtidor</h2>
+                <p>Gas&amp;Go intenta verificar la proximidad automáticamente. En esta parada, la app te pide confirmar que estás frente al surtidor 02 antes de autorizarlo.</p>
+              </li>
+              <li data-screen="autorizado" data-alt="Ficha de la estación con el aviso Surtidor autorizado.">
+                <h2>Reposta</h2>
+                <p>Con el surtidor autorizado, ya puedes usar la manguera. En el prototipo, el suministro se controla desde el simulador que se abre al iniciar la operación.</p>
+              </li>
+              <li data-screen="historial" data-alt="Historial de la app con la operación de repostaje y el acceso a su recibo.">
+                <h2>El recibo te espera en Historial</h2>
+                <p>Al terminar, Gas&amp;Go registra el importe del suministro y guarda el recibo en Historial. Puedes seguir tu viaje y consultarlo más tarde.</p>
+              </li>
+            </ol>
+            <div class="app-tour-controls" hidden>
+              <button type="button" data-tour-move="-1" aria-label="Paso anterior"><span aria-hidden="true">←</span></button>
+              <output class="app-tour-count" aria-label="Progreso del recorrido"></output>
+              <button type="button" data-tour-move="1" aria-label="Paso siguiente"><span aria-hidden="true">→</span></button>
+            </div>
+            <a class="app-tour-link" href="https://rbayes-upc.github.io/GAS-GO/index.html">Abrir la app de Gas&amp;Go <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
       </section>
 
       <section class="container methods" aria-labelledby="methods-title">
