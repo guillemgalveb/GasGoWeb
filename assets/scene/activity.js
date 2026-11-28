@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.min.js';
 import { box, group, materials as m, mesh, standard, tube } from './model.js';
-import { vehicle } from './vehicles.js';
+import { motorcycle, vehicle } from './vehicles.js';
 import { refuellingCounter } from './refuelling-counter.js';
 import { chargingBay, fuelBays, fuelStopOffset, fuelX, refuellingDemo, rearFuelBays } from './layout.js';
 
@@ -14,7 +14,7 @@ function drive(car, route, progress, reverse = false) {
   route.getTangentAt(progress, direction);
   const sign = reverse ? 1 : -1;
   car.rotation.y = Math.atan2(sign * direction.x, sign * direction.z);
-  const spin = route.getLength() * progress / .4 * sign;
+  const spin = route.getLength() * progress / (car.userData.wheelRadius ?? .4) * sign;
   for (const wheel of car.userData.wheels) wheel.rotation.x = spin;
 }
 
@@ -67,9 +67,9 @@ const frontArrival = 11;
 const queueRelease = frontArrival + refuellingDemo.gasGoSeconds + 4;
 
 function refuellingVisit(actors, {
-  bay, duration, paint, jacket, gasGo = false, arrive = frontArrival, queued = false,
+  bay, duration, paint, jacket, gasGo = false, arrive = frontArrival, queued = false, kind = "car",
 }) {
-  const car = vehicle(actors, 0, 0, paint);
+  const car = kind === "motorcycle" ? motorcycle(actors, paint, jacket) : vehicle(actors, 0, 0, paint, false, kind === "minivan");
   car.name = queued ? `Queue: ${gasGo ? "Gas&Go" : "conventional"}` : `Pump: ${bay.z < 0 ? "rear" : "front"} ${bay.x}`;
   const driver = person(actors, jacket);
   const counter = refuellingCounter(car, gasGo);
@@ -96,10 +96,13 @@ function refuellingVisit(actors, {
   const exit = path(rear
     ? [[pumpX, stopZ], [pumpX + 2.65, stopZ - 1.1], [pumpX + 6.9, -3.92], [10, -4.45], [23, -4.45], [43, -4.45]]
     : [[pumpX, stopZ], [pumpX + 2.35, stopZ], [pumpX + 5.7, 7.5], [pumpX + 10.7, 10.4], [pumpX + 18, 10.4], [43, 10.4]]);
-  const toPump = path([[pumpX + .38, stopZ - 1.19], [pumpX - .36, pumpZ + 1.91], [pumpX - .69, pumpZ + 1.17]]);
+  const dismountX = kind === "motorcycle" ? pumpX - .18 : pumpX + .38;
+  const dismountZ = stopZ - (kind === "motorcycle" ? .54 : 1.19);
+  const tank = kind === "motorcycle" ? [pumpX + .28, 1.09, stopZ - .23] : [pumpX - 1.52, .93, stopZ - .97];
+  const toPump = path([[dismountX, dismountZ], [pumpX - .36, pumpZ + 1.91], [pumpX - .69, pumpZ + 1.17]]);
   const hose = tube(actors, m.rubber, [[pumpX - .46, 1.65, pumpZ + .08],
     [pumpX - .66, .38, pumpZ + .54], [pumpX - .94, .31, pumpZ + 1.27],
-    [pumpX - 1.38, .55, stopZ - 1.16], [pumpX - 1.52, .93, stopZ - .97]], .037);
+    [tank[0] - .13, .55, tank[2] - .19], tank], .037);
 
   return phase => {
     if (phase < arrive) {
@@ -114,6 +117,7 @@ function refuellingVisit(actors, {
     counter(phase >= arrive && phase < leavesAt, (phase - arrive) / duration);
     driver.actor.visible = phase >= arrive + 1 && phase < entersCarAt;
     hose.visible = phase >= connectAt && phase < disconnectAt;
+    if (car.userData.rider) car.userData.rider.visible = !driver.actor.visible;
     if (driver.actor.visible) {
       const returning = phase >= disconnectAt;
       const progress = returning
@@ -130,10 +134,10 @@ export function stationActivity(scene, market) {
   actors.userData.ignorePick = true;
   const visits = [
     { bay: fuelBays.right, duration: refuellingDemo.gasGoSeconds, paint: 0x66736b, jacket: 0xd3a33b, gasGo: true },
-    { bay: fuelBays.left, duration: refuellingDemo.conventionalSeconds, paint: 0x9b644e, jacket: 0x808ba1 },
+    { bay: fuelBays.left, duration: refuellingDemo.conventionalSeconds, paint: 0x9b644e, jacket: 0x808ba1, kind: "minivan" },
     { bay: rearFuelBays.right, duration: 29, paint: 0x9f8b62, jacket: 0x8d5141 },
-    { bay: rearFuelBays.left, duration: 36, paint: 0x687d95, jacket: 0x6e8b58 },
-    { bay: fuelBays.right, duration: refuellingDemo.gasGoSeconds, paint: 0x456d81, jacket: 0xcda662, gasGo: true, queued: true, arrive: 33.5 },
+    { bay: rearFuelBays.left, duration: 36, paint: 0x687d95, jacket: 0x6e8b58, kind: "motorcycle" },
+    { bay: fuelBays.right, duration: refuellingDemo.gasGoSeconds, paint: 0x456d81, jacket: 0xcda662, gasGo: true, queued: true, arrive: 33.5, kind: "motorcycle" },
     { bay: fuelBays.left, duration: refuellingDemo.conventionalSeconds, paint: 0x80758e, jacket: 0x5b8392, queued: true, arrive: 46 },
   ].map(config => refuellingVisit(actors, config));
   const visitor = vehicle(actors, 0, 0, 0x7799a3);

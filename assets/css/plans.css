@@ -30,8 +30,7 @@ body {
   display: none;
 }
 
-.plans-profiles,
-.plans-note {
+.plans-profiles {
   width: min(100%, 69rem);
   margin-inline: auto;
 }
@@ -299,11 +298,6 @@ body {
 
 .plans-installation output {
   font-weight: 750;
-}
-
-.plans-note {
-  margin-top: 1.25rem;
-  font-size: .9rem;
 }
 
 @media (max-width: 43rem) {
