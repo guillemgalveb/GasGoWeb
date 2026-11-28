@@ -446,6 +446,10 @@
   pointer-events: auto;
 }
 
+.station .station-start:hover {
+  background-color: var(--yellow);
+}
+
 .station-step-nav {
   display: flex;
   flex-wrap: wrap;
@@ -470,7 +474,6 @@
   color: var(--green);
 }
 
-.station .station-step-next:hover,
-.station .station-start:hover {
+.station .station-step-next:hover {
   background: var(--mint);
 }
