@@ -129,11 +129,11 @@ function refuellingVisit(actors, {
   };
 }
 
-function visitService(actors) {
+function visitService(actors, brand) {
   const car = vehicle(actors, 0, 0, 0xa58459);
   car.name = 'Service&Go visitor';
   const driver = person(actors, 0xb0bd6b);
-  const badge = refuellingCounter(car, true, 'Service&Go');
+  const badge = refuellingCounter(car, true, 'Service&Go', brand);
   const { x, z } = serviceBay;
   const parkZ = z + 2.75;
   const park = [x, parkZ];
@@ -165,7 +165,7 @@ function visitService(actors) {
   };
 }
 
-export function stationActivity(scene, market) {
+export function stationActivity(scene, market, serviceBrand) {
   const actors = group(scene, 0, 0, 0);
   actors.userData.ignorePick = true;
   const visits = [
@@ -198,7 +198,7 @@ export function stationActivity(scene, market) {
     [chargeStopX + 1.48, .96, chargeStopZ - .96],
   ], .044);
 
-  const service = visitService(actors);
+  const service = visitService(actors, serviceBrand);
 
   function update(elapsed) {
     const t = elapsed % cycleSeconds;

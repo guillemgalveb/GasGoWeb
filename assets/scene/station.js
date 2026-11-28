@@ -4,9 +4,10 @@ import { box, canopy, canopyCamera, dispenser, group, market, materials as m, se
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
+import { loadServiceBrands } from './branding.js';
 import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, leftChargingBay, paymentColumn, rearFuelBays, serviceBay } from './layout.js';
 
-function buildStation(scene) {
+function buildStation(scene, brands) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
   const { x, z, width, depth, height } = fuelCanopy;
   canopy(forecourt, x, z, width, depth, height);
@@ -25,21 +26,22 @@ function buildStation(scene) {
   }
   dispenser(scene, leftChargingBay.x, leftChargingBay.z, true);
   const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
-  const shop = market(scene);
+  const shop = market(scene, brands.takego);
   shop.shop.userData.zone = 5;
   const payment = group(scene, paymentColumn.x, 2.28, paymentColumn.z + .34);
   payment.userData.zone = 3;
   box(payment, m.frame, 0, 0, 0, .48, .43, .11);
   box(payment, m.cyan, 0, .04, .061, .33, .15, .018);
-  const utility = utilityBay(scene, serviceBay.x, serviceBay.z);
+  const utility = utilityBay(scene, serviceBay.x, serviceBay.z, brands.servicego);
   utility.userData.zone = 6;
-  return { interactive: [entrance, left, right, payment, charge, shop.shop, utility], updateActivity: stationActivity(scene, shop) };
+  return { interactive: [entrance, left, right, payment, charge, shop.shop, utility], updateActivity: stationActivity(scene, shop, brands.servicego) };
 }
 
-export function mountStation(view, handlers, motion) {
+export async function mountStation(view, handlers, motion) {
   const canvas = document.createElement('canvas');
   const gl = canvas.getContext('webgl2', { antialias: true, alpha: false, powerPreference: 'default' });
   if (!gl) throw new Error('WebGL 2 no está disponible.');
+  const brands = await loadServiceBrands();
 
   const high = matchMedia('(pointer: fine)').matches && (navigator.hardwareConcurrency ?? 4) >= 4;
   const renderer = new T.WebGLRenderer({ canvas, context: gl });
@@ -51,7 +53,7 @@ export function mountStation(view, handlers, motion) {
   const setLighting = lighting(scene);
   const reflections = high ? studioReflections(renderer, scene) : null;
   environment(scene, high);
-  const { interactive, updateActivity } = buildStation(scene);
+  const { interactive, updateActivity } = buildStation(scene, brands);
   scene.updateMatrixWorld(true);
   const bounds = interactive.map(object => new T.Box3().setFromObject(object));
   const highlight = new T.Box3Helper(new T.Box3(), 0xe8c05a);

@@ -89,3 +89,32 @@
     grid-template-columns: 1fr;
   }
 }
+
+.product--branded {
+  border-top-color: var(--service-secondary);
+  background: var(--service-tertiary);
+  color: var(--service-primary);
+}
+
+.product--branded h2 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem .9rem;
+  color: var(--service-primary);
+}
+
+.product--branded .service-mark {
+  width: min(7.2rem, 100%);
+  height: 2.6rem;
+}
+
+.product--branded .product-primary {
+  background: var(--service-primary);
+  color: var(--service-tertiary);
+}
+
+.product--branded .product-primary:hover {
+  background: var(--service-secondary);
+  color: var(--service-primary);
+}

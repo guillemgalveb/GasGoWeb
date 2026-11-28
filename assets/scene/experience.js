@@ -12,6 +12,9 @@ const tourBack = panel.querySelector('.station-tour-back');
 const stepNav = panel.querySelector('.station-step-nav');
 const previousStep = stepNav.querySelector('.station-step-prev');
 const nextStep = stepNav.querySelector('.station-step-next');
+const nextLabel = nextStep.querySelector('.station-step-next-label');
+const nextLogo = nextStep.querySelector('.service-mark');
+const panelLogo = panel.querySelector('.station-brand-logo');
 const startButton = station.querySelector('.station-start');
 const firstService = services.findIndex(service => service.complementary);
 const directory = station.querySelector('.station-directory');
@@ -51,6 +54,8 @@ function openPanel() {
 function showTour(trigger) {
   if (trigger) returnFocus = trigger;
   selected = null;
+  panel.removeAttribute('data-brand');
+  panelLogo.hidden = true;
   title.textContent = 'Tu recorrido con Gas&Go';
   number.hidden = true;
   description.hidden = true;
@@ -70,6 +75,9 @@ function select(index, trigger, follow = false) {
   if (!follow && !fromTour) returnFocus = trigger || buttons[index];
   number.textContent = service.complementary ? 'S.C.' : String(index + 1).padStart(2, '0');
   number.hidden = false;
+  if (service.brand) panel.dataset.brand = service.brand;
+  else panel.removeAttribute('data-brand');
+  panelLogo.hidden = !service.brand;
   title.textContent = service.name;
   description.textContent = service.description;
   description.hidden = false;
@@ -79,8 +87,13 @@ function select(index, trigger, follow = false) {
   stepNav.hidden = false;
   previousStep.hidden = index === 0;
   previousStep.textContent = service.complementary ? 'Gas&Go' : 'Paso anterior';
-  if (service.complementary) nextStep.textContent = index === firstService ? 'Service&Go' : 'Take&Go';
-  else nextStep.textContent = index === firstService - 1 ? 'Servicios complementarios' : 'Siguiente paso';
+  const nextService = service.complementary ? services[index === firstService ? firstService + 1 : firstService] : null;
+  if (nextService) nextStep.dataset.brand = nextService.brand;
+  else nextStep.removeAttribute('data-brand');
+  nextLogo.hidden = !nextService;
+  nextLabel.textContent = nextService
+    ? nextService.name.split(' - ')[1]
+    : index === firstService - 1 ? 'Servicios complementarios' : 'Siguiente paso';
   openPanel();
   scene?.focus(index);
   scene?.highlight(null);
@@ -164,7 +177,7 @@ function fallback() {
 async function start() {
   try {
     const { mountStation } = await import('./station.js');
-    scene = mountStation(view, { marker: place, select, fallback }, motion);
+    scene = await mountStation(view, { marker: place, select, fallback }, motion);
     if (selected !== null) scene.focus(selected, false);
     station.classList.add('is-ready');
     actions.hidden = false;

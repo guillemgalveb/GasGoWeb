@@ -391,3 +391,23 @@ body {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+.plans-extras .plans-extra-brand {
+  margin: .3rem 0;
+  padding: .35rem .52rem;
+  border-inline-start: .2rem solid var(--service-secondary);
+  border-radius: .35rem;
+  background: var(--service-tertiary);
+  color: var(--service-primary);
+}
+
+.plans-extra-brand input[type="checkbox"] {
+  accent-color: var(--service-primary);
+}
+
+.plans-extra-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .2rem .45rem;
+}

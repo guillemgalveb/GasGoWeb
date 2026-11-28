@@ -477,3 +477,70 @@
 .station .station-step-next:hover {
   background: var(--mint);
 }
+
+.station .station-marker--service[data-brand] {
+  align-content: center;
+  gap: .03rem;
+  border-color: var(--service-secondary);
+  background: var(--service-tertiary);
+  color: var(--service-primary);
+}
+
+.station-marker--service .service-mark {
+  width: min(1.65rem, 100%);
+  height: .55rem;
+}
+
+.station .station-brand-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .15rem .35rem;
+  border-radius: .22rem;
+  background: var(--service-tertiary);
+  color: var(--service-primary);
+}
+
+.station-panel[data-brand] {
+  border-top-color: var(--service-secondary);
+  background: var(--service-primary);
+  color: var(--service-tertiary);
+}
+
+.station-panel[data-brand] .station-number {
+  color: var(--service-secondary);
+}
+
+.station-panel[data-brand] .station-description {
+  color: var(--service-tertiary);
+}
+
+.station-brand-logo {
+  width: 7.4rem;
+  height: 2.4rem;
+  margin-bottom: .45rem;
+  border-radius: .3rem;
+  background-color: var(--service-tertiary);
+  background-size: 88% auto;
+}
+
+.station-panel[data-brand] .station-step-prev {
+  background: var(--service-primary);
+}
+
+.station .station-step-next[data-brand] {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  border-color: var(--service-secondary);
+  background: var(--service-tertiary);
+  color: var(--service-primary);
+}
+
+.station .station-step-next[data-brand]:hover {
+  background-color: var(--service-secondary);
+}
+
+.station-marker--service > span {
+  line-height: 1;
+}

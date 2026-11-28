@@ -252,3 +252,61 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+:root {
+  --takego-primary: #361912;
+  --takego-secondary: #fed612;
+  --takego-tertiary: #fdf8ea;
+  --servicego-primary: #09264c;
+  --servicego-secondary: #ffdf2e;
+  --servicego-tertiary: #f7f9fc;
+}
+
+[data-brand="takego"] {
+  --service-primary: var(--takego-primary);
+  --service-secondary: var(--takego-secondary);
+  --service-tertiary: var(--takego-tertiary);
+  --service-logo: url('../images/takego-logo.webp');
+}
+
+[data-brand="servicego"] {
+  --service-primary: var(--servicego-primary);
+  --service-secondary: var(--servicego-secondary);
+  --service-tertiary: var(--servicego-tertiary);
+  --service-logo: url('../images/servicego-logo.webp');
+}
+
+.service-mark {
+  display: inline-block;
+  width: 3.2rem;
+  height: 1.2rem;
+  flex: 0 0 auto;
+  background: var(--service-logo) center / contain no-repeat;
+}
+
+.service-mark[hidden] {
+  display: none;
+}
+
+.scenarios dl {
+  margin: 0;
+}
+
+.scenarios dt {
+  margin-top: .65rem;
+  color: var(--green);
+  font-weight: 750;
+}
+
+.scenarios dd {
+  margin: .12rem 0 0;
+}
+
+.scenarios-objective {
+  margin: 1.1rem 0 0;
+  padding: .65rem .85rem;
+  border-radius: .4rem;
+  background: var(--yellow);
+  color: var(--green);
+  font-weight: 700;
+}

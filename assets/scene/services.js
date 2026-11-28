@@ -44,6 +44,7 @@ export const services = [
   },
   {
     name: 'Servicios complementarios - Take&Go',
+    brand: 'takego',
     description: 'Take&Go es un servicio complementario de Gas&Go. Si es usuario de Take&Go disfruta de poder automatizar la compra de productos que realice al entrar en el supermercado o restaurante de la estación de servicio.',
     complementary: true,
     anchor: [3.65, 5.2, -5.6],
@@ -53,6 +54,7 @@ export const services = [
   },
   {
     name: 'Servicios complementarios - Service&Go',
+    brand: 'servicego',
     description: 'Service&Go es un servicio complementario de Gas&Go. Si es usuario de Service&Go disfruta de poder hacer uso de otros servicios de la gasolinera como el aire para inchar las ruedas sin necesidad de llevar monedas encima.',
     complementary: true,
     anchor: [serviceBay.x, 5.55, serviceBay.z + 1.5],

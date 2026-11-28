@@ -62,6 +62,18 @@
           </article>
         </div>
       </section>
+      <section class="container methods scenarios" aria-labelledby="scenarios-title">
+        <h2 id="scenarios-title">¿Qué pasaría si?</h2>
+        <div class="methods-grid">
+          <article><h3>No se detecta el surtidor</h3><dl><dt>Qué pasa</dt><dd>La app no puede validar la proximidad.</dd><dt>Qué hace la app</dt><dd>Activa el método B y pide que confirmes manualmente el surtidor detectado.</dd></dl></article>
+          <article><h3>Bluetooth o UWB desactivado</h3><dl><dt>Qué pasa</dt><dd>La detección automática queda incompleta.</dd><dt>Qué hace la app</dt><dd>Muestra una alerta y explica cómo activar Bluetooth o UWB, o cómo continuar con otro método.</dd></dl></article>
+          <article><h3>Surtidor incorrecto</h3><dl><dt>Qué pasa</dt><dd>La identidad del usuario no coincide con el surtidor detectado.</dd><dt>Qué hace la app</dt><dd>Bloquea la apertura automática y solicita una validación manual antes de continuar.</dd></dl></article>
+          <article><h3>Pago rechazado</h3><dl><dt>Qué pasa</dt><dd>La tarjeta o el método de pago no autoriza la operación.</dd><dt>Qué hace la app</dt><dd>Pausa el proceso, avisa del error y permite cambiar el método de pago o reintentar.</dd></dl></article>
+          <article><h3>Sin conexión o señal débil</h3><dl><dt>Qué pasa</dt><dd>Se interrumpe la comunicación con el sistema.</dd><dt>Qué hace la app</dt><dd>Conserva la sesión unos segundos e intenta reconectar. Si sigue sin conexión, ofrece NFC o QR como alternativa.</dd></dl></article>
+          <article><h3>NFC o QR no funciona</h3><dl><dt>Qué pasa</dt><dd>Falla el método alternativo.</dd><dt>Qué hace la app</dt><dd>Deriva al proceso tradicional y muestra instrucciones para completar el repostaje con seguridad.</dd></dl></article>
+        </div>
+        <p class="scenarios-objective">El objetivo es dar una respuesta clara, segura y rápida ante cada incidencia.</p>
+      </section>
     </main>
 
     <footer class="site-footer">

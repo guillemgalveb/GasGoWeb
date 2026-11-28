@@ -163,18 +163,34 @@ export function securityCamera(parent, { x, y, z }, target) {
   return camera;
 }
 
-export function utilityBay(scene, x, z) {
+function brandSign(parent, brand, text, y, z, width, height) {
+  if (!brand?.image) {
+    label(parent, text, 0, y, z, width, height);
+    return;
+  }
+  box(parent, standard(brand.tertiary, 0, .82), 0, y, z, width, height, .045);
+  const map = new T.Texture(brand.image);
+  map.colorSpace = T.SRGBColorSpace;
+  map.needsUpdate = true;
+  const w = Math.min(width * .91, height * .84 * brand.image.naturalWidth / brand.image.naturalHeight);
+  const h = w * brand.image.naturalHeight / brand.image.naturalWidth;
+  mesh(parent, new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map, transparent: true }), 0, y, z + .027);
+}
+
+export function utilityBay(scene, x, z, brand) {
   const bay = group(scene, x, 0, z);
   const m = materials;
+  const housing = brand ? standard(brand.primary, .27, .46) : m.green;
+  const trim = brand ? glow(brand.secondary, 1.25) : m.gold;
   shell(bay, m.base, 0, .09, 0, 3.1, 2.65, .16, .24, true);
   box(bay, m.frame, 0, 1.42, -.81, 2.57, 2.46, .22);
-  shell(bay, m.green, 0, 2.74, -.18, 2.9, 1.54, .26, .18, true);
-  box(bay, m.gold, 0, 2.72, .61, 2.72, .055, .045);
-  label(bay, 'Service&Go', 0, 2.56, .63, 2.56, .34);
+  shell(bay, housing, 0, 2.74, -.18, 2.9, 1.54, .26, .18, true);
+  box(bay, trim, 0, 2.72, .61, 2.72, .055, .045);
+  brandSign(bay, brand, 'Service&Go', 2.49, .63, 2.56, .42);
 
   for (const [side, caption] of [[-1, 'AIRE'], [1, 'AGUA']]) {
     const unit = group(bay, side * .66, 0, -.34);
-    shell(unit, m.green, 0, 1.13, 0, .93, 1.76, .48, .12);
+    shell(unit, housing, 0, 1.13, 0, .93, 1.76, .48, .12);
     box(unit, m.steel, 0, 1.4, .252, .66, .56, .028);
     box(unit, m.cyan, 0, 1.48, .272, .47, .1, .02);
     label(unit, caption, 0, 1.88, .271, .72, .21);
@@ -190,12 +206,12 @@ export function utilityBay(scene, x, z) {
   return bay;
 }
 
-export function market(scene) {
+export function market(scene, brand) {
   const shop = group(scene, .5, 0, -8.9);
   shop.userData.zone = 3;
   const m = materials;
-  shell(shop, m.green, 0, 4.58, 0, 15, 6.2, .7, .55, true);
-  shell(shop, m.cyan, 0, 4.77, 0, 15.02, 6.22, .035, .55, true);
+  shell(shop, brand ? standard(brand.primary, .28, .43) : m.green, 0, 4.58, 0, 15, 6.2, .7, .55, true);
+  shell(shop, brand ? glow(brand.secondary, 1.2) : m.cyan, 0, 4.77, 0, 15.02, 6.22, .035, .55, true);
   box(shop, m.base, 0, .12, 0, 15.1, .22, 6.4);
   box(shop, m.frame, 0, 2.26, -3, 14.9, 4.35, .36);
   const interior = standard(0xc09b64, .13, .56);
@@ -234,6 +250,6 @@ export function market(scene) {
   const display = group(shop, 0, 0, .27);
   box(display, interior, 0, .72, 0, .82, .94, .48);
   const product = box(display, m.gold, 0, 1.27, .02, .17, .19, .14);
-  label(shop, 'Take&Go', 0, 4.47, 3.13, 4.25, .77);
+  brandSign(shop, brand, 'Take&Go', 4.47, 3.13, 4.25, .68);
   return { shop, doors, product };
 }
