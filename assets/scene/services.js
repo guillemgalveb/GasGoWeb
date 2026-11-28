@@ -55,9 +55,9 @@ export const services = [
     name: 'Servicios complementarios - Service&Go',
     description: 'Service&Go es un servicio complementario de Gas&Go. Si es usuario de Service&Go disfruta de poder hacer uso de otros servicios de la gasolinera como el aire para inchar las ruedas sin necesidad de llevar monedas encima.',
     complementary: true,
-    anchor: [serviceBay.x, 3.25, serviceBay.z + 1.5],
+    anchor: [serviceBay.x, 5.55, serviceBay.z + 1.5],
     target: [serviceBay.x, 1.4, serviceBay.z + .35],
-    angle: [-4.8, 2, 7],
-    poster: [.741502, .487322],
+    angle: [-1.5, 2.25, 5.5],
+    poster: [.781593, .422499],
   },
 ];

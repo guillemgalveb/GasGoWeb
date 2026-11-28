@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.min.js';
 
-export function refuellingCounter(car, gasGo) {
+export function refuellingCounter(car, gasGo, label = gasGo ? 'Gas&Go' : 'Convencional') {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 192;
   const ctx = canvas.getContext('2d');
@@ -40,7 +40,7 @@ export function refuellingCounter(car, gasGo) {
     ctx.font = '700 24px Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(gasGo ? 'Gas&Go' : 'Convencional', 96, 96, 148);
+    ctx.fillText(label, 96, 96, 148);
     texture.needsUpdate = true;
   };
 }

@@ -2,7 +2,7 @@ import * as T from './vendor/three.module.min.js';
 import { box, group, materials as m, mesh, standard, tube } from './model.js';
 import { motorcycle, vehicle } from './vehicles.js';
 import { refuellingCounter } from './refuelling-counter.js';
-import { chargingBay, fuelBays, fuelStopOffset, fuelX, refuellingDemo, rearFuelBays } from './layout.js';
+import { chargingBay, fuelBays, fuelStopOffset, fuelX, refuellingDemo, rearFuelBays, serviceBay } from './layout.js';
 
 const path = points => new T.CatmullRomCurve3(points.map(([x, z, y = 0]) => new T.Vector3(x, y, z)));
 const ease = (from, to, time) => T.MathUtils.smoothstep(time, from, to);
@@ -129,6 +129,42 @@ function refuellingVisit(actors, {
   };
 }
 
+function visitService(actors) {
+  const car = vehicle(actors, 0, 0, 0xa58459);
+  car.name = 'Service&Go visitor';
+  const driver = person(actors, 0xb0bd6b);
+  const badge = refuellingCounter(car, true, 'Service&Go');
+  const { x, z } = serviceBay;
+  const parkZ = z + 2.75;
+  const park = [x, parkZ];
+  const enter = path([[-43, -.8], [-25, -1.3], [-9, -1.45], [-3, -2.1], [2, -4.15], [8.5, parkZ], park]);
+  const leave = path([park, [20, parkZ], [32, parkZ], [45, parkZ]]);
+  const toEquipment = path([[x + .47, parkZ - 1.18], [x + .1, z + 1.47], [x - .57, z + .92]]);
+  const hose = tube(actors, m.rubber, [[x - .66, 1.02, z + .11], [x - .78, .23, z + .75],
+    [x - .95, .15, z + 1.28], [x - 1.38, .32, parkZ - 1.12]], .036);
+  const arrived = 14;
+  const departing = 45;
+  const leavesView = 55;
+
+  return time => {
+    const phase = (time + 30) % cycleSeconds;
+    if (phase < arrived) drive(car, enter, ease(0, arrived, phase));
+    else if (phase < departing) drive(car, enter, 1);
+    else drive(car, leave, ease(departing, leavesView, phase));
+    car.visible = phase < leavesView;
+
+    driver.actor.visible = phase >= 27 && phase < 44.5;
+    hose.visible = phase >= 31 && phase < 40.5;
+    badge(phase >= arrived && phase < departing, (phase - arrived) / (departing - arrived));
+    if (driver.actor.visible) {
+      const returning = phase >= 40.5;
+      const progress = returning ? 1 - ease(40.5, 44.5, phase) : ease(27, 31, phase);
+      walk(driver, toEquipment, progress, !returning, phase, progress > 0 && progress < 1);
+      if (hose.visible) driver.arms[1].rotation.x = -.72;
+    }
+  };
+}
+
 export function stationActivity(scene, market) {
   const actors = group(scene, 0, 0, 0);
   actors.userData.ignorePick = true;
@@ -162,6 +198,8 @@ export function stationActivity(scene, market) {
     [chargeStopX + 1.48, .96, chargeStopZ - .96],
   ], .044);
 
+  const service = visitService(actors);
+
   function update(elapsed) {
     const t = elapsed % cycleSeconds;
     const f = (elapsed + fuelPhaseOffset) % cycleSeconds;
@@ -172,6 +210,7 @@ export function stationActivity(scene, market) {
     electric.visible = charge < 55;
     chargeCable.visible = charge >= 13 && charge < 42;
     for (const visit of visits) visit(f);
+    service(t);
 
     if (t < 12) drive(visitor, visitIn, ease(0, 12, t));
     else if (t < 42) drive(visitor, visitIn, 1);

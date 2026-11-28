@@ -8,6 +8,7 @@ export const fuelBays = {
 };
 
 export const fuelStopOffset = 3.3;
+export const leftChargingBay = { x: 10, z: 1.35 };
 export const chargingBay = { x: 13.9, z: 1.38 };
 export const fuelCameraOffset = { x: 3.18, y: 4.98, z: 2.65 };
 
@@ -37,4 +38,4 @@ export const paymentColumn = {
   x: fuelX(fuelCanopy.x + fuelCanopy.width * .34),
   z: fuelCanopy.z + fuelCanopy.depth * .29,
 };
-export const serviceBay = { x: 9.9, z: -9.4 };
+export const serviceBay = { x: (leftChargingBay.x + chargingBay.x) / 2, z: -7.3 };

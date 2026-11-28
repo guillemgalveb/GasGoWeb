@@ -203,3 +203,52 @@ a:focus-visible {
     to { opacity: 0; transform: scale(1); }
   }
 }
+
+.methods {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.methods h2 {
+  margin: 0 0 1.15rem;
+  color: var(--green);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.12;
+}
+
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .9rem;
+}
+
+.methods article {
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-top: .25rem solid var(--yellow);
+  border-radius: .55rem;
+  background: #fff;
+}
+
+.methods h3,
+.methods article p {
+  margin: 0 0 .6rem;
+}
+
+.methods article p:last-child {
+  margin-bottom: 0;
+}
+
+.method-tech {
+  padding: .35rem .5rem;
+  border-radius: .28rem;
+  background: var(--mint);
+  color: var(--green);
+  font-size: .86rem;
+  font-weight: 750;
+}
+
+@media (max-width: 46rem) {
+  .methods-grid {
+    grid-template-columns: 1fr;
+  }
+}

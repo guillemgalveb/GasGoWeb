@@ -4,7 +4,7 @@ import { box, canopy, canopyCamera, dispenser, group, market, materials as m, se
 import { environment, lighting, sky, studioReflections } from './environment.js';
 import { stationActivity } from './activity.js';
 import { services } from './services.js';
-import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, paymentColumn, rearFuelBays, serviceBay } from './layout.js';
+import { chargingBay, entryCamera, fuelBays, fuelCanopy, fuelOffsetX, fuelX, leftChargingBay, paymentColumn, rearFuelBays, serviceBay } from './layout.js';
 
 function buildStation(scene) {
   const forecourt = group(scene, fuelOffsetX, 0, 0);
@@ -23,7 +23,7 @@ function buildStation(scene) {
     delete rear.userData.zone;
     canopyCamera(forecourt, bay.x, bay.z);
   }
-  dispenser(scene, 10, 1.35, true);
+  dispenser(scene, leftChargingBay.x, leftChargingBay.z, true);
   const charge = dispenser(scene, chargingBay.x, chargingBay.z, true);
   const shop = market(scene);
   shop.shop.userData.zone = 5;
