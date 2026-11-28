@@ -247,7 +247,7 @@ export async function mountStation(view, handlers, motion) {
     if (!event.buttons && event.pointerType === 'mouse') {
       const zone = pick(event);
       highlightZone(zone);
-      canvas.style.cursor = zone === null ? '' : 'pointer';
+      canvas.style.cursor = zone === null ? '' : 'var(--gasgo-pointer, pointer)';
     }
   });
   canvas.addEventListener('pointerleave', () => highlightZone(null));

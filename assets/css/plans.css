@@ -130,7 +130,7 @@ body {
   font-size: clamp(1rem, 3vw, 2rem);
   font-weight: 750;
   text-align: center;
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
 }
 
 .rate-list article.is-estimated {
@@ -239,7 +239,7 @@ body {
 .plans-stepper button {
   background: #11705c;
   color: var(--mint);
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
 }
 
 .plans-stepper button:disabled {
@@ -258,7 +258,7 @@ body {
   gap: .5rem;
   align-items: center;
   padding: .38rem 0;
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
 }
 
 .plans-extras label span:last-child {
@@ -347,7 +347,7 @@ body {
   color: var(--green);
   font: inherit;
   font-weight: 650;
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
 }
 
 .plan-pick {
@@ -357,7 +357,7 @@ body {
   border: 0;
   border-radius: inherit;
   background: transparent;
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
 }
 
 .plans-main :is(.plans-back, .plans-options button, .plan-pick):focus-visible {
@@ -410,4 +410,17 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: .2rem .45rem;
+}
+
+.plans-back {
+  display: inline-grid;
+  width: 2.55rem;
+  height: 2.55rem;
+  padding: 0;
+  place-items: center;
+}
+
+.plans-back svg {
+  width: 1.35rem;
+  height: 1.35rem;
 }
