@@ -474,10 +474,6 @@
   color: var(--green);
 }
 
-.station .station-step-next:hover {
-  background: var(--mint);
-}
-
 .station .station-marker--service[data-brand] {
   align-content: center;
   gap: .03rem;
@@ -537,10 +533,12 @@
   color: var(--service-primary);
 }
 
-.station .station-step-next[data-brand]:hover {
-  background-color: var(--service-secondary);
-}
-
 .station-marker--service > span {
   line-height: 1;
+}
+
+.station-panel .specular {
+  --shine-edge: var(--service-shine, var(--yellow));
+  --shine-fill: color-mix(in srgb, var(--shine-edge) 38%, transparent);
+  --shine-halo: color-mix(in srgb, var(--shine-edge) 58%, transparent);
 }

@@ -18,13 +18,13 @@
 
 .specular::before {
   z-index: -1;
-  background: radial-gradient(ellipse at var(--shine-x) var(--shine-y), #fffce8aa, transparent 72%);
+  background: radial-gradient(ellipse at var(--shine-x) var(--shine-y), var(--shine-fill, #fffce8aa), transparent 72%);
   opacity: var(--shine-strength);
 }
 
 .specular::after {
   padding: 1px;
-  background: conic-gradient(from calc(var(--shine-angle) - 63deg), transparent, #fffef5 63deg, transparent 126deg);
+  background: conic-gradient(from calc(var(--shine-angle) - 63deg), transparent, var(--shine-edge, #fffef5) 63deg, transparent 126deg);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   opacity: var(--shine-strength);
@@ -32,7 +32,7 @@
 
 .specular:is(:hover, :focus-visible, :active) {
   --shine-strength: 1;
-  box-shadow: 0 0 .8rem #fcda2f55;
+  box-shadow: 0 0 .8rem var(--shine-halo, #fcda2f55);
 }
 
 @media (prefers-reduced-motion: no-preference) {

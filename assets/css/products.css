@@ -44,7 +44,7 @@
 
 .product summary {
   display: grid;
-  height: 24rem;
+  height: 26rem;
   place-items: center;
   padding: .75rem;
   list-style: none;
@@ -61,7 +61,7 @@
 }
 
 .product[open] summary {
-  padding-bottom: 10rem;
+  padding-bottom: 12rem;
 }
 
 .product-label {
@@ -99,7 +99,7 @@
 .product-content {
   position: absolute;
   inset: auto 0 0;
-  max-height: 10rem;
+  max-height: 12rem;
   overflow: auto;
   padding: .8rem 1.05rem 1.05rem;
   border-top: .2rem solid var(--product-secondary);
@@ -119,20 +119,31 @@
 
 .product-actions a {
   font-weight: 700;
-  text-underline-offset: .17em;
-}
-
-.product-primary {
   padding: .4rem .65rem;
+  border: 1px solid var(--product-primary);
   border-radius: .35rem;
-  background: var(--product-primary);
-  color: var(--product-tertiary);
   text-decoration: none;
 }
 
-.product-primary:hover {
-  background: var(--product-secondary);
+.product-primary {
+  background: var(--product-primary);
+  color: var(--product-tertiary);
+}
+
+.product-secondary {
+  background: var(--product-tertiary);
   color: var(--product-primary);
+}
+
+.product .specular {
+  --shine-edge: var(--service-shine, var(--product-secondary));
+  --shine-fill: color-mix(in srgb, var(--shine-edge) 42%, transparent);
+  --shine-halo: color-mix(in srgb, var(--shine-edge) 58%, transparent);
+}
+
+.product[data-product="gasgo"] .product-logo {
+  padding: 0;
+  max-height: clamp(3rem, 8vw, 6rem);
 }
 
 .product-note {

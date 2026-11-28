@@ -101,7 +101,7 @@
 .app-tour button {
   font: inherit;
   font-weight: 700;
-  cursor: pointer;
+  cursor: var(--gasgo-pointer, pointer);
   color: inherit;
   background: #ffffff0a;
   border: 1px solid #9ddbc357;
@@ -198,5 +198,152 @@
   .app-tour-phone {
     width: min(110%, 23rem);
     transform: translateX(5%);
+  }
+}
+
+.app-tour + .methods {
+  padding-top: clamp(2.75rem, 6vw, 5rem);
+}
+
+.reference-tour.tour-ready {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: 1rem clamp(1rem, 4vw, 3rem);
+}
+
+.reference-tour [hidden] {
+  display: none;
+}
+
+.reference-tour .app-tour-nav,
+.reference-copy {
+  grid-column: 2;
+}
+
+.reference-tour .app-tour-nav {
+  margin: 0;
+}
+
+.reference-visual {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  gap: .7rem;
+  align-content: center;
+  min-height: 21rem;
+  padding: 1rem;
+  overflow: hidden;
+  color: var(--mint);
+  background: radial-gradient(ellipse, #18735d, #082c25 74%);
+}
+
+.reference-phone {
+  width: min(100%, 14.5rem);
+  border: .27rem solid #19332e;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: var(--mint);
+  color: var(--ink);
+  box-shadow: 0 1rem 2rem #041912a0;
+}
+
+.reference-phone-brand {
+  padding: .5rem .9rem;
+  background: var(--green);
+}
+
+.reference-phone-brand img {
+  display: block;
+  width: 2.55rem;
+  height: auto;
+}
+
+.reference-phone-content {
+  display: grid;
+  min-height: 14rem;
+  padding: .9rem;
+  gap: .45rem;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.reference-icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: .45rem;
+  border-radius: 50%;
+  background: #d1e9db;
+  color: var(--green);
+}
+
+.reference-visual[data-tone="warning"] .reference-icon {
+  background: #fff1a0;
+  color: #5d4600;
+}
+
+.reference-visual[data-tone="error"] .reference-icon {
+  background: #ffe0d8;
+  color: #892c20;
+}
+
+.reference-message {
+  margin: 0;
+  font-size: .86rem;
+}
+
+.reference-action {
+  margin-top: .35rem;
+  padding: .3rem .6rem;
+  border-radius: .4rem;
+  background: var(--yellow);
+  color: var(--green);
+  font-size: .8rem;
+  font-weight: 800;
+}
+
+.tour-ready .reference-steps {
+  grid-template-columns: 1fr;
+}
+
+.reference-copy .app-tour-controls {
+  margin-top: .85rem;
+}
+
+.reference-tour button {
+  border: 1px solid #9dbfb2;
+  border-radius: .5rem;
+  background: #fff;
+  color: var(--green);
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.reference-tour button[aria-current],
+.reference-tour button:not([aria-disabled="true"]):hover {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--mint);
+}
+
+.reference-tour button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+@media (max-width: 49rem) {
+  .reference-tour.tour-ready {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reference-copy {
+    width: 100%;
+  }
+
+  .reference-visual {
+    margin: 0;
   }
 }

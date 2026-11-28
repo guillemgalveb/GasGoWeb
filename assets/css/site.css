@@ -261,6 +261,7 @@ a:focus-visible {
   --service-secondary: var(--takego-secondary);
   --service-tertiary: var(--takego-tertiary);
   --service-logo: url('../images/takego-logo.webp');
+  --service-shine: var(--takego-secondary);
 }
 
 [data-brand="servicego"] {
@@ -268,6 +269,7 @@ a:focus-visible {
   --service-secondary: var(--servicego-secondary);
   --service-tertiary: var(--servicego-tertiary);
   --service-logo: url('../images/servicego-logo.webp');
+  --service-shine: #8ab9fb;
 }
 
 .service-mark {
@@ -307,8 +309,8 @@ a:focus-visible {
 
 @media (hover: hover) and (pointer: fine) {
   :root {
-    --gasgo-cursor: url('../images/cursor-car.svg') 15 5, auto;
-    --gasgo-pointer: url('../images/cursor-car.svg') 15 5, pointer;
+    --gasgo-cursor: url('../images/cursor-car.svg') 23 7, auto;
+    --gasgo-pointer: url('../images/cursor-car.svg') 23 7, pointer;
     cursor: var(--gasgo-cursor);
   }
 
@@ -327,4 +329,25 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.cursor-car-active {
+  --gasgo-cursor: none;
+  --gasgo-pointer: none;
+}
+
+.cursor-car {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 61;
+  width: 44px;
+  height: 48px;
+  transform-origin: 23px 7px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cursor-car-active button:disabled,
+.cursor-car-active button[aria-disabled="true"] {
+  cursor: none;
 }

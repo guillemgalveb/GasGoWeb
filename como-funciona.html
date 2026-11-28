@@ -83,33 +83,136 @@
 
       <section class="container methods" aria-labelledby="methods-title">
         <h2 id="methods-title">Las tres formas de autorizar y pagar con Gas&amp;Go</h2>
-        <div class="methods-grid">
-          <article>
-            <h3>Método A · Automático</h3>
-            <p class="method-tech">BLE + UWB + token firmado</p>
-            <p>La app detecta al usuario y el surtidor mediante Bluetooth de baja energía (BLE) y banda ultraancha (UWB). Si se verifican la identidad y la proximidad, el repostaje y el pago se gestionan sin intervención adicional del conductor.</p>
-          </article>
-          <article>
-            <h3>Método B · Confirmación</h3>
-            <p class="method-tech">BLE + token firmado + confirmación manual</p>
-            <p>Si la app no puede verificar automáticamente la proximidad, pide al conductor que confirme el surtidor detectado antes de continuar con el pago.</p>
-          </article>
-          <article>
-            <h3>Método C · Alternativo</h3>
-            <p class="method-tech">NFC o QR dinámico</p>
-            <p>Si los métodos anteriores no funcionan, el conductor puede identificarse y completar el proceso acercando el móvil al lector NFC o escaneando el QR dinámico del surtidor.</p>
-          </article>
+        <div class="reference-tour">
+          <nav class="app-tour-nav" aria-label="Métodos de autorización" hidden>
+            <button type="button" data-tour-step="0">Automático</button>
+            <button type="button" data-tour-step="1">Confirmación</button>
+            <button type="button" data-tour-step="2">NFC o QR</button>
+          </nav>
+          <div class="reference-visual app-tour-visual" hidden aria-hidden="true">
+            <div class="reference-phone">
+              <div class="reference-phone-brand"><img src="assets/images/logo-gg.webp" alt="" width="720" height="355"></div>
+              <div class="reference-phone-content">
+                <svg class="reference-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path></path></svg>
+                <strong class="reference-title"></strong>
+                <p class="reference-message"></p>
+                <span class="reference-action"></span>
+              </div>
+            </div>
+            <p class="app-tour-caption">Ilustración del flujo de Gas&amp;Go</p>
+          </div>
+          <div class="reference-copy">
+            <div class="methods-grid reference-steps" aria-live="polite">
+              <article data-icon="signal" data-preview="Surtidor autorizado" data-message="Identidad y proximidad verificadas" data-action-label="Listo para repostar" data-tone="success">
+                <h3>Método A · Automático</h3>
+                <p class="method-tech">BLE + UWB + token firmado</p>
+                <p>La app detecta al usuario y el surtidor mediante Bluetooth de baja energía (BLE) y banda ultraancha (UWB). Si se verifican la identidad y la proximidad, el repostaje y el pago se gestionan sin intervención adicional del conductor.</p>
+              </article>
+              <article data-icon="pump" data-preview="Confirma el surtidor" data-message="Comprueba que estás junto al surtidor detectado" data-action-label="Confirmar surtidor" data-tone="warning">
+                <h3>Método B · Confirmación</h3>
+                <p class="method-tech">BLE + token firmado + confirmación manual</p>
+                <p>Si la app no puede verificar automáticamente la proximidad, pide al conductor que confirme el surtidor detectado antes de continuar con el pago.</p>
+              </article>
+              <article data-icon="qr" data-preview="Verificación alternativa" data-message="Acerca el móvil al lector NFC o escanea el QR del surtidor" data-action-label="Identificar por NFC o QR" data-tone="warning">
+                <h3>Método C · Alternativo</h3>
+                <p class="method-tech">NFC o QR dinámico</p>
+                <p>Si los métodos anteriores no funcionan, el conductor puede identificarse y completar el proceso acercando el móvil al lector NFC o escaneando el QR dinámico del surtidor.</p>
+              </article>
+            </div>
+            <div class="app-tour-controls" hidden>
+              <button type="button" data-tour-move="-1" aria-label="Paso anterior"><span aria-hidden="true">←</span></button>
+              <output class="app-tour-count" aria-label="Progreso del recorrido"></output>
+              <button type="button" data-tour-move="1" aria-label="Paso siguiente"><span aria-hidden="true">→</span></button>
+            </div>
+          </div>
         </div>
       </section>
       <section class="container methods scenarios" aria-labelledby="scenarios-title">
         <h2 id="scenarios-title">¿Qué pasaría si?</h2>
-        <div class="methods-grid">
-          <article><h3>No se detecta el surtidor</h3><dl><dt>Qué pasa</dt><dd>La app no puede validar la proximidad.</dd><dt>Qué hace la app</dt><dd>Activa el método B y pide que confirmes manualmente el surtidor detectado.</dd></dl></article>
-          <article><h3>Bluetooth o UWB desactivado</h3><dl><dt>Qué pasa</dt><dd>La detección automática queda incompleta.</dd><dt>Qué hace la app</dt><dd>Muestra una alerta y explica cómo activar Bluetooth o UWB, o cómo continuar con otro método.</dd></dl></article>
-          <article><h3>Surtidor incorrecto</h3><dl><dt>Qué pasa</dt><dd>La identidad del usuario no coincide con el surtidor detectado.</dd><dt>Qué hace la app</dt><dd>Bloquea la apertura automática y solicita una validación manual antes de continuar.</dd></dl></article>
-          <article><h3>Pago rechazado</h3><dl><dt>Qué pasa</dt><dd>La tarjeta o el método de pago no autoriza la operación.</dd><dt>Qué hace la app</dt><dd>Pausa el proceso, avisa del error y permite cambiar el método de pago o reintentar.</dd></dl></article>
-          <article><h3>Sin conexión o señal débil</h3><dl><dt>Qué pasa</dt><dd>Se interrumpe la comunicación con el sistema.</dd><dt>Qué hace la app</dt><dd>Conserva la sesión unos segundos e intenta reconectar. Si sigue sin conexión, ofrece NFC o QR como alternativa.</dd></dl></article>
-          <article><h3>NFC o QR no funciona</h3><dl><dt>Qué pasa</dt><dd>Falla el método alternativo.</dd><dt>Qué hace la app</dt><dd>Deriva al proceso tradicional y muestra instrucciones para completar el repostaje con seguridad.</dd></dl></article>
+        <div class="reference-tour">
+          <nav class="app-tour-nav" aria-label="Incidencias del repostaje" hidden>
+            <button type="button" data-tour-step="0">Sin detección</button>
+            <button type="button" data-tour-step="1">Bluetooth o UWB</button>
+            <button type="button" data-tour-step="2">Surtidor incorrecto</button>
+            <button type="button" data-tour-step="3">Pago rechazado</button>
+            <button type="button" data-tour-step="4">Sin conexión</button>
+            <button type="button" data-tour-step="5">Fallo de NFC o QR</button>
+          </nav>
+          <div class="reference-visual app-tour-visual" hidden aria-hidden="true">
+            <div class="reference-phone">
+              <div class="reference-phone-brand"><img src="assets/images/logo-gg.webp" alt="" width="720" height="355"></div>
+              <div class="reference-phone-content">
+                <svg class="reference-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path></path></svg>
+                <strong class="reference-title"></strong>
+                <p class="reference-message"></p>
+                <span class="reference-action"></span>
+              </div>
+            </div>
+            <p class="app-tour-caption">Ilustración del flujo de Gas&amp;Go</p>
+          </div>
+          <div class="reference-copy">
+            <div class="methods-grid reference-steps" aria-live="polite">
+              <article data-icon="signal" data-preview="Buscando surtidor" data-message="La aplicación no puede confirmar la proximidad" data-action-label="Confirmar manualmente" data-tone="warning">
+                <h3>No se detecta el surtidor</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>La app no puede validar la proximidad.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Activa el método B y pide que confirmes manualmente el surtidor detectado.</dd>
+                </dl>
+              </article>
+              <article data-icon="signal" data-preview="Conexión de proximidad desactivada" data-message="Activa Bluetooth o UWB para completar la detección" data-action-label="Continuar con otro método" data-tone="warning">
+                <h3>Bluetooth o UWB desactivado</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>La detección automática queda incompleta.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Muestra una alerta y explica cómo activar Bluetooth o UWB, o cómo continuar con otro método.</dd>
+                </dl>
+              </article>
+              <article data-icon="pump" data-preview="El surtidor no coincide" data-message="La autorización queda bloqueada hasta verificar el surtidor" data-action-label="Validar el surtidor" data-tone="error">
+                <h3>Surtidor incorrecto</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>La identidad del usuario no coincide con el surtidor detectado.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Bloquea la apertura automática y solicita una validación manual antes de continuar.</dd>
+                </dl>
+              </article>
+              <article data-icon="card" data-preview="Pago rechazado" data-message="La operación queda en pausa" data-action-label="Cambiar método de pago" data-tone="error">
+                <h3>Pago rechazado</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>La tarjeta o el método de pago no autoriza la operación.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Pausa el proceso, avisa del error y permite cambiar el método de pago o reintentar.</dd>
+                </dl>
+              </article>
+              <article data-icon="signal" data-preview="Reconectando…" data-message="La sesión se conserva mientras se intenta recuperar la conexión" data-action-label="Usar NFC o QR" data-tone="warning">
+                <h3>Sin conexión o señal débil</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>Se interrumpe la comunicación con el sistema.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Conserva la sesión unos segundos e intenta reconectar. Si sigue sin conexión, ofrece NFC o QR como alternativa.</dd>
+                </dl>
+              </article>
+              <article data-icon="qr" data-preview="Verificación alternativa fallida" data-message="Sigue las instrucciones de la estación" data-action-label="Repostaje tradicional" data-tone="error">
+                <h3>NFC o QR no funciona</h3>
+                <dl>
+                  <dt>Qué pasa</dt>
+                  <dd>Falla el método alternativo.</dd>
+                  <dt>Qué hace la app</dt>
+                  <dd>Deriva al proceso tradicional y muestra instrucciones para completar el repostaje con seguridad.</dd>
+                </dl>
+              </article>
+            </div>
+            <div class="app-tour-controls" hidden>
+              <button type="button" data-tour-move="-1" aria-label="Paso anterior"><span aria-hidden="true">←</span></button>
+              <output class="app-tour-count" aria-label="Progreso del recorrido"></output>
+              <button type="button" data-tour-move="1" aria-label="Paso siguiente"><span aria-hidden="true">→</span></button>
+            </div>
+          </div>
         </div>
         <p class="scenarios-objective">El objetivo es dar una respuesta clara, segura y rápida ante cada incidencia.</p>
       </section>

@@ -1,10 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect x="6" y="7" width="4" height="7" rx="1" fill="#132e27"/>
-  <rect x="22" y="7" width="4" height="7" rx="1" fill="#132e27"/>
-  <rect x="6" y="21" width="4" height="7" rx="1" fill="#132e27"/>
-  <rect x="22" y="21" width="4" height="7" rx="1" fill="#132e27"/>
-  <path d="M10 5q1-3 6-3t6 3l2 7v13q0 4-4 4h-8q-4 0-4-4V12z" fill="#035141" stroke="#ecf5ed" stroke-width="1.4"/>
-  <path d="M11 10q5-3 10 0l1 5H10zm0 13h10l-1 3h-8z" fill="#d6e8df"/>
-  <path d="M10.5 6h3m5 0h3" stroke="#fcda2f" stroke-width="2" stroke-linecap="round"/>
-  <path d="M11 27h2m6 0h2" stroke="#ff725e" stroke-width="1.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="48" viewBox="0 0 44 48">
+  <defs>
+    <radialGradient id="shadow">
+      <stop stop-color="#061711" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#061711" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="24" cy="28" rx="20" ry="17" fill="url(#shadow)"/>
+  <path fill="#11201e" d="m12 13 5 1-2 10-6-2zm19 1 5 2 1 9-6-1zM8 28l7 2-1 8-5-1-2-3zm23 2 7-1v7l-4 3-4-1z"/>
+  <path fill="#063e34" d="m10 23 3-10 7-5 9 1 6 6 2 12-1 9-6 5-17-1-5-5z"/>
+  <path fill="#07715a" d="m11 24 2-9 7-8 10 1 6 8-2 12-5 8-15-1-4-4z"/>
+  <path fill="#189879" d="m13 15 7-8 10 1 5 7-6 5-12-1z"/>
+  <path fill="#153939" d="m17 17 12 1 4 6-6 2-12-2z"/>
+  <path fill="#247d77" d="m18 18 11 1 2 3-6 2-9-1z"/>
+  <path fill="#269c78" d="m15 24 12 2 5-2-4 7-13-1z"/>
+  <path fill="#113e3a" d="m15 30 13 1 2 3-4 2-11-1z"/>
+  <path fill="#035141" d="m34 17 2-1-2 12-4 6-2-3zm2 11 1-1-1 9-6 5-17-1-5-5 6 2 15 1z"/>
+  <path fill="#ecf5ed" d="m16 11 3-2 2 1-4 3zm13-1 2 1 3 3-3-1z"/>
+  <path fill="#ffbb77" d="m13 37 5 1v2l-5-1zm15 2 5-2 1 1-5 2z"/>
 </svg>
