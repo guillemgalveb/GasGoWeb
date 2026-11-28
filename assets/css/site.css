@@ -81,12 +81,6 @@ a:focus-visible {
   width: clamp(5rem, 10vw, 6rem);
 }
 
-.site-header nav a {
-  font-size: 0.95rem;
-  font-weight: 650;
-  text-underline-offset: 0.3em;
-}
-
 @media (min-width: 47rem) {
   .header-inner {
     padding-inline: var(--station-edge);
@@ -154,25 +148,76 @@ a:focus-visible {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: .35rem clamp(.65rem, 2vw, 1.6rem);
+  gap: .38rem clamp(.28rem, 1vw, .7rem);
 }
 
-.site-header .nav-register {
-  padding: .25rem .65rem;
-  border-radius: .3rem;
+.site-header nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: .28rem clamp(.48rem, 1.1vw, .95rem);
+  border: 1px solid #ecf5ed3d;
+  border-radius: 999px;
+  background: #ecf5ed13;
+  color: var(--mint);
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-header nav .nav-register {
+  border-color: var(--yellow);
+}
+
+.site-header nav a:is([aria-current="page"], :hover, :focus-visible, :active),
+.site-header nav:not(:has([aria-current="page"])) .nav-register {
+  border-color: var(--yellow);
   background: var(--yellow);
   color: var(--green);
-  text-decoration: none;
 }
 
-.site-header .nav-register:focus-visible {
-  outline-color: var(--mint);
+.site-header nav a:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header nav a {
+    transition: background-color .18s, color .18s, border-color .18s, translate .26s cubic-bezier(.2,.8,.3,1.15);
+  }
+
+  .site-header nav a:is(:hover, :focus-visible, :active) {
+    z-index: 1;
+    animation: header-jelly .46s ease-out;
+  }
+
+  @keyframes header-jelly {
+    0% { scale: 1; }
+    27% { scale: 1.095 .91; }
+    54% { scale: .985 1.08; }
+    78% { scale: 1.04 1.015; }
+    100% { scale: 1; }
+  }
+}
+
+@media (min-width: 53rem) and (prefers-reduced-motion: no-preference) {
+  .site-header nav a:has(+ a:is(:hover, :focus-visible)) {
+    translate: -.23rem;
+  }
+
+  .site-header nav a:is(:hover, :focus-visible) + a {
+    translate: .23rem;
+  }
 }
 
 @media (max-width: 30rem) {
   .header-inner {
     flex-wrap: nowrap;
-    gap: .6rem;
+    gap: .55rem;
   }
 
   .header-inner .brand {
@@ -180,7 +225,8 @@ a:focus-visible {
   }
 
   .site-header nav a {
-    font-size: .82rem;
+    min-height: 1.95rem;
+    font-size: .76rem;
   }
 }
 
